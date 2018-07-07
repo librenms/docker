@@ -56,7 +56,8 @@ services:
   rrdcached:
     image: crazymax/rrdcached
     volumes:
-      - ./librenms/rrd:/data
+      - ./librenms/rrd:/data/db
+      - ./rrd-journal:/data/journal
     environment:
       - TZ=Europe/Paris
       - PUID=1000
