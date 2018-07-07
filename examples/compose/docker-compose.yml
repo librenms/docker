@@ -41,7 +41,7 @@ services:
       - --innodb-file-per-table=1
       - --lower-case-table-names=0
     volumes:
-      - db:/var/lib/mysql
+      - ./db:/var/lib/mysql
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=librenms
@@ -55,8 +55,12 @@ services:
 
   rrdcached:
     image: crazymax/rrdcached
+    volumes:
+      - ./librenms/rrd:/data
     environment:
       - TZ=Europe/Paris
+      - PUID=1000
+      - GID=1000
       - LOG_LEVEL=LOG_INFO
       - WRITE_TIMEOUT=1800
       - WRITE_JITTER=1800
@@ -71,7 +75,7 @@ services:
       - memcached
       - rrdcached
     volumes:
-      - librenms:/data
+      - ./librenms:/data
     labels:
       - traefik.enable=true
       - traefik.backend=librenms
@@ -86,12 +90,8 @@ services:
     depends_on:
       - app
     volumes:
-      - librenms:/data
+      - ./librenms:/data
     command: /usr/local/bin/cron
     env_file:
       - ./librenms.env
     restart: always
-
-volumes:
-  db:
-  librenms:

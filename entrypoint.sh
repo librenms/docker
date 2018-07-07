@@ -85,6 +85,14 @@ rm -f ${LIBRENMS_PATH}/config.d/*
 
 echo "Setting LibreNMS configuration..."
 
+# Config : Directories
+  cat > ${LIBRENMS_PATH}/config.d/directories.php <<EOL
+<?php
+\$config['install_dir'] = '${LIBRENMS_PATH}';
+\$config['log_dir'] = '${DATA_PATH}/logs';
+\$config['rrd_dir'] = '${DATA_PATH}/rrd';
+EOL
+
 # Config : Database
 if [ -z "$DB_HOST" ]; then
   >&2 echo "ERROR: DB_HOST must be defined"
@@ -100,6 +108,12 @@ cat > ${LIBRENMS_PATH}/config.d/database.php <<EOL
 EOL
 dbcmd="mysql -h ${DB_HOST} -P ${DB_PORT} -u "${DB_USER}" "-p${DB_PASSWORD}""
 unset DB_PASSWORD
+
+# Config : User
+cat > ${LIBRENMS_PATH}/config.d/user.php <<EOL
+<?php
+\$config['user'] = "librenms";
+EOL
 
 # Config : Fping
 cat > ${LIBRENMS_PATH}/config.d/fping.php <<EOL
@@ -159,13 +173,6 @@ if [ "$1" == "/usr/local/bin/cron" ]; then
   echo "Fixing permissions..."
   chmod -R 0644 ${CRONTAB_PATH}
 else
-  # Config : Directories
-  cat > ${LIBRENMS_PATH}/config.d/directories.php <<EOL
-<?php
-\$config['install_dir'] = '${LIBRENMS_PATH}';
-\$config['log_dir'] = '${DATA_PATH}/logs';
-\$config['rrd_dir'] = '${DATA_PATH}/rrd';
-EOL
   # Fix perms
   echo "Fixing permissions..."
   chown -R librenms. ${DATA_PATH} \
