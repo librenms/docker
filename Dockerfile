@@ -16,8 +16,9 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
   org.label-schema.schema-version="1.0"
 
 RUN apk --update --no-cache add \
-    bash binutils ca-certificates coreutils curl fping git graphviz imagemagick mtr mysql-client net-snmp \
-    net-snmp-tools nginx nmap openssl python2 rrdtool runit shadow ssmtp supervisor tzdata util-linux whois \
+    bash binutils ca-certificates coreutils curl fping git graphviz imagemagick mtr \
+    mysql-client net-snmp net-snmp-tools nginx nmap openssl python2 py-mysqldb rrdtool runit \
+    shadow ssmtp supervisor tzdata util-linux whois \
     php7 php7-cli php7-ctype php7-curl php7-fpm php7-gd php7-json php7-mcrypt php7-memcached php7-mbstring php7-mysqli \
     php7-opcache php7-openssl php7-pdo php7-pdo_mysql php7-phar php7-posix php7-session php7-simplexml php7-snmp \
     php7-tokenizer php7-xml php7-zip \
