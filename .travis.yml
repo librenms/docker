@@ -1,0 +1,59 @@
+sudo: required
+
+services:
+  - docker
+
+env:
+  global:
+    - VERSION=1.41
+    - GITHUB_REPO=crazy-max/docker-librenms
+    - DOCKER_USERNAME=crazymax
+    - DOCKER_REPONAME=librenms
+    - QUAY_USERNAME=crazymax
+    - QUAY_REPONAME=librenms
+    - secure: GMYFptO3rWVVITjC0Wz8g9uccBjSMBvVt3aFC3Y08/3Hw9CoA/SS51X/2lh0bRn+y49X0742QC7b2LtSWa3eERM1HbzlS1ODK75+P0lGYdtW2Ng5JutI+GRt8xTouY7+iP4qSAbOYMUdM5e61PkRepJvZWVeBkPtAtcGpxZO75h+snFxuzFVZXWLoSKjByKIqy9VXzT2P0Wx+zuUWpeo2qA62ONRJf5RjIKCDxHmWEwhXKmmDjeqo+Db/zsUwGYSwKpKRGBhyPVP0MnKFA2HQ/+dG1NyikXhae5dhjaZvgG9tSpbYdOWCHCunbxm6VWozt/kvkqkbizn+S3aoeeZyco40ZFIUinpypxw/nZpVvfDkwBIhw3nOS4giMKHLLBtnkSZw2szP6zfdLX6MLKWSjcDsBbtqj8aNe8Z1ViEKc2uW+yqJvd6GNnDL+AINe5rJ/cjeseh1ancOaGG8tlGsg/80dhOV3l+E4nINn+1uj354ncH/lv14e4giDNMGRw8gq7HFWxIE1X8SLetK9Hz5kLyMIPlSCO2fL73adrqfJFFluTQ0CbzsOEHSuScHT8i9UJWrqcu25BQ4pKidmDAt0gT7x6cz7zziuTY0hTO05txIP0FCop0qCFoLuAGM/bQg8r6FnfIZu4NbUxutjLiAN5aMB1D3znnymxKdeX/HOc= # DOCKER_PASSWORD
+    - secure: XMkF9Nz6FjKVB52vv7rZ+fa7vDDRXG7/nDm5Wio4eljYU/+cIZwdbBv2hU2IEmherZBn2jO9V64LYR9yTLALOGMEjqE/0E8KNiibj7VRjeRmtQrTHbUj7XpBmqAVyNek2GxkmtS4meOIcUUxBOfCAiIu2b++iuR70rAHvr+dL8skX7FNG77ZgTRsP9VkCylyfw0qb+50pD+2ukOFHxZ4tSi89F8ZU4UQOiNTBre4NUPCN5DZmglSt4nUYt3iofKs9p4ZjPP0cTBpHhArn37VZJyo1tOcl1jP8x18PVvgxrHO8Z0FQCasnZ6O269FR8lF28yM4CwHxk6ufCuieCCj5f0ez6S8IEv82a8ljmw+a75Gb6+pAmYB8nY49VkrWmA6KoDY+F+Ob30QOOtLCGumGBLZ1++6MOtwFjN5BzAyVl3Qhl+9heUMM3ULkbEV0IGJHL1M3zEBqxkQO6urdgf6cPEf3uldd+T6Ochn2DZ42Ge+yiZiIrgF/p0R3l1vDbyBG6OcnmaEoQWdIgqa6DUV48MBkYHF9Sp0idUbsrOaoVNsZZ4h0P72fRci/rElvoDGJIAdFEEE1ZW/y3a6hJihxvYQM9+S+HvzluI+5SKzdFUJ4hRpaGfIvclKdyaCNSE1B0VrwGXn7pBt5tem0IZnE5BQ9d/6TgVFc+L2Eyf7Mck= # QUAY_PASSWORD
+    - secure: mLY2C4Ggmg/VUdWoYc8vqYQb7lLSSB/YMvKUzY+z8VGAi5A8J1A6oTgeeThiKPWaNp9GgU1hdHA5WqoSCuOk2SzJoIEhnPU0j3GkDknuXmbhU1UXsuefMF++v2J9RarmC2CkyGiBDzJCrcs9srcS6RjmbK7hQv5EsbkjjyQHQwZlMG+q2aUwNcNxhAeD0+gn8j6eZ6myxt/SJ3LZRLCb+ZpP1NITc6aHjC9glc6ZO7bTy6WG6SVg0SREdxbht+cUrTNQvAcIkoEZQ4vOJBi3kAo6aZz6QYglofaYpTCdmiSSFGHseJ7k1Dl+khCL8OqeOnVCOkcu8SgPV7tI6WId8Dky/YPUsFtjivJqekjs/ctAekOHTzJW9UeOLkCOiqeLmQTDQ01JDLno1znzMOTC3T96I5d2LUnob3QOu32chdzqw0LfcawcuNnLwLdbK4AwPcDuIUl6b1FjU6I8DckHjtvL9Mr9xLhIkNrhdPW0vAj8yZkvGCxvGXh+qK6ejNDt/RdH6wWojh1yTbJSCAQLo1WnJ5YpqLxtu5++/4PfiTLkt7u8QMnau5m+8wZ4ju2RfFrwmEaKkrZSkq7ViQ+RsI/y0bNxUzk3Bb02Wgh9MfpPUXLA+4llYWIPnbgL17N5zhsROp9u0YSbzc3cWJm+0TQZZ0hAjyXBDoT2UCsDNqE= # GITHUB_TOKEN
+
+before_install:
+  - sudo apt-get update
+  - docker --version
+  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+  - export DOCKER_TAG=$(if [ "$BRANCH" == "master" ]; then echo "latest"; else echo $BRANCH; fi)
+  - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH, DOCKER_TAG=$DOCKER_TAG"
+
+install:
+  - |
+    docker build --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
+    --build-arg VCS_REF=${TRAVIS_COMMIT::8} \
+    --build-arg VERSION=${VERSION} \
+    -t $DOCKER_USERNAME/$DOCKER_REPONAME .
+
+before_script:
+  - docker network create -d bridge $DOCKER_REPONAME
+  - docker run -d --network=$DOCKER_REPONAME --name db mariadb:10.2
+  - docker run -d --network=$DOCKER_REPONAME --link db -p 8000:80 -e "DB_HOST=db" --name $DOCKER_REPONAME $DOCKER_USERNAME/$DOCKER_REPONAME
+  - sleep 20
+  - docker logs $DOCKER_REPONAME
+
+script:
+  - docker ps | grep $DOCKER_REPONAME
+
+after_success:
+  - test $TRAVIS_PULL_REQUEST = false
+    && echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+    && docker tag $DOCKER_USERNAME/$DOCKER_REPONAME $DOCKER_USERNAME/$DOCKER_REPONAME:$DOCKER_TAG
+    && docker tag $DOCKER_USERNAME/$DOCKER_REPONAME $DOCKER_USERNAME/$DOCKER_REPONAME:$VERSION
+    && docker push $DOCKER_USERNAME/$DOCKER_REPONAME
+    && echo "$QUAY_PASSWORD" | docker login quay.io --username "$QUAY_USERNAME" --password-stdin
+    && docker tag $DOCKER_USERNAME/$DOCKER_REPONAME quay.io/$DOCKER_USERNAME/$DOCKER_REPONAME:$DOCKER_TAG
+    && docker tag $DOCKER_USERNAME/$DOCKER_REPONAME quay.io/$DOCKER_USERNAME/$DOCKER_REPONAME:$VERSION
+    && docker push quay.io/$QUAY_USERNAME/$QUAY_REPONAME
+
+branches:
+  except:
+    - /^[0-9]/
+
+notifications:
+  webhooks:
+    secure: qy/lFOFGeP0IMvDTJZmPemOtHjkpnYq4sm734rTjBsKFNA8MU4TyWCnx24hljRd4YazAkH6j2Uav3XfmnR+UGfutXRsmktzZoDTlygiJLP/026gvD+VuT8GZIFXRpYhNlfPemFoN2/wO5sf91JGQL4cxVcF9r1A0aUQUtAzvl9UKwk+DRc9Y78oCKRmIaeoFrvKE1SCGPf/drNYeLKJiRiq7VV5jL+1tmZUjYKWVYnWU3yYSyg3OdAvXAVEDagzvAQ0ors9UJeXxAsAls0kTQc8c2+uWfEH411sRrPuqTYYkXIPQpJszLeDhG0ISU5xs5UCJSi7QzTRxD5lWgn8C2QfGS8x3eQK8fHEfN1Q0frqGdCYJcEC2izs91bwZDmFmDj9B0mkuOyHDjWmTIo+HPkb/ryATFD3Bk2pekHWBkuq+KKTQzvgtgokp4V7xRumDh7htyYzr88uk1EQFR7VY05aWFGFsoZ13oKa4UQ4uglH2xmWVW3X9cyf5NCj/t4mUt5223ZM7Q+LKDONSPz/VEDlSOkPapjC4rpn6mn/k6FNN3UyC4hL9+HXSFyCOJZDy3P6lagCWWlzLxt0R4DnptZG+cShW0+bzcecEaGPjyEidACctKl3hfDCiblg05Js0lvW454C4TPnzZ/tDAE6VE8mCFtU/K1ur+wneZuOv2pA=
