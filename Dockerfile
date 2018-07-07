@@ -46,7 +46,7 @@ ADD entrypoint.sh /entrypoint.sh
 ADD assets /
 
 RUN mkdir -p /data ${LIBRENMS_PATH}/config.d /var/log/supervisord \
-  && chmod a+x /entrypoint.sh \
+  && chmod a+x /entrypoint.sh /usr/local/bin/* \
   && cp ${LIBRENMS_PATH}/snmpd.conf.example /etc/snmp/snmpd.conf \
   && cp ${LIBRENMS_PATH}/config.php.default ${LIBRENMS_PATH}/config.php \
   && echo "foreach (glob(\"${DATA_PATH}/config/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
