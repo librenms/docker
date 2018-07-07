@@ -27,7 +27,7 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 
 * [Traefik](https://github.com/containous/traefik-library-image) as reverse proxy and creation/renewal of Let's Encrypt certificates
 * [Memcached](https://github.com/docker-library/memcached) image ready to use for better scalability
-* [RRDcached](https://github.com/crazy-max/rrdcached) image ready to use for better scalability
+* [RRDcached](https://github.com/crazy-max/docker-rrdcached) image ready to use for better scalability
 * [MariaDB](https://github.com/docker-library/mariadb) image as database instance
 * Cron jobs as a ["sidecar" container](#cron)
 
@@ -91,7 +91,7 @@ docker run -d -p 80:80 --name librenms \
   crazymax/librenms:latest
 ```
 
-> `-e "DB_HOST=db"`
+> `-e "DB_HOST=db"`<br />
 > :warning: `db` must be a running MySQL instance
 
 ## Notes
@@ -158,7 +158,7 @@ docker run -d --name librenms-cron \
   crazymax/librenms:latest /usr/local/bin/cron
 ```
 
-> `-v librenms:/data`
+> `-v librenms:/data`<br />
 > :warning: `librenms` must be a valid volume already attached to a LibreNMS container
 
 ## Upgrade
