@@ -43,6 +43,7 @@ services:
     volumes:
       - ./db:/var/lib/mysql
     environment:
+      - TZ=Europe/Paris
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=librenms
       - MYSQL_USER=librenms
@@ -51,6 +52,8 @@ services:
 
   memcached:
     image: memcached:alpine
+    environment:
+      - TZ=Europe/Paris
     restart: always
 
   rrdcached:
@@ -69,12 +72,26 @@ services:
       - FLUSH_DEAD_DATA_INTERVAL=3600
     restart: always
 
+  postfix:
+    image: juanluisbaptiste/postfix
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - SERVER_HOSTNAME=librenms.example.com
+      - SMTP_SERVER=smtp.example.com
+      - SMTP_USERNAME=smtp@example.com
+      - SMTP_PASSWORD=
+    restart: always
+
   app:
     image: crazymax/librenms:latest
+    domainname: example.com
+    hostname: librenms
     depends_on:
       - db
       - memcached
       - rrdcached
+      - smtp
     volumes:
       - ./librenms:/data
     labels:

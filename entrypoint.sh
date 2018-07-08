@@ -20,10 +20,6 @@ DB_NAME=${DB_NAME:-"librenms"}
 DB_USER=${DB_USER:-"librenms"}
 DB_PASSWORD=${DB_PASSWORD:-"asupersecretpassword"}
 
-SSMTP_PORT=${SSMTP_PORT:-"25"}
-SSMTP_HOSTNAME=${SSMTP_HOSTNAME:-"$(hostname -f)"}
-SSMTP_TLS=${SSMTP_TLS:-"NO"}
-
 # Timezone
 echo "Setting timezone to ${TZ}..."
 ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime
@@ -54,23 +50,6 @@ sed -e "s/@OPCACHE_MEM_SIZE@/$OPCACHE_MEM_SIZE/g" \
 echo "Setting Nginx configuration..."
 sed -e "s/@UPLOAD_MAX_SIZE@/$UPLOAD_MAX_SIZE/g" \
   /tpls/etc/nginx/nginx.conf > /etc/nginx/nginx.conf
-
-# SSMTP
-echo "Setting SSMTP configuration..."
-if [ -z "$SSMTP_HOST" ] ; then
-  echo "WARNING: SSMTP_HOST must be defined if you want to send emails"
-  cp -f /etc/ssmtp/ssmtp.conf.or /etc/ssmtp/ssmtp.conf
-else
-  cat > /etc/ssmtp/ssmtp.conf <<EOL
-mailhub=${SSMTP_HOST}:${SSMTP_PORT}
-hostname=${SSMTP_HOSTNAME}
-FromLineOverride=YES
-AuthUser=${SSMTP_USER}
-AuthPass=${SSMTP_PASSWORD}
-UseTLS=${SSMTP_TLS}
-UseSTARTTLS=${SSMTP_TLS}
-EOL
-fi
 
 # SNMP
 echo "Updating SNMP community..."
@@ -125,14 +104,6 @@ EOL
 cat > ${LIBRENMS_PATH}/config.d/autoupdate.php <<EOL
 <?php
 \$config['update'] = 0;
-EOL
-
-# Config : Email
-cat > ${LIBRENMS_PATH}/config.d/email.php <<EOL
-<?php
-\$config['email_backend'] = 'mail';
-\$config['email_from'] = NULL;
-\$config['email_sendmail_path'] = '/usr/sbin/ssmtp -t';
 EOL
 
 # Config : Memcached

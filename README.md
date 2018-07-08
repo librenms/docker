@@ -20,7 +20,6 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 
 * Alpine Linux 3.8, Nginx, PHP 7.2
 * Cron tasks as a ["sidecar" container](#cron)
-* [SSMTP](https://linux.die.net/man/8/ssmtp) for SMTP relay to send emails
 * OPCache enabled to store precompiled script bytecode in shared memory
 
 ### From docker-compose
@@ -28,6 +27,7 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 * [Traefik](https://github.com/containous/traefik-library-image) as reverse proxy and creation/renewal of Let's Encrypt certificates
 * [Memcached](https://github.com/docker-library/memcached) image ready to use for better scalability
 * [RRDcached](https://github.com/crazy-max/docker-rrdcached) image ready to use for better scalability
+* [Postfix SMTP relay](https://github.com/juanluisbaptiste/docker-postfix) image to send emails
 * [MariaDB](https://github.com/docker-library/mariadb) image as database instance
 * Cron jobs as a ["sidecar" container](#cron)
 
@@ -50,12 +50,6 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 | `DB_NAME`                   | `librenms`        | MySQL database name
 | `DB_USER`                   | `librenms`        | MySQL user
 | `DB_PASSWORD`               | `librenms`        | MySQL password
-| `SSMTP_HOST`                |                   | SMTP server host
-| `SSMTP_PORT`                | `25`              | SMTP server port
-| `SSMTP_HOSTNAME`            | `$(hostname -f)`  | Full hostname
-| `SSMTP_USER`                |                   | SMTP username
-| `SSMTP_PASSWORD`            |                   | SMTP password
-| `SSMTP_TLS`                 | `NO`              | SSL/TLS
 | `MEMCACHED_HOST`            |                   | Hostname / IP address of a Memcached server
 | `RRDCACHED_HOST`            |                   | Hostname / IP address of a RRDcached server
 
