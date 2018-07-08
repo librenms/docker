@@ -72,7 +72,7 @@ services:
       - FLUSH_DEAD_DATA_INTERVAL=3600
     restart: always
 
-  postfix:
+  smtp:
     image: juanluisbaptiste/postfix
     volumes:
       - /etc/localtime:/etc/localtime:ro
