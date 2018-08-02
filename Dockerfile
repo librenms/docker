@@ -18,14 +18,14 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 RUN apk --update --no-cache add \
     bash binutils ca-certificates coreutils curl fping git graphviz imagemagick mtr \
     mysql-client net-snmp net-snmp-tools nginx nmap openssl python2 py-mysqldb rrdtool runit \
-    shadow supervisor tzdata util-linux whois \
+    shadow supervisor syslog-ng tzdata util-linux whois \
     php7 php7-cli php7-ctype php7-curl php7-fpm php7-gd php7-json php7-mcrypt php7-memcached php7-mbstring php7-mysqli \
     php7-opcache php7-openssl php7-pdo php7-pdo_mysql php7-phar php7-posix php7-session php7-simplexml php7-snmp \
     php7-tokenizer php7-xml php7-zip \
   && sed -i -e "s/;date\.timezone.*/date\.timezone = UTC/" /etc/php7/php.ini \
   && rm -rf /var/cache/apk/* /var/www/* /tmp/*
 
-ENV LIBRENMS_VERSION="1.41" \
+ENV LIBRENMS_VERSION="1.42" \
   LIBRENMS_PATH="/opt/librenms" \
   DATA_PATH="/data" \
   CRONTAB_PATH="/var/spool/cron/crontabs"
@@ -42,8 +42,8 @@ RUN mkdir -p /opt \
   && chmod +x /usr/bin/distro \
   && rm -rf /tmp/*
 
-ADD entrypoint.sh /entrypoint.sh
-ADD assets /
+COPY entrypoint.sh /entrypoint.sh
+COPY assets /
 
 RUN mkdir -p /data ${LIBRENMS_PATH}/config.d /var/log/supervisord \
   && chmod a+x /entrypoint.sh /usr/local/bin/* \
@@ -54,7 +54,7 @@ RUN mkdir -p /data ${LIBRENMS_PATH}/config.d /var/log/supervisord \
   && chown -R librenms. ${DATA_PATH} ${LIBRENMS_PATH} \
   && chown -R nginx. /var/lib/nginx /var/log/nginx /var/log/php7 /var/tmp/nginx
 
-EXPOSE 80
+EXPOSE 80 514 514/udp
 WORKDIR ${LIBRENMS_PATH}
 VOLUME [ "${DATA_PATH}" ]
 

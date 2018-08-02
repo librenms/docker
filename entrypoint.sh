@@ -143,6 +143,14 @@ if [ "$1" == "/usr/local/bin/cron" ]; then
   # Fix perms
   echo "Fixing permissions..."
   chmod -R 0644 ${CRONTAB_PATH}
+elif [ "$1" == "/usr/sbin/syslog-ng" ]; then
+  echo ">>"
+  echo ">> Sidecar syslog-ng container detected"
+  echo ">>"
+
+  # Init
+  mkdir -p ${DATA_PATH}/syslog-ng /run/syslog-ng
+  chown -R librenms. ${DATA_PATH}/syslog-ng /run/syslog-ng
 else
   # Fix perms
   echo "Fixing permissions..."

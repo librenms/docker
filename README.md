@@ -20,6 +20,7 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 
 * Alpine Linux 3.8, Nginx, PHP 7.2
 * Cron tasks as a ["sidecar" container](#cron)
+* Syslog-ng support through a ["sidecar" container](#syslog-ng)
 * OPCache enabled to store precompiled script bytecode in shared memory
 
 ### From docker-compose
@@ -35,27 +36,25 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 
 ### Environment variables
 
-| Key                         | Default           | Description                               
-|-----------------------------|-------------------|-------------------------------------------
-| `TZ`                        | `UTC`             | Timezone (e.g. `Europe/Paris`)
-| `PUID`                      | `1000`            | LibreNMS user id
-| `PGID`                      | `1000`            | LibreNMS group id
-| `MEMORY_LIMIT`              | `256M`            | PHP memory limit
-| `UPLOAD_MAX_SIZE`           | `16M`             | Upload max size
-| `OPCACHE_MEM_SIZE`          | `128`             | PHP OpCache memory consumption
-| `LIBRENMS_POLLER_THREADS`   | `16`              | Threads that `poller-wrapper.py` runs
-| `LIBRENMS_SNMP_COMMUNITY`   | `librenmsdocker`  | Your community string
-| `DB_HOST`                   |                   | MySQL database hostname / IP address
-| `DB_PORT`                   | `3306`            | MySQL database port
-| `DB_NAME`                   | `librenms`        | MySQL database name
-| `DB_USER`                   | `librenms`        | MySQL user
-| `DB_PASSWORD`               | `librenms`        | MySQL password
-| `MEMCACHED_HOST`            |                   | Hostname / IP address of a Memcached server
-| `RRDCACHED_HOST`            |                   | Hostname / IP address of a RRDcached server
+* `TZ` : The timezone assigned to the container (default `UTC`)
+* `PUID` : LibreNMS user id (default `1000`)
+* `PGID`: LibreNMS group id (default `1000`)
+* `MEMORY_LIMIT` : PHP memory limit (default `256M`)
+* `UPLOAD_MAX_SIZE` : Upload max size (default `16M`)
+* `OPCACHE_MEM_SIZE` : PHP OpCache memory consumption (default `128`)
+* `LIBRENMS_POLLER_THREADS` : Threads that `poller-wrapper.py` runs (default `16`)
+* `LIBRENMS_SNMP_COMMUNITY` : Your community string (default `librenmsdocker`)
+* `DB_HOST` : MySQL database hostname / IP address
+* `DB_PORT` : MySQL database port (default `3306`)
+* `DB_NAME` : MySQL database name (default `librenms`)
+* `DB_USER` : MySQL user (default `librenms`)
+* `DB_PASSWORD` : MySQL password (default `librenms`)
+* `MEMCACHED_HOST` : Hostname / IP address of a Memcached server
+* `RRDCACHED_HOST` : Hostname / IP address of a RRDcached server
 
 ### Volumes
 
-* `/data` : Contains configuration, rrd database, logs
+* `/data` : Contains configuration, rrd database, logs, additional syslog-ng config files
 
 ### Ports
 
@@ -102,11 +101,27 @@ $config['webui']['default_dashboard_id'] = 0;
 
 This configuration will be included in LibreNMS and will override the default values.
 
+### Add user
+
+On first launch, an initial administrator user will be created :
+
+| Login      | Password   |
+|------------|------------|
+| `librenms` | `librenms` |
+
+You can create an other user using the commande line :
+
+```text
+$ docker exec -it --user librenms librenms php adduser.php <name> <pass> 10 <email>
+```
+
+> :warning: Substitute your desired username `<name>`, password `<pass>` and email address `<email>`
+
 ### Validate
 
 If you want to validate your installation from the CLI, type the following command :
 
-```bash
+```text
 $ docker exec -it --user librenms librenms php validate.php
 ====================================
 Component | Version
@@ -154,6 +169,25 @@ docker run -d --name librenms-cron \
 
 > `-v librenms:/data`<br />
 > :warning: `librenms` must be a valid volume already attached to a LibreNMS container
+
+### Syslog-ng
+
+If you want to enable syslog-ng, you have to run a "sidecar" container like in the [docker-compose file](examples/compose/docker-compose.yml) or run a simple container like this :
+
+```bash
+docker run -d --name librenms-syslog-ng \
+  --env-file $(pwd)/librenms.env \
+  -p 514 -p 514/udp \
+  -v librenms:/data \
+  crazymax/librenms:latest /usr/sbin/syslog-ng -F
+```
+
+You have to create a configuration file to enable syslog in LibreNMS too. Create a file called for example `/data/config/syslog.php` with this content :
+
+```php
+<?php
+$config['enable_syslog'] = 1;
+```
 
 ## Upgrade
 
