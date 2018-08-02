@@ -31,6 +31,7 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 * [Postfix SMTP relay](https://github.com/juanluisbaptiste/docker-postfix) image to send emails
 * [MariaDB](https://github.com/docker-library/mariadb) image as database instance
 * Cron jobs as a ["sidecar" container](#cron)
+* Syslog-ng support through a ["sidecar" container](#syslog-ng)
 
 ## Docker
 
