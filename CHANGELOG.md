@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.42.01-RC1 (2018/08/05)
+
+* Upgrade to LibreNMS 1.42.01
+
 ## 1.42-RC1 (2018/08/02)
 
 * Upgrade to LibreNMS 1.42
