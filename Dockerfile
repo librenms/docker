@@ -1,11 +1,11 @@
 FROM alpine:3.8
-MAINTAINER CrazyMax <crazy-max@users.noreply.github.com>
 
 ARG BUILD_DATE
 ARG VCS_REF
 ARG VERSION
 
-LABEL org.label-schema.build-date=$BUILD_DATE \
+LABEL maintainer="CrazyMax" \
+  org.label-schema.build-date=$BUILD_DATE \
   org.label-schema.name="librenms" \
   org.label-schema.description="LibreNMS based on Alpine Linux and Nginx" \
   org.label-schema.version=$VERSION \
