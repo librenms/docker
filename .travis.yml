@@ -5,7 +5,7 @@ services:
 
 env:
   global:
-    - VERSION=1.42.01
+    - VERSION=1.43
     - GITHUB_REPO=crazy-max/docker-librenms
     - DOCKER_USERNAME=crazymax
     - DOCKER_REPONAME=librenms
