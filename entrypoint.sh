@@ -79,8 +79,8 @@ sed -e "s/@UPLOAD_MAX_SIZE@/$UPLOAD_MAX_SIZE/g" \
   /tpls/etc/nginx/nginx.conf > /etc/nginx/nginx.conf
 
 # SNMP
+echo "Updating SNMP community..."
 file_env 'LIBRENMS_SNMP_COMMUNITY' 'librenmsdocker'
-echo "Updating SNMP community to ${LIBRENMS_SNMP_COMMUNITY}..."
 sed -i -e "s/RANDOMSTRINGGOESHERE/${LIBRENMS_SNMP_COMMUNITY}/" /etc/snmp/snmpd.conf
 
 # Init files and folders
@@ -164,6 +164,11 @@ if [ "$1" == "/usr/local/bin/cron" ]; then
   echo ">>"
 
   # Init
+  if [ -z "$CRONTAB_PATH" ]; then
+    >&2 echo "ERROR: CRONTAB_PATH must be defined"
+    exit 1
+  fi
+
   rm -rf ${CRONTAB_PATH}
   mkdir -m 0644 -p ${CRONTAB_PATH}
   touch ${CRONTAB_PATH}/librenms
