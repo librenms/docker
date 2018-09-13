@@ -12,16 +12,31 @@ MEMORY_LIMIT=${MEMORY_LIMIT:-"256M"}
 UPLOAD_MAX_SIZE=${UPLOAD_MAX_SIZE:-"16M"}
 OPCACHE_MEM_SIZE=${OPCACHE_MEM_SIZE:-"128"}
 
+MEMCACHED_PORT=${MEMCACHED_PORT:-"11211"}
+RRDCACHED_PORT=${RRDCACHED_PORT:-"42217"}
+
 LIBRENMS_POLLER_THREADS=${LIBRENMS_POLLER_THREADS:-"16"}
+LIBRENMS_POLLER_INTERVAL=${LIBRENMS_POLLER_INTERVAL:-"5"}
+
+LIBRENMS_DISTRIBUTED_POLLER_ENABLE=${LIBRENMS_DISTRIBUTED_POLLER_ENABLE:-false}
+LIBRENMS_DISTRIBUTED_POLLER_NAME=${LIBRENMS_DISTRIBUTED_POLLER_NAME:-$(hostname -f)}
+LIBRENMS_DISTRIBUTED_POLLER_GROUP=${LIBRENMS_DISTRIBUTED_POLLER_GROUP:-'0'}
+LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_HOST=${LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_HOST:-"${RRDCACHED_HOST}"}
+LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_PORT=${LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_PORT:-"${RRDCACHED_PORT}"}
+
+LIBRENMS_CRON_DISCOVERY_ENABLE=${LIBRENMS_CRON_DISCOVERY_ENABLE:-true}
+LIBRENMS_CRON_DAILY_ENABLE=${LIBRENMS_CRON_DAILY_ENABLE:-true}
+LIBRENMS_CRON_ALERTS_ENABLE=${LIBRENMS_CRON_ALERTS_ENABLE:-true}
+LIBRENMS_CRON_BILLING_ENABLE=${LIBRENMS_CRON_BILLING_ENABLE:-true}
+LIBRENMS_CRON_BILLING_CALCULATE_ENABLE=${LIBRENMS_CRON_BILLING_CALCULATE_ENABLE:-true}
+LIBRENMS_CRON_CHECK_SERVICES_ENABLE=${LIBRENMS_CRON_CHECK_SERVICES_ENABLE:-true}
+LIBRENMS_CRON_POLLER_ENABLE=${LIBRENMS_CRON_POLLER_ENABLE:-true}
 
 DB_PORT=${DB_PORT:-"3306"}
 DB_NAME=${DB_NAME:-"librenms"}
 DB_USER=${DB_USER:-"librenms"}
 DB_TIMEOUT=${DB_TIMEOUT:-"30"}
 
-MEMCACHED_PORT=${MEMCACHED_PORT:-"11211"}
-
-RRDCACHED_PORT=${RRDCACHED_PORT:-"42217"}
 
 # From https://github.com/docker-library/mariadb/blob/master/docker-entrypoint.sh#L21-L41
 # usage: file_env VAR [DEFAULT]
@@ -157,6 +172,18 @@ if [ ! -z "${RRDCACHED_HOST}" ]; then
 EOL
 fi
 
+# Config : Ditributed poller
+if [ ! -z "${LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_HOST}" -a ! -z "${RRDCACHED_HOST}" -a $LIBRENMS_DISTRIBUTED_POLLER_ENABLE = true ]; then
+    cat > ${LIBRENMS_PATH}/config.d/distributed_poller.php <<EOL
+<?php
+\$config['distributed_poller'] = true;
+\$config['distributed_poller_name'] = '$LIBRENMS_DISTRIBUTED_POLLER_NAME';
+\$config['distributed_poller_group'] = '$LIBRENMS_DISTRIBUTED_POLLER_GROUP';
+\$config['distributed_poller_memcached_host'] = '$LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_HOST';
+\$config['distributed_poller_memcached_port'] = $LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_PORT;
+EOL
+fi
+
 # Sidecar cron container ?
 if [ "$1" == "/usr/local/bin/cron" ]; then
   echo ">>"
@@ -173,10 +200,40 @@ if [ "$1" == "/usr/local/bin/cron" ]; then
   mkdir -m 0644 -p ${CRONTAB_PATH}
   touch ${CRONTAB_PATH}/librenms
 
-  # Add crons
+  # Add crontab
   cat ${LIBRENMS_PATH}/librenms.nonroot.cron > ${CRONTAB_PATH}/librenms
   sed -i -e "s/ librenms //" ${CRONTAB_PATH}/librenms
-  sed -i -e "s/poller-wrapper.py 16/poller-wrapper.py  ${LIBRENMS_POLLER_THREADS}/g" ${CRONTAB_PATH}/librenms
+  
+  if [ $LIBRENMS_CRON_DISCOVERY_ENABLE != true ]; then
+    sed -i "/discovery.php/d" ${CRONTAB_PATH}/librenms
+  fi
+
+  if [ $LIBRENMS_CRON_DAILY_ENABLE != true ]; then
+    sed -i "/daily.sh/d" ${CRONTAB_PATH}/librenms
+  fi
+
+  if [ $LIBRENMS_CRON_ALERTS_ENABLE != true ]; then
+    sed -i "/alerts.php/d" ${CRONTAB_PATH}/librenms
+  fi
+
+  if [ $LIBRENMS_CRON_BILLING_ENABLE != true ]; then
+    sed -i "/poll-billing.php/d" ${CRONTAB_PATH}/librenms
+  fi
+
+  if [ $LIBRENMS_CRON_BILLING_CALCULATE_ENABLE != true ]; then
+    sed -i "/billing-calculate.php/d" ${CRONTAB_PATH}/librenms
+  fi
+
+  if [ $LIBRENMS_CRON_CHECK_SERVICES_ENABLE != true ]; then
+    sed -i "/check-services.php/d" ${CRONTAB_PATH}/librenms
+  fi
+
+  sed -i "/poller-wrapper.py/d" ${CRONTAB_PATH}/librenms
+  if [ $LIBRENMS_CRON_POLLER_ENABLE = true ]; then
+    cat >> ${CRONTAB_PATH}/librenms <<EOL
+*/${LIBRENMS_POLLER_INTERVAL}  *    * * *     /opt/librenms/cronic /opt/librenms/poller-wrapper.py ${LIBRENMS_POLLER_THREADS}
+EOL
+  fi
 
   # Fix perms
   echo "Fixing permissions..."
