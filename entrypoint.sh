@@ -20,6 +20,10 @@ DB_NAME=${DB_NAME:-"librenms"}
 DB_USER=${DB_USER:-"librenms"}
 DB_PASSWORD=${DB_PASSWORD:-"asupersecretpassword"}
 
+MEMCACHED_PORT=${MEMCACHED_PORT:-"11211"}
+
+RRDCACHED_PORT=${RRDCACHED_PORT:-"42217"}
+
 # Timezone
 echo "Setting timezone to ${TZ}..."
 ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime
@@ -112,7 +116,7 @@ if [ ! -z "${MEMCACHED_HOST}" ]; then
 <?php
 \$config['memcached']['enable'] = true;
 \$config['memcached']['host'] = '$MEMCACHED_HOST';
-\$config['memcached']['port'] = 11211;
+\$config['memcached']['port'] = $MEMCACHED_PORT;
 EOL
 fi
 
@@ -120,7 +124,7 @@ fi
 if [ ! -z "${RRDCACHED_HOST}" ]; then
     cat > ${LIBRENMS_PATH}/config.d/rrdcached.php <<EOL
 <?php
-\$config['rrdcached'] = "${RRDCACHED_HOST}:42217";
+\$config['rrdcached'] = "${RRDCACHED_HOST}:${RRDCACHED_PORT}";
 EOL
 fi
 
