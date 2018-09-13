@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 function runas_librenms() {
   su - librenms -s /bin/sh -c "$1"
