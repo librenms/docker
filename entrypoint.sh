@@ -13,16 +13,38 @@ UPLOAD_MAX_SIZE=${UPLOAD_MAX_SIZE:-"16M"}
 OPCACHE_MEM_SIZE=${OPCACHE_MEM_SIZE:-"128"}
 
 LIBRENMS_POLLER_THREADS=${LIBRENMS_POLLER_THREADS:-"16"}
-LIBRENMS_SNMP_COMMUNITY=${LIBRENMS_SNMP_COMMUNITY:-"librenmsdocker"}
 
 DB_PORT=${DB_PORT:-"3306"}
 DB_NAME=${DB_NAME:-"librenms"}
 DB_USER=${DB_USER:-"librenms"}
-DB_PASSWORD=${DB_PASSWORD:-"asupersecretpassword"}
 
 MEMCACHED_PORT=${MEMCACHED_PORT:-"11211"}
 
 RRDCACHED_PORT=${RRDCACHED_PORT:-"42217"}
+
+# From https://github.com/docker-library/mariadb/blob/master/docker-entrypoint.sh
+# usage: file_env VAR [DEFAULT]
+#    ie: file_env 'XYZ_DB_PASSWORD' 'example'
+# (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
+#  "$XYZ_DB_PASSWORD" from a file, especially for Docker's secrets feature)
+file_env() {
+	local var="$1"
+	local fileVar="${var}_FILE"
+	local def="${2:-}"
+	if [ "${!var:-}" ] && [ "${!fileVar:-}" ]; then
+		echo >&2 "error: both $var and $fileVar are set (but are exclusive)"
+		exit 1
+	fi
+	local val="$def"
+	if [ "${!var:-}" ]; then
+		val="${!var}"
+	elif [ "${!fileVar:-}" ]; then
+		val="$(< "${!fileVar}")"
+	fi
+	export "$var"="$val"
+	unset "$fileVar"
+}
+
 
 # Timezone
 echo "Setting timezone to ${TZ}..."
@@ -57,6 +79,7 @@ sed -e "s/@UPLOAD_MAX_SIZE@/$UPLOAD_MAX_SIZE/g" \
 
 # SNMP
 echo "Updating SNMP community..."
+file_env 'LIBRENMS_SNMP_COMMUNITY' 'librenmsdocker'
 sed -i -e "s/RANDOMSTRINGGOESHERE/${LIBRENMS_SNMP_COMMUNITY}/" /etc/snmp/snmpd.conf
 
 # Init files and folders
@@ -79,6 +102,11 @@ EOL
 # Config : Database
 if [ -z "$DB_HOST" ]; then
   >&2 echo "ERROR: DB_HOST must be defined"
+  exit 1
+fi
+file_env 'DB_PASSWORD'
+if [ -z "$DB_PASSWORD" ]; then
+  >&2 echo "ERROR: Either DB_PASSWORD or DB_PASSWORD_FILE must be defined"
   exit 1
 fi
 cat > ${LIBRENMS_PATH}/config.d/database.php <<EOL
