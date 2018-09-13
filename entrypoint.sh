@@ -17,6 +17,7 @@ LIBRENMS_POLLER_THREADS=${LIBRENMS_POLLER_THREADS:-"16"}
 DB_PORT=${DB_PORT:-"3306"}
 DB_NAME=${DB_NAME:-"librenms"}
 DB_USER=${DB_USER:-"librenms"}
+DB_TIMEOUT=${DB_TIMEOUT:-"30"}
 
 MEMCACHED_PORT=${MEMCACHED_PORT:-"11211"}
 
@@ -78,8 +79,8 @@ sed -e "s/@UPLOAD_MAX_SIZE@/$UPLOAD_MAX_SIZE/g" \
   /tpls/etc/nginx/nginx.conf > /etc/nginx/nginx.conf
 
 # SNMP
-echo "Updating SNMP community..."
 file_env 'LIBRENMS_SNMP_COMMUNITY' 'librenmsdocker'
+echo "Updating SNMP community to ${LIBRENMS_SNMP_COMMUNITY}..."
 sed -i -e "s/RANDOMSTRINGGOESHERE/${LIBRENMS_SNMP_COMMUNITY}/" /etc/snmp/snmpd.conf
 
 # Init files and folders
@@ -196,18 +197,17 @@ else
     ${LIBRENMS_PATH}/storage \
     ${LIBRENMS_PATH}/storage/framework/*
 
-  echo "Waiting database..."
-  waitdb_timeout=30
+  echo "Waiting ${DB_TIMEOUT}s for database to be ready..."
   counter=1
   while ! ${dbcmd} -e "show databases;" > /dev/null 2>&1; do
       sleep 1
       counter=`expr $counter + 1`
-      if [ ${counter} -gt ${waitdb_timeout} ]; then
+      if [ ${counter} -gt ${DB_TIMEOUT} ]; then
           >&2 echo "ERROR: Failed to connect to database on $DB_HOST"
           exit 1
       fi;
   done
-  echo "Database up!"
+  echo "Database ready!"
 
   counttables=$(echo 'SHOW TABLES' | ${dbcmd} "$DB_NAME" | wc -l)
 
