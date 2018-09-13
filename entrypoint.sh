@@ -22,7 +22,7 @@ MEMCACHED_PORT=${MEMCACHED_PORT:-"11211"}
 
 RRDCACHED_PORT=${RRDCACHED_PORT:-"42217"}
 
-# From https://github.com/docker-library/mariadb/blob/master/docker-entrypoint.sh
+# From https://github.com/docker-library/mariadb/blob/master/docker-entrypoint.sh#L21-L41
 # usage: file_env VAR [DEFAULT]
 #    ie: file_env 'XYZ_DB_PASSWORD' 'example'
 # (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
