@@ -143,8 +143,8 @@ cat > ${LIBRENMS_PATH}/config.d/user.php <<EOL
 EOL
 
 # Config : Fping
-echo "/usr/bin/fping -6 \$@" > /usr/bin/fping6
-chmod +x /usr/bin/fping6
+echo "/usr/sbin/fping -6 \$@" > /usr/sbin/fping6
+chmod +x /usr/sbin/fping6
 cat > ${LIBRENMS_PATH}/config.d/fping.php <<EOL
 <?php
 \$config['fping'] = "/usr/sbin/fping";
