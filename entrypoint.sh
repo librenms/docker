@@ -185,6 +185,18 @@ if [ ! -z "${LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_HOST}" -a ! -z "${RRDCACHED_H
 EOL
 fi
 
+ # Fix perms
+echo "Fixing permissions..."
+chown -R librenms. ${DATA_PATH} \
+  ${LIBRENMS_PATH}/config.d \
+  ${LIBRENMS_PATH}/bootstrap \
+  ${LIBRENMS_PATH}/storage
+chmod ug+rw ${DATA_PATH}/logs \
+  ${DATA_PATH}/rrd \
+  ${LIBRENMS_PATH}/bootstrap/cache \
+  ${LIBRENMS_PATH}/storage \
+  ${LIBRENMS_PATH}/storage/framework/*
+
 # Sidecar cron container ?
 if [ "$1" == "/usr/local/bin/cron" ]; then
   echo ">>"
@@ -236,8 +248,8 @@ if [ "$1" == "/usr/local/bin/cron" ]; then
 EOL
   fi
 
-  # Fix perms
-  echo "Fixing permissions..."
+  # Fix crontab perms
+  echo "Fixing crontab permissions..."
   chmod -R 0644 ${CRONTAB_PATH}
 elif [ "$1" == "/usr/sbin/syslog-ng" ]; then
   echo ">>"
@@ -248,18 +260,6 @@ elif [ "$1" == "/usr/sbin/syslog-ng" ]; then
   mkdir -p ${DATA_PATH}/syslog-ng /run/syslog-ng
   chown -R librenms. ${DATA_PATH}/syslog-ng /run/syslog-ng
 else
-  # Fix perms
-  echo "Fixing permissions..."
-  chown -R librenms. ${DATA_PATH} \
-    ${LIBRENMS_PATH}/config.d \
-    ${LIBRENMS_PATH}/bootstrap \
-    ${LIBRENMS_PATH}/storage
-  chmod ug+rw ${DATA_PATH}/logs \
-    ${DATA_PATH}/rrd \
-    ${LIBRENMS_PATH}/bootstrap/cache \
-    ${LIBRENMS_PATH}/storage \
-    ${LIBRENMS_PATH}/storage/framework/*
-
   echo "Waiting ${DB_TIMEOUT}s for database to be ready..."
   counter=1
   while ! ${dbcmd} -e "show databases;" > /dev/null 2>&1; do
