@@ -169,6 +169,7 @@ if [ ! -z "${RRDCACHED_HOST}" ]; then
     cat > ${LIBRENMS_PATH}/config.d/rrdcached.php <<EOL
 <?php
 \$config['rrdcached'] = "${RRDCACHED_HOST}:${RRDCACHED_PORT}";
+\$config['rrdtool_version'] = '1.7.0';
 EOL
 fi
 
