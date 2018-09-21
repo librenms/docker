@@ -68,7 +68,9 @@ RUN apk --update --no-cache add \
     whois \
   && pip install python-memcached \
   && sed -i -e "s/;date\.timezone.*/date\.timezone = UTC/" /etc/php7/php.ini \
-  && rm -rf /var/cache/apk/* /var/www/* /tmp/*
+  && rm -rf /var/cache/apk/* /var/www/* /tmp/* \
+  && setcap cap_net_raw+ep /usr/bin/nmap \
+  && setcap cap_net_raw+ep /usr/sbin/fping
 
 ENV LIBRENMS_VERSION="1.43" \
   LIBRENMS_PATH="/opt/librenms" \
