@@ -63,7 +63,7 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 * `DB_NAME` : MySQL database name (default `librenms`)
 * `DB_USER` : MySQL user (default `librenms`)
 * `DB_PASSWORD` : MySQL password (default `librenms`)
-* `DB_TIMEOUT` : Time in seconds after which we stop trying to reach the MySQL server (userful for clusters, default `30`)
+* `DB_TIMEOUT` : Time in seconds after which we stop trying to reach the MySQL server (useful for clusters, default `30`)
 * `MEMCACHED_HOST` : Hostname / IP address of a Memcached server
 * `MEMCACHED_PORT` : Port of the Memcached server
 * `RRDCACHED_HOST` : Hostname / IP address of a RRDcached server
