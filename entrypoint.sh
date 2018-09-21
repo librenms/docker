@@ -145,7 +145,6 @@ EOL
 # Config : Fping
 echo "/usr/sbin/fping -6 \$@" > /usr/sbin/fping6
 chmod +x /usr/sbin/fping6
-setcap cap_net_raw+ep /usr/sbin/fping6
 cat > ${LIBRENMS_PATH}/config.d/fping.php <<EOL
 <?php
 \$config['fping'] = "/usr/sbin/fping";
