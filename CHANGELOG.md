@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.43-RC3 (2018/09/24)
+
+* Set default port for `MEMCACHED_PORT` and `RRDCACHED_PORT`
+
 ## 1.43-RC2 (2018/09/24)
 
 * Add CAP_NET_RAW on nmap and fping

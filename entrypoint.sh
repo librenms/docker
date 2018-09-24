@@ -37,6 +37,9 @@ DB_NAME=${DB_NAME:-"librenms"}
 DB_USER=${DB_USER:-"librenms"}
 DB_TIMEOUT=${DB_TIMEOUT:-"30"}
 
+MEMCACHED_PORT=${MEMCACHED_PORT:-"11211"}
+RRDCACHED_PORT=${RRDCACHED_PORT:-"42217"}
+
 # From https://github.com/docker-library/mariadb/blob/master/docker-entrypoint.sh#L21-L41
 # usage: file_env VAR [DEFAULT]
 #    ie: file_env 'XYZ_DB_PASSWORD' 'example'
@@ -160,8 +163,8 @@ if [ ! -z "${MEMCACHED_HOST}" ]; then
     cat > ${LIBRENMS_PATH}/config.d/memcached.php <<EOL
 <?php
 \$config['memcached']['enable'] = true;
-\$config['memcached']['host'] = '$MEMCACHED_HOST';
-\$config['memcached']['port'] = $MEMCACHED_PORT;
+\$config['memcached']['host'] = '${MEMCACHED_HOST}';
+\$config['memcached']['port'] = ${MEMCACHED_PORT};
 EOL
 fi
 
@@ -179,10 +182,10 @@ if [ ! -z "${LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_HOST}" -a ! -z "${RRDCACHED_H
     cat > ${LIBRENMS_PATH}/config.d/distributed_poller.php <<EOL
 <?php
 \$config['distributed_poller'] = true;
-\$config['distributed_poller_name'] = '$LIBRENMS_DISTRIBUTED_POLLER_NAME';
-\$config['distributed_poller_group'] = '$LIBRENMS_DISTRIBUTED_POLLER_GROUP';
-\$config['distributed_poller_memcached_host'] = '$LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_HOST';
-\$config['distributed_poller_memcached_port'] = $LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_PORT;
+\$config['distributed_poller_name'] = '${LIBRENMS_DISTRIBUTED_POLLER_NAME}';
+\$config['distributed_poller_group'] = '${LIBRENMS_DISTRIBUTED_POLLER_GROUP}';
+\$config['distributed_poller_memcached_host'] = '${LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_HOST}';
+\$config['distributed_poller_memcached_port'] = ${LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_PORT};
 EOL
 fi
 
