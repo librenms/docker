@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.43-RC2 (2018/09/24)
+
+* Add CAP_NET_RAW on nmap and fping
+* Fixes for `validate.php` nologin errors and missing setfacl binaries
+* Add fping6 support
+* Add `rrdtool_version`
+* Ability to configure distributed polling
+* Adding python-memcached module required for distributed poller setup
+* Configurable DB_TIMEOUT
+* Allow setting sensible variables through files
+* Ability to override Memcached and RRD ports
+
 ## 1.43-RC1 (2018/09/10)
 
 * Upgrade to LibreNMS 1.43
