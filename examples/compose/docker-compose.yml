@@ -98,7 +98,7 @@ services:
       - "traefik.port=80"
       - "traefik.frontend.rule=Host:librenms.example.com"
     env_file:
-      - ./librenms.env
+      - "./librenms.env"
     restart: always
 
   cron:
@@ -109,9 +109,8 @@ services:
       - app
     volumes:
       - "./librenms:/data"
-
     env_file:
-      - ./librenms.env
+      - "./librenms.env"
     restart: always
 
   syslog-ng:
@@ -131,5 +130,5 @@ services:
     volumes:
       - "./librenms:/data"
     env_file:
-      - ./librenms.env
+      - "./librenms.env"
     restart: always
