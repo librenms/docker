@@ -33,7 +33,7 @@ install:
 before_script:
   - docker network create -d bridge $DOCKER_REPONAME
   - docker run -d --network=$DOCKER_REPONAME --name db mariadb:10.2
-  - docker run -d --network=$DOCKER_REPONAME --link db -p 8000:80 -e "DB_HOST=db" --name $DOCKER_REPONAME $DOCKER_USERNAME/$DOCKER_REPONAME
+  - docker run -d --network=$DOCKER_REPONAME --link db -p 8000:80 -e "DB_HOST=db" -e "DB_PASSWORD=asupersecretpassword" --name $DOCKER_REPONAME $DOCKER_USERNAME/$DOCKER_REPONAME
   - sleep 20
   - docker logs $DOCKER_REPONAME
 
