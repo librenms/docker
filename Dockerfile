@@ -16,14 +16,61 @@ LABEL maintainer="CrazyMax" \
   org.label-schema.schema-version="1.0"
 
 RUN apk --update --no-cache add \
-    bash binutils ca-certificates coreutils curl fping git graphviz imagemagick mtr \
-    mysql-client net-snmp net-snmp-tools nginx nmap openssl python2 py-mysqldb rrdtool runit \
-    shadow supervisor syslog-ng tzdata util-linux whois \
-    php7 php7-cli php7-ctype php7-curl php7-fpm php7-gd php7-json php7-mcrypt php7-memcached php7-mbstring php7-mysqli \
-    php7-opcache php7-openssl php7-pdo php7-pdo_mysql php7-phar php7-posix php7-session php7-simplexml php7-snmp \
-    php7-tokenizer php7-xml php7-zip \
+    bash \
+    binutils \
+    ca-certificates \
+    coreutils \
+    curl \
+    fping \
+    git \
+    graphviz \
+    imagemagick \
+    mtr \
+    mysql-client \
+    net-snmp \
+    net-snmp-tools \
+    nginx \
+    nmap \
+    openssl \
+    php7 \
+    php7-cli \
+    php7-ctype \
+    php7-curl \
+    php7-fpm \
+    php7-gd \
+    php7-json \
+    php7-mbstring \
+    php7-mcrypt \
+    php7-memcached \
+    php7-mysqli \
+    php7-opcache \
+    php7-openssl \
+    php7-pdo \
+    php7-pdo_mysql \
+    php7-phar \
+    php7-posix \
+    php7-session \
+    php7-simplexml \
+    php7-snmp \
+    php7-tokenizer \
+    php7-xml \
+    php7-zip \
+    py-mysqldb \
+    py2-pip \
+    python2 \
+    rrdtool \
+    runit \
+    shadow \
+    supervisor \
+    syslog-ng \
+    tzdata  \
+    util-linux \
+    whois \
+  && pip install python-memcached \
   && sed -i -e "s/;date\.timezone.*/date\.timezone = UTC/" /etc/php7/php.ini \
-  && rm -rf /var/cache/apk/* /var/www/* /tmp/*
+  && rm -rf /var/cache/apk/* /var/www/* /tmp/* \
+  && setcap cap_net_raw+ep /usr/bin/nmap \
+  && setcap cap_net_raw+ep /usr/sbin/fping
 
 ENV LIBRENMS_VERSION="1.43" \
   LIBRENMS_PATH="/opt/librenms" \
