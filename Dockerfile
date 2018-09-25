@@ -67,6 +67,7 @@ RUN apk --update --no-cache add \
     tzdata  \
     util-linux \
     whois \
+    ttf-dejavu \
   && pip install python-memcached \
   && sed -i -e "s/;date\.timezone.*/date\.timezone = UTC/" /etc/php7/php.ini \
   && rm -rf /var/cache/apk/* /var/www/* /tmp/* \
