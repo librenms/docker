@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.43-RC4 (2018/09/26)
+
+* Add `ttf-dejavu` package
+
 ## 1.43-RC3 (2018/09/24)
 
 * Set default port for `MEMCACHED_PORT` and `RRDCACHED_PORT`

@@ -64,10 +64,10 @@ RUN apk --update --no-cache add \
     shadow \
     supervisor \
     syslog-ng \
+    ttf-dejavu \
     tzdata  \
     util-linux \
     whois \
-    ttf-dejavu \
   && pip install python-memcached \
   && sed -i -e "s/;date\.timezone.*/date\.timezone = UTC/" /etc/php7/php.ini \
   && rm -rf /var/cache/apk/* /var/www/* /tmp/* \
