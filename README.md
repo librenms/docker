@@ -21,7 +21,7 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 * Alpine Linux 3.8, Nginx, PHP 7.2
 * Cron tasks as a ["sidecar" container](#cron)
 * Syslog-ng support through a ["sidecar" container](#syslog-ng)
-* [Distributed poller](https://docs.librenms.org/#Extensions/Distributed-Poller/#distributed-poller)
+* Ability to configure [distributed polling](https://docs.librenms.org/#Extensions/Distributed-Poller/#distributed-poller)
 * Ability to add custom nagios plugins
 * OPCache enabled to store precompiled script bytecode in shared memory
 
