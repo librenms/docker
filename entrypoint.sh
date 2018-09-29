@@ -209,8 +209,8 @@ chmod ug+rw ${DATA_PATH}/logs \
   ${LIBRENMS_PATH}/storage \
   ${LIBRENMS_PATH}/storage/framework/*
 
-# Check additional nagios plugins
-echo "Checking additional nagios plugins..."
+# Check additional Nagios plugins
+echo "Checking additional Nagios plugins..."
 nagios_plugins=$(ls -l ${DATA_PATH}/nagios-plugins | egrep '^-' | awk '{print $9}')
 for nagios_plugin in ${nagios_plugins}; do
   if [ -f "/usr/lib/nagios/plugins/${nagios_plugin}" ]; then
@@ -225,7 +225,7 @@ for nagios_plugin in ${nagios_plugins}; do
     echo "  WARNING: Nagios plugin file ${nagios_plugin} has to be executable. Skipping..."
     continue
   fi
-  echo "  Adding ${nagios_plugin} nagios plugin"
+  echo "  Adding ${nagios_plugin} Nagios plugin"
   ln -sf ${DATA_PATH}/nagios-plugins/${nagios_plugin} /usr/lib/nagios/plugins/${nagios_plugin}
 done
 

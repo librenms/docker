@@ -2,7 +2,7 @@
 
 ## 1.43-RC5 (2018/09/29)
 
-* Ability to add custom nagios plugins through `/data/nagios-plugins`
+* Ability to add custom Nagios plugins through `/data/nagios-plugins`
 * Install official nagios-plugins package
 * Services enabled by default
 
