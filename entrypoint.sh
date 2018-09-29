@@ -208,7 +208,6 @@ chmod ug+rw ${DATA_PATH}/logs \
   ${LIBRENMS_PATH}/bootstrap/cache \
   ${LIBRENMS_PATH}/storage \
   ${LIBRENMS_PATH}/storage/framework/*
-if
 
 # Check additional nagios plugins
 echo "Checking additional nagios plugins..."
