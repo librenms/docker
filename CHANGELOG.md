@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.43-RC5 (2018/09/29)
+
+* Ability to add custom nagios plugins through `/data/nagios-plugins`
+* Install official nagios-plugins package
+* Services enabled by default
+
 ## 1.43-RC4 (2018/09/26)
 
 * Add `ttf-dejavu` package

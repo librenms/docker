@@ -28,11 +28,14 @@ RUN apk --update --no-cache add \
     imagemagick \
     mtr \
     mysql-client \
+    nagios-plugins \
+    nagios-plugins-all \
     net-snmp \
     net-snmp-tools \
     nginx \
     nmap \
     openssl \
+    perl \
     php7 \
     php7-cli \
     php7-ctype \

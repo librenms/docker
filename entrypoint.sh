@@ -103,6 +103,7 @@ sed -i -e "s/RANDOMSTRINGGOESHERE/${LIBRENMS_SNMP_COMMUNITY}/" /etc/snmp/snmpd.c
 echo "Initializing LibreNMS files / folders..."
 mkdir -p ${DATA_PATH}/config \
   ${DATA_PATH}/logs \
+  ${DATA_PATH}/nagios-plugins \
   ${DATA_PATH}/rrd
 rm -f ${LIBRENMS_PATH}/config.d/*
 
@@ -158,6 +159,13 @@ cat > ${LIBRENMS_PATH}/config.d/autoupdate.php <<EOL
 \$config['update'] = 0;
 EOL
 
+# Config : Services
+cat > ${LIBRENMS_PATH}/config.d/services.php <<EOL
+<?php
+\$config['show_services'] = 1;
+\$config['nagios_plugins'] = "/usr/lib/nagios/plugins";
+EOL
+
 # Config : Memcached
 if [ ! -z "${MEMCACHED_HOST}" ]; then
     cat > ${LIBRENMS_PATH}/config.d/memcached.php <<EOL
@@ -200,6 +208,23 @@ chmod ug+rw ${DATA_PATH}/logs \
   ${LIBRENMS_PATH}/bootstrap/cache \
   ${LIBRENMS_PATH}/storage \
   ${LIBRENMS_PATH}/storage/framework/*
+chmod +x ${DATA_PATH}/nagios-plugins/*
+
+# Check additional nagios plugins
+echo "Checking additional nagios plugins..."
+nagios_plugins=$(ls -l ${DATA_PATH}/nagios-plugins | egrep '^-' | awk '{print $9}')
+for nagios_plugin in ${nagios_plugins}; do
+  if [ -f "/usr/lib/nagios/plugins/${nagios_plugin}" ]; then
+    echo "  WARNING: Official Nagios plugin ${nagios_plugin} cannot be overriden"
+    continue
+  fi
+  if [[ ${nagios_plugin} != check_* ]]; then
+    echo "  WARNING: Nagios plugin filename ${nagios_plugin} invalid. It must start with 'check_'"
+    continue
+  fi
+  echo "  Adding ${nagios_plugin} nagios plugin"
+  ln -sf ${DATA_PATH}/nagios-plugins/${nagios_plugin} /usr/lib/nagios/plugins/${nagios_plugin}
+done
 
 # Sidecar cron container ?
 if [ "$1" == "/usr/local/bin/cron" ]; then
