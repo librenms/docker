@@ -215,11 +215,15 @@ echo "Checking additional nagios plugins..."
 nagios_plugins=$(ls -l ${DATA_PATH}/nagios-plugins | egrep '^-' | awk '{print $9}')
 for nagios_plugin in ${nagios_plugins}; do
   if [ -f "/usr/lib/nagios/plugins/${nagios_plugin}" ]; then
-    echo "  WARNING: Official Nagios plugin ${nagios_plugin} cannot be overriden"
+    echo "  WARNING: Official Nagios plugin ${nagios_plugin} cannot be overriden. Skipping..."
     continue
   fi
   if [[ ${nagios_plugin} != check_* ]]; then
-    echo "  WARNING: Nagios plugin filename ${nagios_plugin} invalid. It must start with 'check_'"
+    echo "  WARNING: Nagios plugin filename ${nagios_plugin} invalid. It must start with 'check_'. Skipping..."
+    continue
+  fi
+  if [[ ! -x "${DATA_PATH}/nagios-plugins/${nagios_plugin}" ]]; then
+    echo "  WARNING: Nagios plugin file ${nagios_plugin} has to be executable. Skipping..."
     continue
   fi
   echo "  Adding ${nagios_plugin} nagios plugin"
