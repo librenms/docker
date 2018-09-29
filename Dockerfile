@@ -26,10 +26,9 @@ RUN apk --update --no-cache add \
     git \
     graphviz \
     imagemagick \
+    monitoring-plugins \
     mtr \
     mysql-client \
-    nagios-plugins \
-    nagios-plugins-all \
     net-snmp \
     net-snmp-tools \
     nginx \

@@ -2,8 +2,8 @@
 
 ## 1.43-RC5 (2018/09/29)
 
-* Ability to add custom Nagios plugins through `/data/nagios-plugins`
-* Install official nagios-plugins package
+* Ability to add custom Monitoring plugins through `/data/monitoring-plugins`
+* Install [Monitoring Plugins](https://www.monitoring-plugins.org/) package
 * Services enabled by default
 
 ## 1.43-RC4 (2018/09/26)

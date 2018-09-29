@@ -22,7 +22,7 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 * Cron tasks as a ["sidecar" container](#cron)
 * Syslog-ng support through a ["sidecar" container](#syslog-ng)
 * Ability to configure [distributed polling](https://docs.librenms.org/#Extensions/Distributed-Poller/#distributed-poller)
-* Ability to add custom Nagios plugins
+* Ability to add custom Monitoring plugins (Nagios)
 * OPCache enabled to store precompiled script bytecode in shared memory
 
 ### From docker-compose
@@ -87,7 +87,7 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 
 ### Volumes
 
-* `/data` : Contains configuration, rrd database, logs, additional Nagios plugins, additional syslog-ng config files
+* `/data` : Contains configuration, rrd database, logs, additional Monitoring plugins, additional syslog-ng config files
 
 ### Ports
 
@@ -220,9 +220,9 @@ You have to create a configuration file to enable syslog in LibreNMS too. Create
 $config['enable_syslog'] = 1;
 ```
 
-## Additional Nagios plugins
+## Additional Monitoring plugins (Nagios)
 
-You can add a custom Nagios plugin in `/data/nagios-plugins/`.
+You can add a custom Monitoring (Nagios) plugin in `/data/monitoring-plugins/`.
 
 > ⚠️ Container has to be restarted to propagate changes
 

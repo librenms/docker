@@ -103,7 +103,7 @@ sed -i -e "s/RANDOMSTRINGGOESHERE/${LIBRENMS_SNMP_COMMUNITY}/" /etc/snmp/snmpd.c
 echo "Initializing LibreNMS files / folders..."
 mkdir -p ${DATA_PATH}/config \
   ${DATA_PATH}/logs \
-  ${DATA_PATH}/nagios-plugins \
+  ${DATA_PATH}/monitoring-plugins \
   ${DATA_PATH}/rrd
 rm -f ${LIBRENMS_PATH}/config.d/*
 
@@ -163,7 +163,7 @@ EOL
 cat > ${LIBRENMS_PATH}/config.d/services.php <<EOL
 <?php
 \$config['show_services'] = 1;
-\$config['nagios_plugins'] = "/usr/lib/nagios/plugins";
+\$config['nagios_plugins'] = "/usr/lib/monitoring-plugins";
 EOL
 
 # Config : Memcached
@@ -209,24 +209,24 @@ chmod ug+rw ${DATA_PATH}/logs \
   ${LIBRENMS_PATH}/storage \
   ${LIBRENMS_PATH}/storage/framework/*
 
-# Check additional Nagios plugins
-echo "Checking additional Nagios plugins..."
-nagios_plugins=$(ls -l ${DATA_PATH}/nagios-plugins | egrep '^-' | awk '{print $9}')
-for nagios_plugin in ${nagios_plugins}; do
-  if [ -f "/usr/lib/nagios/plugins/${nagios_plugin}" ]; then
-    echo "  WARNING: Official Nagios plugin ${nagios_plugin} cannot be overriden. Skipping..."
+# Check additional Monitoring plugins
+echo "Checking additional Monitoring plugins..."
+mon_plugins=$(ls -l ${DATA_PATH}/monitoring-plugins | egrep '^-' | awk '{print $9}')
+for mon_plugin in ${mon_plugins}; do
+  if [ -f "/usr/lib/monitoring-plugins/${mon_plugin}" ]; then
+    echo "  WARNING: Official Monitoring plugin ${mon_plugin} cannot be overriden. Skipping..."
     continue
   fi
-  if [[ ${nagios_plugin} != check_* ]]; then
-    echo "  WARNING: Nagios plugin filename ${nagios_plugin} invalid. It must start with 'check_'. Skipping..."
+  if [[ ${mon_plugin} != check_* ]]; then
+    echo "  WARNING: Monitoring plugin filename ${mon_plugin} invalid. It must start with 'check_'. Skipping..."
     continue
   fi
-  if [[ ! -x "${DATA_PATH}/nagios-plugins/${nagios_plugin}" ]]; then
-    echo "  WARNING: Nagios plugin file ${nagios_plugin} has to be executable. Skipping..."
+  if [[ ! -x "${DATA_PATH}/monitoring-plugins/${mon_plugin}" ]]; then
+    echo "  WARNING: Monitoring plugin file ${mon_plugin} has to be executable. Skipping..."
     continue
   fi
-  echo "  Adding ${nagios_plugin} Nagios plugin"
-  ln -sf ${DATA_PATH}/nagios-plugins/${nagios_plugin} /usr/lib/nagios/plugins/${nagios_plugin}
+  echo "  Adding ${mon_plugin} Monitoring plugin"
+  ln -sf ${DATA_PATH}/monitoring-plugins/${mon_plugin} /usr/lib/monitoring-plugins/${mon_plugin}
 done
 
 # Sidecar cron container ?
