@@ -10,7 +10,7 @@ services:
       - "--entryPoints=Name:https Address::443 TLS"
       - "--docker"
       - "--docker.exposedbydefault=false"
-      - "--docker.domain=example.com"
+      - "--docker.domain=${DOMAINNAME}"
       - "--acme=true"
       - "--acme.acmelogging=true"
       - "--acme.email=webmaster@example.com"
@@ -43,17 +43,17 @@ services:
     volumes:
       - "./db:/var/lib/mysql"
     environment:
-      - "TZ=Europe/Paris"
+      - "TZ=${TZ}"
       - "MYSQL_ALLOW_EMPTY_PASSWORD=yes"
-      - "MYSQL_DATABASE=librenms"
-      - "MYSQL_USER=librenms"
-      - "MYSQL_PASSWORD=asupersecretpassword"
+      - "MYSQL_DATABASE=${MYSQL_DATABASE}"
+      - "MYSQL_USER=${MYSQL_USER}"
+      - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
     restart: always
 
   memcached:
     image: memcached:alpine
     environment:
-      - "TZ=Europe/Paris"
+      - "TZ=${TZ}"
     restart: always
 
   rrdcached:
@@ -62,9 +62,9 @@ services:
       - "./librenms/rrd:/data/db"
       - "./rrd-journal:/data/journal"
     environment:
-      - "TZ=Europe/Paris"
-      - "PUID=1000"
-      - "PGID=1000"
+      - "TZ=${TZ}"
+      - "PUID=${PUID}"
+      - "PGID=${PUID}"
       - "LOG_LEVEL=LOG_INFO"
       - "WRITE_TIMEOUT=1800"
       - "WRITE_JITTER=1800"
@@ -77,16 +77,16 @@ services:
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
     environment:
-      - "SERVER_HOSTNAME=librenms.example.com"
-      - "SMTP_SERVER=smtp.example.com"
-      - "SMTP_USERNAME=smtp@example.com"
-      - "SMTP_PASSWORD="
+      - "SERVER_HOSTNAME=${HOSTNAME}.${DOMAINNAME}"
+      - "SMTP_SERVER=${SMTP_SERVER}"
+      - "SMTP_USERNAME=${SMTP_USERNAME}"
+      - "SMTP_PASSWORD=${SMTP_PASSWORD}"
     restart: always
 
   app:
     image: crazymax/librenms:latest
-    domainname: example.com
-    hostname: librenms
+    domainname: ${DOMAINNAME}
+    hostname: ${HOSTNAME}
     depends_on:
       - db
       - memcached
@@ -98,25 +98,47 @@ services:
       - "traefik.enable=true"
       - "traefik.backend=librenms"
       - "traefik.port=80"
-      - "traefik.frontend.rule=Host:librenms.example.com"
+      - "traefik.frontend.rule=Host:${HOSTNAME}.${DOMAINNAME}"
+    environment:
+      - "TZ=${TZ}"
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "DB_HOST=db"
+      - "DB_NAME=${MYSQL_DATABASE}"
+      - "DB_USER=${MYSQL_USER}"
+      - "DB_PASSWORD=${MYSQL_PASSWORD}"
+      - "DB_TIMEOUT=30"
     env_file:
       - "./librenms.env"
     restart: always
 
   cron:
     image: crazymax/librenms:latest
+    domainname: ${DOMAINNAME}
+    hostname: ${HOSTNAME}
     command:
       - "/usr/local/bin/cron"
     depends_on:
       - app
     volumes:
       - "./librenms:/data"
+    environment:
+      - "TZ=${TZ}"
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "DB_HOST=db"
+      - "DB_NAME=${MYSQL_DATABASE}"
+      - "DB_USER=${MYSQL_USER}"
+      - "DB_PASSWORD=${MYSQL_PASSWORD}"
+      - "DB_TIMEOUT=30"
     env_file:
       - "./librenms.env"
     restart: always
 
   syslog-ng:
     image: crazymax/librenms:latest
+    domainname: ${DOMAINNAME}
+    hostname: ${HOSTNAME}
     command:
       - "/usr/sbin/syslog-ng"
       - "-F"
@@ -131,6 +153,15 @@ services:
         protocol: udp
     volumes:
       - "./librenms:/data"
+    environment:
+      - "TZ=${TZ}"
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "DB_HOST=db"
+      - "DB_NAME=${MYSQL_DATABASE}"
+      - "DB_USER=${MYSQL_USER}"
+      - "DB_PASSWORD=${MYSQL_PASSWORD}"
+      - "DB_TIMEOUT=30"
     env_file:
       - "./librenms.env"
     restart: always
