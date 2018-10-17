@@ -16,8 +16,10 @@ LABEL maintainer="CrazyMax" \
   org.label-schema.schema-version="1.0"
 
 RUN apk --update --no-cache add \
+    busybox-extras \
     acl \
     bash \
+    bind-tools \
     binutils \
     ca-certificates \
     coreutils \
@@ -76,7 +78,7 @@ RUN apk --update --no-cache add \
   && setcap cap_net_raw+ep /usr/bin/nmap \
   && setcap cap_net_raw+ep /usr/sbin/fping
 
-ENV LIBRENMS_VERSION="1.43" \
+ENV LIBRENMS_VERSION="1.44" \
   LIBRENMS_PATH="/opt/librenms" \
   DATA_PATH="/data" \
   CRONTAB_PATH="/var/spool/cron/crontabs"

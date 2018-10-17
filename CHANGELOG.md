@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.44-RC1 (2018/10/17)
+
+* Upgrade to LibreNMS 1.44
+* Add `busybox-extras` and `bind-tools` packages
+
 ## 1.43-RC5 (2018/09/29)
 
 * Ability to add custom Monitoring plugins through `/data/monitoring-plugins`
