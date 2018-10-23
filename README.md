@@ -1,25 +1,25 @@
-<p align="center"><a href="https://github.com/crazy-max/docker-librenms" target="_blank"><img height="128"src="https://raw.githubusercontent.com/crazy-max/docker-librenms/master/.res/docker-librenms.jpg"></a></p>
+<p align="center"><a href="https://github.com/librenms/docker" target="_blank"><img height="128"src="https://raw.githubusercontent.com/librenms/docker/master/.res/docker-librenms.jpg"></a></p>
 
 <p align="center">
-  <a href="https://microbadger.com/images/crazymax/librenms"><img src="https://images.microbadger.com/badges/version/crazymax/librenms.svg?style=flat-square" alt="Version"></a>
-  <a href="https://travis-ci.org/crazy-max/docker-librenms"><img src="https://img.shields.io/travis/crazy-max/docker-librenms/master.svg?style=flat-square" alt="Build Status"></a>
-  <a href="https://hub.docker.com/r/crazymax/librenms/"><img src="https://img.shields.io/docker/stars/crazymax/librenms.svg?style=flat-square" alt="Docker Stars"></a>
-  <a href="https://hub.docker.com/r/crazymax/librenms/"><img src="https://img.shields.io/docker/pulls/crazymax/librenms.svg?style=flat-square" alt="Docker Pulls"></a>
-  <a href="https://quay.io/repository/crazymax/librenms"><img src="https://quay.io/repository/crazymax/librenms/status?style=flat-square" alt="Docker Repository on Quay"></a>
+  <a href="https://microbadger.com/images/librenms/librenms"><img src="https://images.microbadger.com/badges/version/librenms/librenms.svg?style=flat-square" alt="Version"></a>
+  <a href="https://travis-ci.com/librenms/docker"><img src="https://img.shields.io/travis/com/librenms/docker/master.svg?style=flat-square" alt="Build Status"></a>
+  <a href="https://hub.docker.com/r/librenms/librenms/"><img src="https://img.shields.io/docker/stars/librenms/librenms.svg?style=flat-square" alt="Docker Stars"></a>
+  <a href="https://hub.docker.com/r/librenms/librenms/"><img src="https://img.shields.io/docker/pulls/librenms/librenms.svg?style=flat-square" alt="Docker Pulls"></a>
+  <a href="https://quay.io/repository/librenms/librenms"><img src="https://quay.io/repository/librenms/librenms/status?style=flat-square" alt="Docker Repository on Quay"></a>
   <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=962TPYQKMQ2UE"><img src="https://img.shields.io/badge/donate-paypal-7057ff.svg?style=flat-square" alt="Donate Paypal"></a>
 </p>
 
 ## About
 
 🐳 [LibreNMS](https://www.librenms.org/) Docker image based on Alpine Linux and Nginx.<br />
-If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 🐳 Docker images!
+It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/crazy-max/docker-librenms). If you are interested, [check out](https://hub.docker.com/r/crazymax/) his other 🐳 Docker images!
 
 ## Features
 
 ### Included
 
 * Alpine Linux 3.8, Nginx, PHP 7.2
-* Cron tasks as a ["sidecar" container](#cron)
+* Cron tasks as a ["sidecar" container](#crons)
 * Syslog-ng support through a ["sidecar" container](#syslog-ng)
 * Ability to configure [distributed polling](https://docs.librenms.org/#Extensions/Distributed-Poller/#distributed-poller)
 * Ability to add custom Monitoring plugins (Nagios)
@@ -114,7 +114,7 @@ You can also use the following minimal command :
 docker run -d -p 80:80 --name librenms \
   -v $(pwd)/data:/data \
   -e "DB_HOST=db" \
-  crazymax/librenms:latest
+  librenms/librenms:latest
 ```
 
 > `-e "DB_HOST=db"`<br />
@@ -187,7 +187,7 @@ To update the database manually, type the following command :
 $ docker exec -it --user librenms librenms php build-base.php
 ```
 
-### Cron
+### Crons
 
 If you want to enable the cron job, you have to run a "sidecar" container like in the [docker-compose file](examples/compose/docker-compose.yml) or run a simple container like this :
 
@@ -195,7 +195,7 @@ If you want to enable the cron job, you have to run a "sidecar" container like i
 docker run -d --name librenms-cron \
   --env-file $(pwd)/librenms.env \
   -v librenms:/data \
-  crazymax/librenms:latest /usr/local/bin/cron
+  librenms/librenms:latest /usr/local/bin/cron
 ```
 
 > `-v librenms:/data`<br />
@@ -210,7 +210,7 @@ docker run -d --name librenms-syslog-ng \
   --env-file $(pwd)/librenms.env \
   -p 514 -p 514/udp \
   -v librenms:/data \
-  crazymax/librenms:latest /usr/sbin/syslog-ng -F
+  librenms/librenms:latest /usr/sbin/syslog-ng -F
 ```
 
 You have to create a configuration file to enable syslog in LibreNMS too. Create a file called for example `/data/config/syslog.php` with this content :

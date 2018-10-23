@@ -84,7 +84,7 @@ services:
     restart: always
 
   app:
-    image: crazymax/librenms:latest
+    image: librenms/librenms:latest
     domainname: ${DOMAINNAME}
     hostname: ${HOSTNAME}
     depends_on:
@@ -113,7 +113,7 @@ services:
     restart: always
 
   cron:
-    image: crazymax/librenms:latest
+    image: librenms/librenms:latest
     domainname: ${DOMAINNAME}
     hostname: ${HOSTNAME}
     command:
@@ -136,7 +136,7 @@ services:
     restart: always
 
   syslog-ng:
-    image: crazymax/librenms:latest
+    image: librenms/librenms:latest
     domainname: ${DOMAINNAME}
     hostname: ${HOSTNAME}
     command:

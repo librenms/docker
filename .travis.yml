@@ -6,15 +6,14 @@ services:
 env:
   global:
     - VERSION=1.44
-    - GITHUB_REPO=crazy-max/docker-librenms
-    - DOCKER_USERNAME=crazymax
+    - DOCKER_USERNAME=librenms
     - DOCKER_REPONAME=librenms
-    - QUAY_USERNAME=crazymax
+    - DOCKER_LOGIN=librenmsbot
+    - QUAY_USERNAME=librenms
     - QUAY_REPONAME=librenms
-    - MICROBADGER_HOOK=https://hooks.microbadger.com/images/crazymax/librenms/-iJon04e52FswWvLC-zkB6yi2vo=
-    - secure: GMYFptO3rWVVITjC0Wz8g9uccBjSMBvVt3aFC3Y08/3Hw9CoA/SS51X/2lh0bRn+y49X0742QC7b2LtSWa3eERM1HbzlS1ODK75+P0lGYdtW2Ng5JutI+GRt8xTouY7+iP4qSAbOYMUdM5e61PkRepJvZWVeBkPtAtcGpxZO75h+snFxuzFVZXWLoSKjByKIqy9VXzT2P0Wx+zuUWpeo2qA62ONRJf5RjIKCDxHmWEwhXKmmDjeqo+Db/zsUwGYSwKpKRGBhyPVP0MnKFA2HQ/+dG1NyikXhae5dhjaZvgG9tSpbYdOWCHCunbxm6VWozt/kvkqkbizn+S3aoeeZyco40ZFIUinpypxw/nZpVvfDkwBIhw3nOS4giMKHLLBtnkSZw2szP6zfdLX6MLKWSjcDsBbtqj8aNe8Z1ViEKc2uW+yqJvd6GNnDL+AINe5rJ/cjeseh1ancOaGG8tlGsg/80dhOV3l+E4nINn+1uj354ncH/lv14e4giDNMGRw8gq7HFWxIE1X8SLetK9Hz5kLyMIPlSCO2fL73adrqfJFFluTQ0CbzsOEHSuScHT8i9UJWrqcu25BQ4pKidmDAt0gT7x6cz7zziuTY0hTO05txIP0FCop0qCFoLuAGM/bQg8r6FnfIZu4NbUxutjLiAN5aMB1D3znnymxKdeX/HOc= # DOCKER_PASSWORD
-    - secure: XMkF9Nz6FjKVB52vv7rZ+fa7vDDRXG7/nDm5Wio4eljYU/+cIZwdbBv2hU2IEmherZBn2jO9V64LYR9yTLALOGMEjqE/0E8KNiibj7VRjeRmtQrTHbUj7XpBmqAVyNek2GxkmtS4meOIcUUxBOfCAiIu2b++iuR70rAHvr+dL8skX7FNG77ZgTRsP9VkCylyfw0qb+50pD+2ukOFHxZ4tSi89F8ZU4UQOiNTBre4NUPCN5DZmglSt4nUYt3iofKs9p4ZjPP0cTBpHhArn37VZJyo1tOcl1jP8x18PVvgxrHO8Z0FQCasnZ6O269FR8lF28yM4CwHxk6ufCuieCCj5f0ez6S8IEv82a8ljmw+a75Gb6+pAmYB8nY49VkrWmA6KoDY+F+Ob30QOOtLCGumGBLZ1++6MOtwFjN5BzAyVl3Qhl+9heUMM3ULkbEV0IGJHL1M3zEBqxkQO6urdgf6cPEf3uldd+T6Ochn2DZ42Ge+yiZiIrgF/p0R3l1vDbyBG6OcnmaEoQWdIgqa6DUV48MBkYHF9Sp0idUbsrOaoVNsZZ4h0P72fRci/rElvoDGJIAdFEEE1ZW/y3a6hJihxvYQM9+S+HvzluI+5SKzdFUJ4hRpaGfIvclKdyaCNSE1B0VrwGXn7pBt5tem0IZnE5BQ9d/6TgVFc+L2Eyf7Mck= # QUAY_PASSWORD
-    - secure: mLY2C4Ggmg/VUdWoYc8vqYQb7lLSSB/YMvKUzY+z8VGAi5A8J1A6oTgeeThiKPWaNp9GgU1hdHA5WqoSCuOk2SzJoIEhnPU0j3GkDknuXmbhU1UXsuefMF++v2J9RarmC2CkyGiBDzJCrcs9srcS6RjmbK7hQv5EsbkjjyQHQwZlMG+q2aUwNcNxhAeD0+gn8j6eZ6myxt/SJ3LZRLCb+ZpP1NITc6aHjC9glc6ZO7bTy6WG6SVg0SREdxbht+cUrTNQvAcIkoEZQ4vOJBi3kAo6aZz6QYglofaYpTCdmiSSFGHseJ7k1Dl+khCL8OqeOnVCOkcu8SgPV7tI6WId8Dky/YPUsFtjivJqekjs/ctAekOHTzJW9UeOLkCOiqeLmQTDQ01JDLno1znzMOTC3T96I5d2LUnob3QOu32chdzqw0LfcawcuNnLwLdbK4AwPcDuIUl6b1FjU6I8DckHjtvL9Mr9xLhIkNrhdPW0vAj8yZkvGCxvGXh+qK6ejNDt/RdH6wWojh1yTbJSCAQLo1WnJ5YpqLxtu5++/4PfiTLkt7u8QMnau5m+8wZ4ju2RfFrwmEaKkrZSkq7ViQ+RsI/y0bNxUzk3Bb02Wgh9MfpPUXLA+4llYWIPnbgL17N5zhsROp9u0YSbzc3cWJm+0TQZZ0hAjyXBDoT2UCsDNqE= # GITHUB_TOKEN
+    - QUAY_LOGIN=librenms+travis
+    - secure: I9FQ/3FSXYcFaMKM5l59307WUKDmtNMsURZY5GdxH0pS4nKYtLx9URhtR96/7YdyppzXFxW5hI9ooDm5kEvaapuFKnMltLLkFAyNKWUP2QbSq8/PdZhS5R6RCvdv4Eg8cIvS04R1u1effgbdsqg5w9CM3+WYgLnzbMX9oWcGrUzlo0PZAMeL/eTimOLi77esxYSQz9uss2lE4fmXOFnvAqlHSyfGgboHMf1ccL9y051CxQZwJHFtXuamFzoPipO/mxKkJ94Mgx6KRKlfj86bE3YC5IFg2GKFR8aANzGIE5fD0leJy8FAgXzHqxncaPws9W9EDsvm72sHy9ucZ3qd3hJv+94o1mpN2UCTH53vJfqS+FYZ1LQYGwC6OCetQbK2ydag2dFAKxmEhJ9id4KlLMDmR0S0WfQV544a9Tdy9Ej88NfpdyDRBtNkNHbAs2OKa7IP4hLOw0wq/XYAWksHoqncDuyBatBz2mcKY+lZ+oESfDOOXLDEjzhb0hzQjfjlm/J6pixtZ+WtrDpy2lwN+3gI+reRoUf06loTC5TtGe9wAvpx3m7Zj/bbD8yXHcSxRg5OKdKO2GU6WJlwdgmMWVLBlxoGeCV0EpughM/7Ho7YZ1t3PoyiezxMWmPTOIIB59xJjxPl+eKvO4njtKfCNvXJIJl82B7SGT1Pnq7NzOI= # DOCKER_PASSWORD
+    - secure: eoujj2pOklqQNSBmeKXSegi8PkNa57T6gCX2SJuTpuscNM7RBecZz+0ET9VhOpTxprvph43o8vB7QuvJFwM8AveoOy1GeySlRyt24Wilke3Gkg5h4NRGh25sdZZstyIhrQg7g4YS9fDV8BkcwU3RRJE9u5Cg5M3cl7H4m09Oj4g8xJZ3xJ4equZQERyq92KiKYpGgTMLDhMA65n9cyT41Wa0N9Ri52E3blrzWw8WYEGjj8CTkcgyJrWXgcbu72VFyQagQJ7ojitcwE1pci0SFonHtYJjML8Ig6MNlrrAknx0Tpx3x4OiErfU6pu5k3HiCM2OSBrqwBnNu9kz9cotLHxq8CT0ePQx2H71aew0ZJW14HOTTGHrrwbHfOhwnqI7npOY05RD97DZT0WlKInzUXDoyzypSJv4UHtjBpDa6zpoB34bcqqf+tOrtpkwO0ThxQVQPkd/ypZH6dmmO0RjP+QClByntHPefFLen8rKFRclu9FUU/7l4Lar4v0wSBYgnM58SN9PS+hssibZzrTdWTR5i82Xr8gk+qCaogpx8iE+OsBDe3yzr0IWfap+iG59V1I8+P+RMBNl4Lc0yS2gbEE30+Rhb4/vtUZlTGoVAEzPCWglASZOC/hfISPmCGkqI/jwjv38itrxQR5xrO/g0ecOi+ue4gl80tmWJnS8NRM= # QUAY_PASSWORD
 
 before_install:
   - sudo apt-get update
@@ -43,20 +42,15 @@ script:
 after_success:
   - |
     test $TRAVIS_PULL_REQUEST = false \
-    && echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin \
+    && echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_LOGIN" --password-stdin \
     && docker tag docker_build $DOCKER_USERNAME/$DOCKER_REPONAME:$DOCKER_TAG \
     && docker tag docker_build $DOCKER_USERNAME/$DOCKER_REPONAME:$VERSION \
     && docker push $DOCKER_USERNAME/$DOCKER_REPONAME \
-    && echo "$QUAY_PASSWORD" | docker login quay.io --username "$QUAY_USERNAME" --password-stdin \
+    && echo "$QUAY_PASSWORD" | docker login quay.io --username "$QUAY_LOGIN" --password-stdin \
     && docker tag docker_build quay.io/$DOCKER_USERNAME/$DOCKER_REPONAME:$DOCKER_TAG \
     && docker tag docker_build quay.io/$DOCKER_USERNAME/$DOCKER_REPONAME:$VERSION \
-    && docker push quay.io/$QUAY_USERNAME/$QUAY_REPONAME \
-    && curl -X POST $MICROBADGER_HOOK
+    && docker push quay.io/$QUAY_USERNAME/$QUAY_REPONAME
 
 branches:
   except:
     - /^[0-9]/
-
-notifications:
-  webhooks:
-    secure: qy/lFOFGeP0IMvDTJZmPemOtHjkpnYq4sm734rTjBsKFNA8MU4TyWCnx24hljRd4YazAkH6j2Uav3XfmnR+UGfutXRsmktzZoDTlygiJLP/026gvD+VuT8GZIFXRpYhNlfPemFoN2/wO5sf91JGQL4cxVcF9r1A0aUQUtAzvl9UKwk+DRc9Y78oCKRmIaeoFrvKE1SCGPf/drNYeLKJiRiq7VV5jL+1tmZUjYKWVYnWU3yYSyg3OdAvXAVEDagzvAQ0ors9UJeXxAsAls0kTQc8c2+uWfEH411sRrPuqTYYkXIPQpJszLeDhG0ISU5xs5UCJSi7QzTRxD5lWgn8C2QfGS8x3eQK8fHEfN1Q0frqGdCYJcEC2izs91bwZDmFmDj9B0mkuOyHDjWmTIo+HPkb/ryATFD3Bk2pekHWBkuq+KKTQzvgtgokp4V7xRumDh7htyYzr88uk1EQFR7VY05aWFGFsoZ13oKa4UQ4uglH2xmWVW3X9cyf5NCj/t4mUt5223ZM7Q+LKDONSPz/VEDlSOkPapjC4rpn6mn/k6FNN3UyC4hL9+HXSFyCOJZDy3P6lagCWWlzLxt0R4DnptZG+cShW0+bzcecEaGPjyEidACctKl3hfDCiblg05Js0lvW454C4TPnzZ/tDAE6VE8mCFtU/K1ur+wneZuOv2pA=
