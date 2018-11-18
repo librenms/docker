@@ -135,7 +135,7 @@ cat > ${LIBRENMS_PATH}/config.d/database.php <<EOL
 \$config['db_pass'] = '${DB_PASSWORD}';
 \$config['db_name'] = '${DB_NAME}';
 EOL
-dbcmd="mysql -h ${DB_HOST} -P ${DB_PORT} -u "${DB_USER}" "-p${DB_PASSWORD}""
+dbcmd="mysql -h ${DB_HOST} -P ${DB_PORT} -u \"${DB_USER}\" \"-p${DB_PASSWORD}\""
 unset DB_PASSWORD
 
 # Config : User
@@ -296,7 +296,7 @@ else
   counter=1
   while ! ${dbcmd} -e "show databases;" > /dev/null 2>&1; do
       sleep 1
-      counter=`expr $counter + 1`
+      counter=$((counter + 1))
       if [ ${counter} -gt ${DB_TIMEOUT} ]; then
           >&2 echo "ERROR: Failed to connect to database on $DB_HOST"
           exit 1

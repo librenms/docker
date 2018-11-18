@@ -89,11 +89,11 @@ RUN mkdir -p /opt \
   && adduser -u 1000 -G librenms -h ${LIBRENMS_PATH} -s /bin/sh -D librenms \
   && passwd -l librenms \
   && usermod -a -G librenms nginx \
-  && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
+  && curl -sSL https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
   && git clone --branch ${LIBRENMS_VERSION} https://github.com/librenms/librenms.git ${LIBRENMS_PATH} \
   && chown -R librenms. ${LIBRENMS_PATH} \
   && su - librenms -c "composer install --no-dev --no-interaction --no-ansi --working-dir=${LIBRENMS_PATH}" \
-  && wget -q https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro -O /usr/bin/distro \
+  && curl -sSLk -q https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro -o /usr/bin/distro \
   && chmod +x /usr/bin/distro \
   && rm -rf /tmp/*
 
