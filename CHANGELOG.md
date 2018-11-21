@@ -1,7 +1,12 @@
 # Changelog
 
+## 1.45-RC2 (2018/11/21)
+
+* Add `php7-ldap` package
+
 ## 1.45-RC1 (2018/10/28)
- * Upgrade to LibreNMS 1.45
+
+* Upgrade to LibreNMS 1.45
 
 ## 1.44-RC1 (2018/10/17)
 
