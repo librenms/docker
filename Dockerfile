@@ -28,10 +28,8 @@ RUN apk --update --no-cache add \
     git \
     graphviz \
     imagemagick \
-    libldap \
     monitoring-plugins \
     mtr \
-    musl \
     mysql-client \
     net-snmp \
     net-snmp-tools \
