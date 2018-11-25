@@ -135,7 +135,7 @@ cat > ${LIBRENMS_PATH}/config.d/database.php <<EOL
 \$config['db_pass'] = '${DB_PASSWORD}';
 \$config['db_name'] = '${DB_NAME}';
 EOL
-dbcmd=mysql -h ${DB_HOST} -P ${DB_PORT} -u "${DB_USER}" "-p${DB_PASSWORD}"
+dbcmd="mysql -h ${DB_HOST} -P ${DB_PORT} -u "${DB_USER}" "-p${DB_PASSWORD}""
 unset DB_PASSWORD
 
 # Config : User
