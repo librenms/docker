@@ -96,19 +96,19 @@ RUN mkdir -p /opt \
   && su - librenms -c "composer install --no-dev --no-interaction --no-ansi --working-dir=${LIBRENMS_PATH}" \
   && curl -sSLk -q https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro -o /usr/bin/distro \
   && chmod +x /usr/bin/distro \
+  && mkdir -p /data ${LIBRENMS_PATH}/config.d /var/log/supervisord \
+  && cp ${LIBRENMS_PATH}/config.php.default ${LIBRENMS_PATH}/config.php \
+  && cp ${LIBRENMS_PATH}/snmpd.conf.example /etc/snmp/snmpd.conf \
+  && echo "foreach (glob(\"${DATA_PATH}/config/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
+  && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
+  && chown -R librenms. ${DATA_PATH} ${LIBRENMS_PATH} \
+  && chown -R nginx. /var/lib/nginx /var/log/nginx /var/log/php7 /var/tmp/nginx \
   && rm -rf /tmp/*
 
 COPY entrypoint.sh /entrypoint.sh
 COPY assets /
 
-RUN mkdir -p /data ${LIBRENMS_PATH}/config.d /var/log/supervisord \
-  && chmod a+x /entrypoint.sh /usr/local/bin/* \
-  && cp ${LIBRENMS_PATH}/snmpd.conf.example /etc/snmp/snmpd.conf \
-  && cp ${LIBRENMS_PATH}/config.php.default ${LIBRENMS_PATH}/config.php \
-  && echo "foreach (glob(\"${DATA_PATH}/config/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
-  && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
-  && chown -R librenms. ${DATA_PATH} ${LIBRENMS_PATH} \
-  && chown -R nginx. /var/lib/nginx /var/log/nginx /var/log/php7 /var/tmp/nginx
+RUN chmod a+x /entrypoint.sh /usr/local/bin/*
 
 EXPOSE 80 514 514/udp
 WORKDIR ${LIBRENMS_PATH}
