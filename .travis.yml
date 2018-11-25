@@ -39,19 +39,17 @@ before_script:
 
 script:
   - docker ps | grep $DOCKER_REPONAME
-
-after_success:
   - |
     test $TRAVIS_PULL_REQUEST = false \
     && echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_LOGIN" --password-stdin \
     && docker tag docker_build $DOCKER_USERNAME/$DOCKER_REPONAME:$DOCKER_TAG \
     && docker tag docker_build $DOCKER_USERNAME/$DOCKER_REPONAME:$VERSION \
     && docker push $DOCKER_USERNAME/$DOCKER_REPONAME \
+    && curl -X POST $MICROBADGER_HOOK \
     && echo "$QUAY_PASSWORD" | docker login quay.io --username "$QUAY_LOGIN" --password-stdin \
     && docker tag docker_build quay.io/$DOCKER_USERNAME/$DOCKER_REPONAME:$DOCKER_TAG \
     && docker tag docker_build quay.io/$DOCKER_USERNAME/$DOCKER_REPONAME:$VERSION \
-    && docker push quay.io/$QUAY_USERNAME/$QUAY_REPONAME \
-    && curl -X POST $MICROBADGER_HOOK
+    && docker push quay.io/$QUAY_USERNAME/$QUAY_REPONAME
 
 branches:
   except:
