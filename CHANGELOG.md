@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.45-RC3 (2018/11/25)
+
+* Fix dbcmd in entrypoint
+* Optimize layers
+
 ## 1.45-RC2 (2018/11/21)
 
 * Add `php7-ldap` package
