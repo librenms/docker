@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.46-RC1 (2018/12/02)
+
+* Upgrade to LibreNMS 1.46
+
 ## 1.45-RC3 (2018/11/25)
 
 * Fix dbcmd in entrypoint
