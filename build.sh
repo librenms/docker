@@ -4,23 +4,25 @@ set -e
 PROJECT=librenms
 BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 BUILD_TAG=docker_build
+BUILD_WORKINGDIR=${BUILD_WORKINGDIR:-.}
+DOCKERFILE=${DOCKERFILE:-Dockerfile}
 VCS_REF=${TRAVIS_COMMIT::8}
 RUNNING_TIMEOUT=120
 RUNNING_LOG_CHECK="snmpd entered RUNNING state"
 
-DOCKER_USERNAME=${DOCKER_USERNAME:="librenms"}
-DOCKER_REPONAME=${DOCKER_REPONAME:="librenms"}
-DOCKER_LOGIN=${DOCKER_LOGIN:="librenmsbot"}
-QUAY_USERNAME=${QUAY_USERNAME:="librenms"}
-QUAY_REPONAME=${QUAY_REPONAME:="librenms"}
-QUAY_LOGIN=${QUAY_LOGIN:="librenms+travis"}
+DOCKER_USERNAME=${DOCKER_USERNAME:-librenms}
+DOCKER_REPONAME=${DOCKER_REPONAME:-librenms}
+DOCKER_LOGIN=${DOCKER_LOGIN:-librenmsbot}
+QUAY_USERNAME=${QUAY_USERNAME:-librenms}
+QUAY_REPONAME=${QUAY_REPONAME:-librenms}
+QUAY_LOGIN=${QUAY_LOGIN:-librenms+travis}
 
 # Check local or travis
-BRANCH=${TRAVIS_BRANCH:-"local"}
+BRANCH=${TRAVIS_BRANCH:-local}
 if [[ ${TRAVIS_PULL_REQUEST} == "true" ]]; then
   BRANCH=${TRAVIS_PULL_REQUEST_BRANCH}
 fi
-DOCKER_TAG=${BRANCH:-"local"}
+DOCKER_TAG=${BRANCH:-local}
 if [[ "$BRANCH" == "master" ]]; then
   DOCKER_TAG=latest
 elif [[ "$BRANCH" == "local" ]]; then
@@ -31,6 +33,8 @@ fi
 echo "PROJECT=${PROJECT}"
 echo "BUILD_DATE=${BUILD_DATE}"
 echo "BUILD_TAG=${BUILD_TAG}"
+echo "BUILD_WORKINGDIR=${BUILD_WORKINGDIR}"
+echo "DOCKERFILE=${DOCKERFILE}"
 echo "VCS_REF=${VCS_REF}"
 echo "DOCKER_USERNAME=${DOCKER_USERNAME}"
 echo "DOCKER_REPONAME=${DOCKER_REPONAME}"
@@ -48,12 +52,12 @@ docker build \
   --build-arg BUILD_DATE=${BUILD_DATE} \
   --build-arg VCS_REF=${VCS_REF} \
   --build-arg VERSION=${VERSION} \
-  -t ${BUILD_TAG} .
+  -t ${BUILD_TAG} -f ${DOCKERFILE} ${BUILD_WORKINGDIR}
 echo
 
 echo "### Test"
-docker rm -f ${PROJECT} ${PROJECT}-db || true
-docker network rm ${PROJECT} || true
+docker rm -f ${PROJECT} ${PROJECT}-db > /dev/null 2>&1 || true
+docker network rm ${PROJECT} > /dev/null 2>&1 || true
 docker network create -d bridge ${PROJECT}
 docker run -d --network=${PROJECT} --name ${PROJECT}-db --hostname ${PROJECT}-db \
   -e "MYSQL_ALLOW_EMPTY_PASSWORD=yes" \
@@ -74,15 +78,25 @@ echo "### Waiting for ${PROJECT} to be up..."
 TIMEOUT=$((SECONDS + RUNNING_TIMEOUT))
 while read LOGLINE; do
   echo ${LOGLINE}
-  if [[ "${LOGLINE#*$RUNNING_LOG_CHECK}" != "$LOGLINE" ]]; then
+  if [[ ${LOGLINE} == *"${RUNNING_LOG_CHECK}"* ]]; then
     echo "Container up!"
     break
   fi
   if [[ $SECONDS -gt ${TIMEOUT} ]]; then
     >&2 echo "ERROR: Failed to run ${PROJECT} container"
+    docker rm -f ${PROJECT} > /dev/null 2>&1 || true
     exit 1
   fi
-done < <(docker logs -f ${PROJECT})
+done < <(docker logs -f ${PROJECT} 2>&1)
+echo
+
+CONTAINER_STATUS=$(docker container inspect --format "{{.State.Status}}" ${PROJECT})
+if [[ ${CONTAINER_STATUS} != "running" ]]; then
+  >&2 echo "ERROR: Container ${PROJECT} returned status '$CONTAINER_STATUS'"
+  docker rm -f ${PROJECT} > /dev/null 2>&1 || true
+  exit 1
+fi
+docker rm -f ${PROJECT} > /dev/null 2>&1 || true
 echo
 
 if [ "${VERSION}" == "local" -o "${TRAVIS_PULL_REQUEST}" == "true" ]; then
