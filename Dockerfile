@@ -63,8 +63,7 @@ RUN apk --update --no-cache add \
     php7-xml \
     php7-zip \
     py-mysqldb \
-    py2-pip \
-    python2 \
+    python3 \
     rrdtool \
     runit \
     shadow \
@@ -74,7 +73,8 @@ RUN apk --update --no-cache add \
     tzdata  \
     util-linux \
     whois \
-  && pip install python-memcached \
+  && pip3 install --upgrade pip \
+  && pip3 install python-memcached \
   && sed -i -e "s/;date\.timezone.*/date\.timezone = UTC/" /etc/php7/php.ini \
   && rm -rf /var/cache/apk/* /var/www/* /tmp/* \
   && setcap cap_net_raw+ep /usr/bin/nmap \
