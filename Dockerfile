@@ -7,7 +7,7 @@ ARG VERSION
 LABEL maintainer="CrazyMax" \
   org.label-schema.build-date=$BUILD_DATE \
   org.label-schema.name="librenms" \
-  org.label-schema.description="LibreNMS based on Alpine Linux and Nginx" \
+  org.label-schema.description="LibreNMS" \
   org.label-schema.version=$VERSION \
   org.label-schema.url="https://github.com/librenms/docker" \
   org.label-schema.vcs-ref=$VCS_REF \
