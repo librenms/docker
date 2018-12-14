@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.46-RC2 (2018/12/14)
+
+* Add Python 3 (Issue #7)
+
 ## 1.46-RC1 (2018/12/02)
 
 * Upgrade to LibreNMS 1.46
