@@ -10,7 +10,7 @@ services:
       - "--entryPoints=Name:https Address::443 TLS"
       - "--docker"
       - "--docker.exposedbydefault=false"
-      - "--docker.domain=${DOMAINNAME}"
+      - "--docker.domain=example.com"
       - "--acme=true"
       - "--acme.acmelogging=true"
       - "--acme.email=webmaster@example.com"
@@ -77,7 +77,7 @@ services:
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
     environment:
-      - "SERVER_HOSTNAME=${HOSTNAME}.${DOMAINNAME}"
+      - "SERVER_HOSTNAME=librenms.example.com"
       - "SMTP_SERVER=${SMTP_SERVER}"
       - "SMTP_USERNAME=${SMTP_USERNAME}"
       - "SMTP_PASSWORD=${SMTP_PASSWORD}"
@@ -85,8 +85,8 @@ services:
 
   app:
     image: librenms/librenms:latest
-    domainname: ${DOMAINNAME}
-    hostname: ${HOSTNAME}
+    domainname: example.com
+    hostname: librenms
     depends_on:
       - db
       - memcached
@@ -98,7 +98,7 @@ services:
       - "traefik.enable=true"
       - "traefik.backend=librenms"
       - "traefik.port=80"
-      - "traefik.frontend.rule=Host:${HOSTNAME}.${DOMAINNAME}"
+      - "traefik.frontend.rule=Host:librenms.example.com"
     environment:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
@@ -114,8 +114,8 @@ services:
 
   cron:
     image: librenms/librenms:latest
-    domainname: ${DOMAINNAME}
-    hostname: ${HOSTNAME}
+    domainname: example.com
+    hostname: librenms
     command:
       - "/usr/local/bin/cron"
     depends_on:
@@ -137,8 +137,8 @@ services:
 
   syslog-ng:
     image: librenms/librenms:latest
-    domainname: ${DOMAINNAME}
-    hostname: ${HOSTNAME}
+    domainname: example.com
+    hostname: librenms
     command:
       - "/usr/sbin/syslog-ng"
       - "-F"
