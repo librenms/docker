@@ -63,6 +63,8 @@ RUN apk --update --no-cache add \
     php7-xml \
     php7-zip \
     py-mysqldb \
+    python \
+    py2-pip \
     python3 \
     rrdtool \
     runit \
@@ -73,6 +75,8 @@ RUN apk --update --no-cache add \
     tzdata  \
     util-linux \
     whois \
+  && pip2 install --upgrade pip \
+  && pip2 install python-memcached \
   && pip3 install --upgrade pip \
   && pip3 install python-memcached \
   && sed -i -e "s/;date\.timezone.*/date\.timezone = UTC/" /etc/php7/php.ini \
