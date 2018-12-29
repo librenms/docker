@@ -93,6 +93,7 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 ### Ports
 
 * `80` : HTTP port
+* `514 514/udp` : Syslog ports
 
 ## Use this image
 
