@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.46-RC3 (2018/12/29)
+
+* Missing Python 2 memcached module for poller (Issue #9)
+
 ## 1.46-RC2 (2018/12/14)
 
 * Add Python 3 (Issue #7)

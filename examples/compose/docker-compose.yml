@@ -2,7 +2,7 @@ version: "3.2"
 
 services:
   traefik:
-    image: traefik:1.6-alpine
+    image: traefik:1.7-alpine
     command:
       - "--logLevel=INFO"
       - "--defaultentrypoints=http,https"
@@ -23,11 +23,9 @@ services:
       - target: 80
         published: 80
         protocol: tcp
-        mode: host
       - target: 443
         published: 443
         protocol: tcp
-        mode: host
     volumes:
       - "./acme.json:/acme.json"
       - "/var/run/docker.sock:/var/run/docker.sock"
