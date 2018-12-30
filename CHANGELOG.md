@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.47-RC1 (2018/12/30)
+
+* Upgrade to LibreNMS 1.47
+
 ## 1.46-RC3 (2018/12/29)
 
 * Missing Python 2 memcached module for poller (Issue #9)

@@ -84,7 +84,7 @@ RUN apk --update --no-cache add \
   && setcap cap_net_raw+ep /usr/bin/nmap \
   && setcap cap_net_raw+ep /usr/sbin/fping
 
-ENV LIBRENMS_VERSION="1.46" \
+ENV LIBRENMS_VERSION="1.47" \
   LIBRENMS_PATH="/opt/librenms" \
   DATA_PATH="/data" \
   CRONTAB_PATH="/var/spool/cron/crontabs"
