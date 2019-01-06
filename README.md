@@ -147,7 +147,7 @@ On first launch, an initial administrator user will be created :
 You can create an other user using the commande line :
 
 ```text
-$ docker exec -it --user librenms librenms php adduser.php <name> <pass> 10 <email>
+$ docker-compose exec --user librenms librenms php adduser.php <name> <pass> 10 <email>
 ```
 
 > :warning: Substitute your desired username `<name>`, password `<pass>` and email address `<email>`
@@ -157,7 +157,7 @@ $ docker exec -it --user librenms librenms php adduser.php <name> <pass> 10 <ema
 If you want to validate your installation from the CLI, type the following command :
 
 ```text
-$ docker exec -it --user librenms librenms php validate.php
+$ docker-compose exec --user librenms librenms php validate.php
 ====================================
 Component | Version
 --------- | -------
@@ -186,7 +186,7 @@ SNMP      | NET-SNMP 5.7.3
 To update the database manually, type the following command :
 
 ```bash
-$ docker exec -it --user librenms librenms php build-base.php
+$ docker-compose exec --user librenms librenms php build-base.php
 ```
 
 ### Crons
@@ -194,7 +194,7 @@ $ docker exec -it --user librenms librenms php build-base.php
 If you want to enable the cron job, you have to run a "sidecar" container like in the [docker-compose file](examples/compose/docker-compose.yml) or run a simple container like this :
 
 ```bash
-docker run -d --name librenms-cron \
+docker run -d --name librenms_cron \
   --env-file $(pwd)/librenms.env \
   -v librenms:/data \
   librenms/librenms:latest /usr/local/bin/cron
@@ -208,7 +208,7 @@ docker run -d --name librenms-cron \
 If you want to enable syslog-ng, you have to run a "sidecar" container like in the [docker-compose file](examples/compose/docker-compose.yml) or run a simple container like this :
 
 ```bash
-docker run -d --name librenms-syslog-ng \
+docker run -d --name librenms_syslog \
   --env-file $(pwd)/librenms.env \
   -p 514 -p 514/udp \
   -v librenms:/data \

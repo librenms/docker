@@ -3,6 +3,7 @@ version: "3.2"
 services:
   traefik:
     image: traefik:1.7-alpine
+    container_name: traefik
     command:
       - "--logLevel=INFO"
       - "--defaultentrypoints=http,https"
@@ -33,6 +34,7 @@ services:
 
   db:
     image: mariadb:10.2
+    container_name: librenms_db
     command:
       - "mysqld"
       - "--sql-mode="
@@ -50,12 +52,14 @@ services:
 
   memcached:
     image: memcached:alpine
+    container_name: librenms_memcached
     environment:
       - "TZ=${TZ}"
     restart: always
 
   rrdcached:
     image: crazymax/rrdcached
+    container_name: librenms_rrdcached
     volumes:
       - "./librenms/rrd:/data/db"
       - "./rrd-journal:/data/journal"
@@ -72,6 +76,7 @@ services:
 
   smtp:
     image: juanluisbaptiste/postfix
+    container_name: librenms_smtp
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
     environment:
@@ -81,8 +86,9 @@ services:
       - "SMTP_PASSWORD=${SMTP_PASSWORD}"
     restart: always
 
-  app:
+  librenms:
     image: librenms/librenms:latest
+    container_name: librenms
     domainname: example.com
     hostname: librenms
     depends_on:
@@ -112,12 +118,13 @@ services:
 
   cron:
     image: librenms/librenms:latest
+    container_name: librenms_cron
     domainname: example.com
     hostname: librenms
     command:
       - "/usr/local/bin/cron"
     depends_on:
-      - app
+      - librenms
     volumes:
       - "./librenms:/data"
     environment:
@@ -135,13 +142,14 @@ services:
 
   syslog-ng:
     image: librenms/librenms:latest
+    container_name: librenms_syslog
     domainname: example.com
     hostname: librenms
     command:
       - "/usr/sbin/syslog-ng"
       - "-F"
     depends_on:
-      - app
+      - librenms
     ports:
       - target: 514
         published: 514
