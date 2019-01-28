@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.48-RC1 (2019/01/28)
+
+* Upgrade to LibreNMS 1.48
+
 ## 1.47-RC1 (2018/12/30)
 
 * Upgrade to LibreNMS 1.47
