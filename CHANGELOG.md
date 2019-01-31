@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.48.1-RC1 (2019/01/31)
+
+* Upgrade to LibreNMS 1.48.1
+* Alpine Linux 3.9
+
 ## 1.48-RC1 (2019/01/28)
 
 * Upgrade to LibreNMS 1.48
