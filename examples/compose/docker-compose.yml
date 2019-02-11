@@ -40,6 +40,8 @@ services:
       - "--sql-mode="
       - "--innodb-file-per-table=1"
       - "--lower-case-table-names=0"
+      - "--character-set-server=utf8"
+      - "--collation-server=utf8_unicode_ci"
     volumes:
       - "./db:/var/lib/mysql"
     environment:
