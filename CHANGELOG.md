@@ -1,21 +1,25 @@
 # Changelog
 
+## 1.50-RC1 (2019/04/01)
+
+* LibreNMS 1.50
+
 ## 1.49-RC1 (2019/03/06)
 
-* Upgrade to LibreNMS 1.49
+* LibreNMS 1.49
 
 ## 1.48.1-RC1 (2019/01/31)
 
-* Upgrade to LibreNMS 1.48.1
+* LibreNMS 1.48.1
 * Alpine Linux 3.9
 
 ## 1.48-RC1 (2019/01/28)
 
-* Upgrade to LibreNMS 1.48
+* LibreNMS 1.48
 
 ## 1.47-RC1 (2018/12/30)
 
-* Upgrade to LibreNMS 1.47
+* LibreNMS 1.47
 
 ## 1.46-RC3 (2018/12/29)
 
@@ -27,7 +31,7 @@
 
 ## 1.46-RC1 (2018/12/02)
 
-* Upgrade to LibreNMS 1.46
+* LibreNMS 1.46
 
 ## 1.45-RC3 (2018/11/25)
 
@@ -40,11 +44,11 @@
 
 ## 1.45-RC1 (2018/10/28)
 
-* Upgrade to LibreNMS 1.45
+* LibreNMS 1.45
 
 ## 1.44-RC1 (2018/10/17)
 
-* Upgrade to LibreNMS 1.44
+* LibreNMS 1.44
 * Add `busybox-extras` and `bind-tools` packages
 
 ## 1.43-RC5 (2018/09/29)
@@ -75,15 +79,15 @@
 
 ## 1.43-RC1 (2018/09/10)
 
-* Upgrade to LibreNMS 1.43
+* LibreNMS 1.43
 
 ## 1.42.01-RC1 (2018/08/05)
 
-* Upgrade to LibreNMS 1.42.01
+* LibreNMS 1.42.01
 
 ## 1.42-RC1 (2018/08/02)
 
-* Upgrade to LibreNMS 1.42
+* LibreNMS 1.42
 * Add syslog-ng support
 
 ## 1.41-RC1 (2018/07/07)
