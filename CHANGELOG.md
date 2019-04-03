@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.50-RC2 (2019/04/03)
+
+* MEMORY_LIMIT not used by poller (PR #24)
+
 ## 1.50-RC1 (2019/04/01)
 
 * LibreNMS 1.50
