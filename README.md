@@ -48,6 +48,8 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 * `MEMORY_LIMIT` : PHP memory limit (default `256M`)
 * `UPLOAD_MAX_SIZE` : Upload max size (default `16M`)
 * `OPCACHE_MEM_SIZE` : PHP OpCache memory consumption (default `128`)
+* `REAL_IP_FROM` : Trusted addresses that are known to send correct replacement addresses (default `0.0.0.0/32`)
+* `REAL_IP_HEADER` : Request header field whose value will be used to replace the client address (default `X-Forwarded-For`)
 
 #### (Distributed) Poller
 
