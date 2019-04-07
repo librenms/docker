@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.50-RC3 (2019/04/06)
+## 1.50-RC3 (2019/04/07)
 
 * Use python3 for snmp-scan (Issue #25)
 * Add `REAL_IP_FROM` and `REAL_IP_HEADER` environment variables (Issue #22)
