@@ -103,6 +103,7 @@ RUN mkdir -p /opt \
   && mkdir -p /data ${LIBRENMS_PATH}/config.d /var/log/supervisord \
   && cp ${LIBRENMS_PATH}/config.php.default ${LIBRENMS_PATH}/config.php \
   && cp ${LIBRENMS_PATH}/snmpd.conf.example /etc/snmp/snmpd.conf \
+  && sed -i "1s|.*|#!/usr/bin/env python3|" ${LIBRENMS_PATH}/snmp-scan.py \
   && echo "foreach (glob(\"${DATA_PATH}/config/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
   && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
   && chown -R librenms. ${DATA_PATH} ${LIBRENMS_PATH} \
