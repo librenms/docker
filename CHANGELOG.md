@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.50-RC4 (2019/04/13)
+
+* Add `LOG_IP_VAR` environment variable (Issue #22)
+
 ## 1.50-RC3 (2019/04/07)
 
 * Use python3 for snmp-scan (Issue #25)

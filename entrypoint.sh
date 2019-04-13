@@ -13,6 +13,7 @@ UPLOAD_MAX_SIZE=${UPLOAD_MAX_SIZE:-16M}
 OPCACHE_MEM_SIZE=${OPCACHE_MEM_SIZE:-128}
 REAL_IP_FROM=${REAL_IP_FROM:-"0.0.0.0/32"}
 REAL_IP_HEADER=${REAL_IP_HEADER:-"X-Forwarded-For"}
+LOG_IP_VAR=${LOG_IP_VAR:-remote_addr}
 
 MEMCACHED_PORT=${MEMCACHED_PORT:-11211}
 RRDCACHED_PORT=${RRDCACHED_PORT:-42217}
@@ -98,6 +99,7 @@ echo "Setting Nginx configuration..."
 sed -e "s#@UPLOAD_MAX_SIZE@#$UPLOAD_MAX_SIZE#g" \
   -e "s#@REAL_IP_FROM@#$REAL_IP_FROM#g" \
   -e "s#@REAL_IP_HEADER@#$REAL_IP_HEADER#g" \
+  -e "s#@LOG_IP_VAR@#$LOG_IP_VAR#g" \
   /tpls/etc/nginx/nginx.conf > /etc/nginx/nginx.conf
 
 # SNMP

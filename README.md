@@ -50,6 +50,7 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 * `OPCACHE_MEM_SIZE` : PHP OpCache memory consumption (default `128`)
 * `REAL_IP_FROM` : Trusted addresses that are known to send correct replacement addresses (default `0.0.0.0/32`)
 * `REAL_IP_HEADER` : Request header field whose value will be used to replace the client address (default `X-Forwarded-For`)
+* `LOG_IP_VAR` : Use another variable to retrieve the remote IP address in Nginx. If you use a reverse proxy you can set `http_x_forwarded_for` example. (default `remote_addr`)
 
 #### (Distributed) Poller
 
