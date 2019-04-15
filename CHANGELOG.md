@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.50-RC5 (2019/04/15)
+
+* Bind IPv6 (Issue #28)
+
 ## 1.50-RC4 (2019/04/13)
 
 * Add `LOG_IP_VAR` environment variable (Issue #22)
