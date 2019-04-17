@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.50.1-RC1 (2019/04/17)
+
+* LibreNMS 1.50.1
+
 ## 1.50-RC5 (2019/04/15)
 
 * Bind IPv6 (Issue #28)
