@@ -28,6 +28,7 @@ RUN apk --update --no-cache add \
     git \
     graphviz \
     imagemagick \
+    ipmitool \
     monitoring-plugins \
     mtr \
     mysql-client \
