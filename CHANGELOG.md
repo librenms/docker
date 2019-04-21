@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.50.1-RC2 (2019/04/21)
+
+* Add ipmitool (PR #29)
+
 ## 1.50.1-RC1 (2019/04/17)
 
 * LibreNMS 1.50.1
