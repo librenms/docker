@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.50.1-RC3 (2019/04/28)
+
+* Add `large_client_header_buffers` Nginx config
+
 ## 1.50.1-RC2 (2019/04/21)
 
 * Add ipmitool (PR #29)
