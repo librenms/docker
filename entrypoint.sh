@@ -244,7 +244,7 @@ if [ "$SIDECAR_CRON" = "1" ]; then
   echo ">>"
 
   # Init
-  rm /etc/supervisord/syslog-ng.conf
+  rm /etc/supervisord/nginx.conf /etc/supervisord/php.conf /etc/supervisord/snmpd.conf /etc/supervisord/syslog-ng.conf
   if [ -z "$CRONTAB_PATH" ]; then
     >&2 echo "ERROR: CRONTAB_PATH must be defined"
     exit 1
@@ -298,7 +298,7 @@ elif [ "$SIDECAR_SYSLOGNG" = "1" ]; then
   echo ">>"
 
   # Init
-  rm /etc/supervisord/cron.conf
+  rm /etc/supervisord/cron.conf /etc/supervisord/nginx.conf /etc/supervisord/php.conf /etc/supervisord/snmpd.conf
   mkdir -p ${DATA_PATH}/syslog-ng /run/syslog-ng
   chown -R librenms. ${DATA_PATH}/syslog-ng /run/syslog-ng
 else
