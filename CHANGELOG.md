@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.51-RC2 (2019/05/01)
+
+* Sidecar cron and syslog-ng are now respectively enabled through `SIDECAR_CRON` and `SIDECAR_SYSLOGNG` env vars
+* Fix snmpd command
+
+> :warning: **UPGRADE NOTES**
+> Sidecar cron and syslog-ng are now respectively handled with `SIDECAR_CRON` and `SIDECAR_SYSLOGNG` env vars
+> See docker-compose example and README for more info.
+
 ## 1.51-RC1 (2019/05/01)
 
 * LibreNMS 1.51

@@ -64,6 +64,9 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 
 #### Cron
 
+> :warning: Only used if you enabled and run a [sidecar cron container](#crons)
+
+* `SIDECAR_CRON` : Set to `1` to enable sidecar cron mode for this container (default `0`)
 * `LIBRENMS_CRON_DISCOVERY_ENABLE` : Enable LibreNMS discovery for this container cronjobs (default `true`)
 * `LIBRENMS_CRON_DAILY_ENABLE` : Enable LibreNMS daily script for this container cronjobs (default `true`)
 * `LIBRENMS_CRON_ALERTS_ENABLE` : Enable LibreNMS alerts generation for this container cronjobs (default `true`)
@@ -71,6 +74,12 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 * `LIBRENMS_CRON_BILLING_CALCULATE_ENABLE` : Enable LibreNMS billing for this container cronjobs (default `true`)
 * `LIBRENMS_CRON_CHECK_SERVICES_ENABLE` : Enable LibreNMS service checks for this container cronjobs (default `true`)
 * `LIBRENMS_CRON_POLLER_ENABLE` : Enable LibreNMS polling for this container cronjobs (default `true`)
+
+#### Syslog-ng
+
+> :warning: Only used if you enabled and run a [sidecar syslog-ng container](#syslog-ng)
+
+* `SIDECAR_SYSLOGNG` : Set to `1` to enable sidecar syslog-ng mode for this container (default `0`)
 
 #### Database
 
@@ -96,7 +105,7 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 ### Ports
 
 * `80` : HTTP port
-* `514 514/udp` : Syslog ports
+* `514 514/udp` : Syslog ports (Only used if you enabled and run a [sidecar syslog-ng container](#syslog-ng))
 
 ## Use this image
 
@@ -194,13 +203,14 @@ $ docker-compose exec --user librenms librenms php build-base.php
 
 ### Crons
 
-If you want to enable the cron job, you have to run a "sidecar" container like in the [docker-compose file](examples/compose/docker-compose.yml) or run a simple container like this :
+If you want to enable the cronjob, you have to run a "sidecar" container (see cron service in [docker-compose.yml](examples/compose/docker-compose.yml) example) or run a simple container like this :
 
 ```bash
 docker run -d --name librenms_cron \
   --env-file $(pwd)/librenms.env \
+  -e SIDECAR_CRON=1 \
   -v librenms:/data \
-  librenms/librenms:latest /usr/local/bin/cron
+  librenms/librenms:latest
 ```
 
 > `-v librenms:/data`<br />
@@ -208,14 +218,15 @@ docker run -d --name librenms_cron \
 
 ### Syslog-ng
 
-If you want to enable syslog-ng, you have to run a "sidecar" container like in the [docker-compose file](examples/compose/docker-compose.yml) or run a simple container like this :
+If you want to enable syslog-ng, you have to run a "sidecar" container (see syslog-ng service in [docker-compose.yml](examples/compose/docker-compose.yml) example) or run a simple container like this :
 
 ```bash
 docker run -d --name librenms_syslog \
   --env-file $(pwd)/librenms.env \
+  -e SIDECAR_SYSLOGNG=1 \
   -p 514 -p 514/udp \
   -v librenms:/data \
-  librenms/librenms:latest /usr/sbin/syslog-ng -F
+  librenms/librenms:latest
 ```
 
 You have to create a configuration file to enable syslog in LibreNMS too. Create a file called for example `/data/config/syslog.php` with this content :
@@ -229,7 +240,7 @@ $config['enable_syslog'] = 1;
 
 You can add a custom Monitoring (Nagios) plugin in `/data/monitoring-plugins/`.
 
-> ⚠️ Container has to be restarted to propagate changes
+> :warning: Container has to be restarted to propagate changes
 
 ## Upgrade
 

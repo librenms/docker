@@ -1,4 +1,4 @@
-version: "3.2"
+version: "3.5"
 
 services:
   traefik:
@@ -123,8 +123,6 @@ services:
     container_name: librenms_cron
     domainname: example.com
     hostname: librenms
-    command:
-      - "/usr/local/bin/cron"
     depends_on:
       - librenms
     volumes:
@@ -138,6 +136,7 @@ services:
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=30"
+      - "SIDECAR_CRON=1"
     env_file:
       - "./librenms.env"
     restart: always
@@ -147,9 +146,6 @@ services:
     container_name: librenms_syslog
     domainname: example.com
     hostname: librenms
-    command:
-      - "/usr/sbin/syslog-ng"
-      - "-F"
     depends_on:
       - librenms
     ports:
@@ -170,6 +166,7 @@ services:
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=30"
+      - "SIDECAR_SYSLOGNG=1"
     env_file:
       - "./librenms.env"
     restart: always

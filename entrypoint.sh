@@ -15,9 +15,6 @@ REAL_IP_FROM=${REAL_IP_FROM:-"0.0.0.0/32"}
 REAL_IP_HEADER=${REAL_IP_HEADER:-"X-Forwarded-For"}
 LOG_IP_VAR=${LOG_IP_VAR:-remote_addr}
 
-MEMCACHED_PORT=${MEMCACHED_PORT:-11211}
-RRDCACHED_PORT=${RRDCACHED_PORT:-42217}
-
 LIBRENMS_POLLER_THREADS=${LIBRENMS_POLLER_THREADS:-16}
 LIBRENMS_POLLER_INTERVAL=${LIBRENMS_POLLER_INTERVAL:-5}
 
@@ -27,6 +24,7 @@ LIBRENMS_DISTRIBUTED_POLLER_GROUP=${LIBRENMS_DISTRIBUTED_POLLER_GROUP:-'0'}
 LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_HOST=${LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_HOST:-${MEMCACHED_HOST}}
 LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_PORT=${LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_PORT:-${MEMCACHED_PORT}}
 
+SIDECAR_CRON=${SIDECAR_CRON:-0}
 LIBRENMS_CRON_DISCOVERY_ENABLE=${LIBRENMS_CRON_DISCOVERY_ENABLE:-true}
 LIBRENMS_CRON_DAILY_ENABLE=${LIBRENMS_CRON_DAILY_ENABLE:-true}
 LIBRENMS_CRON_ALERTS_ENABLE=${LIBRENMS_CRON_ALERTS_ENABLE:-true}
@@ -34,6 +32,8 @@ LIBRENMS_CRON_BILLING_ENABLE=${LIBRENMS_CRON_BILLING_ENABLE:-true}
 LIBRENMS_CRON_BILLING_CALCULATE_ENABLE=${LIBRENMS_CRON_BILLING_CALCULATE_ENABLE:-true}
 LIBRENMS_CRON_CHECK_SERVICES_ENABLE=${LIBRENMS_CRON_CHECK_SERVICES_ENABLE:-true}
 LIBRENMS_CRON_POLLER_ENABLE=${LIBRENMS_CRON_POLLER_ENABLE:-true}
+
+SIDECAR_SYSLOGNG=${SIDECAR_SYSLOGNG:-0}
 
 DB_PORT=${DB_PORT:-3306}
 DB_NAME=${DB_NAME:-librenms}
@@ -237,13 +237,14 @@ for mon_plugin in ${mon_plugins}; do
   ln -sf ${DATA_PATH}/monitoring-plugins/${mon_plugin} /usr/lib/monitoring-plugins/${mon_plugin}
 done
 
-# Sidecar cron container ?
-if [ "$1" == "/usr/local/bin/cron" ]; then
+# Sidecar cron container
+if [ "$SIDECAR_CRON" = "1" ]; then
   echo ">>"
   echo ">> Sidecar cron container detected"
   echo ">>"
 
   # Init
+  rm /etc/supervisord/syslog-ng.conf
   if [ -z "$CRONTAB_PATH" ]; then
     >&2 echo "ERROR: CRONTAB_PATH must be defined"
     exit 1
@@ -291,15 +292,19 @@ EOL
   # Fix crontab perms
   echo "Fixing crontab permissions..."
   chmod -R 0644 ${CRONTAB_PATH}
-elif [ "$1" == "/usr/sbin/syslog-ng" ]; then
+elif [ "$SIDECAR_SYSLOGNG" = "1" ]; then
   echo ">>"
   echo ">> Sidecar syslog-ng container detected"
   echo ">>"
 
   # Init
+  rm /etc/supervisord/cron.conf
   mkdir -p ${DATA_PATH}/syslog-ng /run/syslog-ng
   chown -R librenms. ${DATA_PATH}/syslog-ng /run/syslog-ng
 else
+  # Init
+  rm /etc/supervisord/cron.conf /etc/supervisord/syslog-ng.conf
+
   echo "Waiting ${DB_TIMEOUT}s for database to be ready..."
   counter=1
   while ! ${dbcmd} -e "show databases;" > /dev/null 2>&1; do
