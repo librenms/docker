@@ -77,7 +77,7 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 
 #### Syslog-ng
 
-> :warning: Only used if you enabled and run a [sidecar syslog-ng container](#syslog-ng)
+> :warning: Only used if you enabled and run a [sidecar syslog-ng container](#syslog-ng-1)
 
 * `SIDECAR_SYSLOGNG` : Set to `1` to enable sidecar syslog-ng mode for this container (default `0`)
 
@@ -105,7 +105,7 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 ### Ports
 
 * `80` : HTTP port
-* `514 514/udp` : Syslog ports (Only used if you enabled and run a [sidecar syslog-ng container](#syslog-ng))
+* `514 514/udp` : Syslog ports (Only used if you enabled and run a [sidecar syslog-ng container](#syslog-ng-1))
 
 ## Use this image
 
