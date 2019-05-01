@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.51-RC1 (2019/05/01)
+
+* LibreNMS 1.51
+
 ## 1.50.1-RC3 (2019/04/28)
 
 * Add `large_client_header_buffers` Nginx config
