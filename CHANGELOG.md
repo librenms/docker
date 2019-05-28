@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.52-RC1 (2019/05/28)
+
+* LibreNMS 1.52
+
 ## 1.51-RC2 (2019/05/01)
 
 * Sidecar cron and syslog-ng are now respectively enabled through `SIDECAR_CRON` and `SIDECAR_SYSLOGNG` env vars
