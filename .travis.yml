@@ -5,7 +5,7 @@ services:
 
 env:
   global:
-    - VERSION=1.52
+    - VERSION=1.53
     - DOCKER_USERNAME=librenms
     - DOCKER_REPONAME=librenms
     - DOCKER_LOGIN=librenmsbot

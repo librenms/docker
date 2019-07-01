@@ -19,7 +19,7 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 
 ### Included
 
-* Alpine Linux 3.9, Nginx, PHP 7.2
+* Alpine Linux 3.10, Nginx, PHP 7.3
 * Cron tasks as a ["sidecar" container](#crons)
 * Syslog-ng support through a ["sidecar" container](#syslog-ng)
 * Ability to configure [distributed polling](https://docs.librenms.org/#Extensions/Distributed-Poller/#distributed-poller)

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.53-RC1 (2019/07/01)
+
+* LibreNMS 1.53
+* Alpine Linux 3.10 
+
 ## 1.52-RC1 (2019/05/28)
 
 * LibreNMS 1.52
