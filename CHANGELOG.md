@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.53.1-RC2 (2019/07/25)
+
+* Add ipmitool location (Issue #34)
+
 ## 1.53.1-RC1 (2019/07/02)
 
 * LibreNMS 1.53.1

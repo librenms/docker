@@ -161,6 +161,12 @@ cat > ${LIBRENMS_PATH}/config.d/fping.php <<EOL
 \$config['fping6'] = "/usr/sbin/fping6";
 EOL
 
+# Config : ipmitool
+cat > ${LIBRENMS_PATH}/config.d/ipmitool.php <<EOL
+<?php
+\$config['ipmitool'] = "/usr/sbin/ipmitool";
+EOL
+
 # Config : Disable autoupdate
 cat > ${LIBRENMS_PATH}/config.d/autoupdate.php <<EOL
 <?php
