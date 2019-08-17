@@ -67,8 +67,6 @@ services:
       - "./rrd-journal:/data/journal"
     environment:
       - "TZ=${TZ}"
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
       - "LOG_LEVEL=LOG_INFO"
       - "WRITE_TIMEOUT=1800"
       - "WRITE_JITTER=1800"
