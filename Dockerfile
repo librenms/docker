@@ -79,7 +79,7 @@ RUN apk --update --no-cache add \
   && pip2 install --upgrade pip \
   && pip2 install python-memcached \
   && pip3 install --upgrade pip \
-  && pip3 install python-memcached \
+  && pip3 install python-memcached==1.59 PyMySQL==0.9.3 python-dotenv==0.10.3 redis==3.3.6 \
   && sed -i -e "s/;date\.timezone.*/date\.timezone = UTC/" /etc/php7/php.ini \
   && rm -rf /var/cache/apk/* /var/www/* /tmp/* \
   && setcap cap_net_raw+ep /usr/bin/nmap \
