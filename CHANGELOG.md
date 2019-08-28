@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.54-RC2 (2019/08/28)
+
+* Add python3 modules required for new [Dispatcher Service](https://docs.librenms.org/Extensions/Dispatcher-Service/) (PR #36)
+
 ## 1.54-RC1 (2019/07/29)
 
 * LibreNMS 1.54
