@@ -79,7 +79,7 @@ RUN apk --update --no-cache add \
   && pip2 install --upgrade pip \
   && pip2 install python-memcached \
   && pip3 install --upgrade pip \
-  && pip3 install python-memcached==1.59 PyMySQL==0.9.3 python-dotenv==0.10.3 redis==3.3.6 \
+  && pip3 install python-memcached \
   && sed -i -e "s/;date\.timezone.*/date\.timezone = UTC/" /etc/php7/php.ini \
   && rm -rf /var/cache/apk/* /var/www/* /tmp/* \
   && setcap cap_net_raw+ep /usr/bin/nmap \
@@ -109,6 +109,7 @@ RUN mkdir -p /opt \
   && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
   && chown -R librenms. ${DATA_PATH} ${LIBRENMS_PATH} \
   && chown -R nginx. /var/lib/nginx /var/log/nginx /var/log/php7 /var/tmp/nginx \
+  && pip3 install -r ${LIBRENMS_PATH}/requirements.txt \
   && rm -rf /tmp/*
 
 COPY entrypoint.sh /entrypoint.sh
