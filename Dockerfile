@@ -109,6 +109,7 @@ RUN mkdir -p /opt \
   && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
   && chown -R librenms. ${DATA_PATH} ${LIBRENMS_PATH} \
   && chown -R nginx. /var/lib/nginx /var/log/nginx /var/log/php7 /var/tmp/nginx \
+  && pip3 install -r ${LIBRENMS_PATH}/requirements.txt \
   && rm -rf /tmp/*
 
 COPY entrypoint.sh /entrypoint.sh
