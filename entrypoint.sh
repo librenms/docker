@@ -74,11 +74,12 @@ sed -i -e "s|date\.timezone.*|date\.timezone = ${TZ}|" /etc/php7/php.ini \
 
 # Change librenms UID / GID
 echo "Checking if librenms UID / GID has changed..."
-if [ $(id -u librenms) != ${PUID} ]; then
-  usermod -u ${PUID} librenms
+if [ -n "${PGID}" ] && [ "${PGID}" != "`id -g librenms`" ]; then
+  sed -i -e "s/^librenms:\([^:]*\):[0-9]*/librenms:\1:${PGID}/" /etc/group
+  sed -i -e "s/^librenms:\([^:]*\):\([0-9]*\):[0-9]*/librenms:\1:\2:${PGID}/" /etc/passwd
 fi
-if [ $(id -g librenms) != ${PGID} ]; then
-  groupmod -g ${PGID} librenms
+if [ -n "${PUID}" ] && [ "${PUID}" != "`id -u librenms`" ]; then
+  sed -i -e "s/^librenms:\([^:]*\):[0-9]*:\([0-9]*\)/librenms:\1:${PUID}:\2/" /etc/passwd
 fi
 
 # PHP
@@ -213,8 +214,11 @@ fi
 
  # Fix perms
 echo "Fixing permissions..."
-chown -R librenms. ${DATA_PATH} \
-  ${LIBRENMS_PATH}/config.d \
+chown librenms. ${DATA_PATH}/config \
+  ${DATA_PATH}/logs \
+  ${DATA_PATH}/monitoring-plugins \
+  ${DATA_PATH}/rrd
+chown -R librenms. ${LIBRENMS_PATH}/config.d \
   ${LIBRENMS_PATH}/bootstrap \
   ${LIBRENMS_PATH}/storage
 chmod ug+rw ${DATA_PATH}/logs \
@@ -263,7 +267,7 @@ if [ "$SIDECAR_CRON" = "1" ]; then
   # Add crontab
   cat ${LIBRENMS_PATH}/librenms.nonroot.cron > ${CRONTAB_PATH}/librenms
   sed -i -e "s/ librenms //" ${CRONTAB_PATH}/librenms
-  
+
   if [ $LIBRENMS_CRON_DISCOVERY_ENABLE != true ]; then
     sed -i "/discovery.php/d" ${CRONTAB_PATH}/librenms
   fi
@@ -306,7 +310,8 @@ elif [ "$SIDECAR_SYSLOGNG" = "1" ]; then
   # Init
   rm /etc/supervisord/cron.conf /etc/supervisord/nginx.conf /etc/supervisord/php.conf /etc/supervisord/snmpd.conf
   mkdir -p ${DATA_PATH}/syslog-ng /run/syslog-ng
-  chown -R librenms. ${DATA_PATH}/syslog-ng /run/syslog-ng
+  chown librenms. ${DATA_PATH}/syslog-ng
+  chown -R librenms. /run/syslog-ng
 else
   # Init
   rm /etc/supervisord/cron.conf /etc/supervisord/syslog-ng.conf

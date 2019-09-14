@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.55-RC2 (2019/09/14)
+
+* Review data permissions
+* Remove usermod/groupmod (Issue #38)
+
 ## 1.55-RC1 (2019/09/04)
 
 * LibreNMS 1.55
