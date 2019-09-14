@@ -23,8 +23,8 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 ### Included
 
 * Alpine Linux 3.10, Nginx, PHP 7.3
-* Cron tasks as a ["sidecar" container](#crons)
-* Syslog-ng support through a ["sidecar" container](#syslog-ng)
+* Cron tasks as a ["sidecar" container](doc/notes/crons.md)
+* Syslog-ng support through a ["sidecar" container](doc/notes/syslog-ng.md)
 * Ability to configure [distributed polling](https://docs.librenms.org/#Extensions/Distributed-Poller/#distributed-poller)
 * Ability to add custom Monitoring plugins (Nagios)
 * OPCache enabled to store precompiled script bytecode in shared memory
@@ -36,225 +36,25 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 * [RRDcached](https://github.com/crazy-max/docker-rrdcached) image ready to use for better scalability
 * [Postfix SMTP relay](https://github.com/juanluisbaptiste/docker-postfix) image to send emails
 * [MariaDB](https://github.com/docker-library/mariadb) image as database instance
-* Cron jobs as a ["sidecar" container](#cron)
-* Syslog-ng support through a ["sidecar" container](#syslog-ng)
+* Cron jobs as a ["sidecar" container](doc/docker/environment-variables.md#cron)
+* Syslog-ng support through a ["sidecar" container](doc/docker/environment-variables.md#syslog-ng)
 
-## Docker
+## Documentation
 
-### Environment variables
-
-#### General
-
-* `TZ` : The timezone assigned to the container (default `UTC`)
-* `PUID` : LibreNMS user id (default `1000`)
-* `PGID`: LibreNMS group id (default `1000`)
-* `MEMORY_LIMIT` : PHP memory limit (default `256M`)
-* `UPLOAD_MAX_SIZE` : Upload max size (default `16M`)
-* `OPCACHE_MEM_SIZE` : PHP OpCache memory consumption (default `128`)
-* `REAL_IP_FROM` : Trusted addresses that are known to send correct replacement addresses (default `0.0.0.0/32`)
-* `REAL_IP_HEADER` : Request header field whose value will be used to replace the client address (default `X-Forwarded-For`)
-* `LOG_IP_VAR` : Use another variable to retrieve the remote IP address for access [log_format](http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) on Nginx. (default `remote_addr`)
-
-#### (Distributed) Poller
-
-* `LIBRENMS_POLLER_THREADS` : Threads that `poller-wrapper.py` runs (default `16`)
-* `LIBRENMS_POLLER_INTERVAL` : Interval in minutes at which `poller-wrapper.py` runs (defaults to `5`) [docs](https://docs.librenms.org/#Support/1-Minute-Polling/)
-* `LIBRENMS_DISTRIBUTED_POLLER_ENABLE` : Enable distributed poller functionality
-* `LIBRENMS_DISTRIBUTED_POLLER_NAME` : Optional name of poller (defaults to hostname)
-* `LIBRENMS_DISTRIBUTED_POLLER_GROUP` : By default, all hosts are shared and have the poller_group = 0. To pin a device to a poller, set it to a value greater than 0 and set the same value here. One can also specify a comma separated string of poller groups. The poller will then poll devices from any of the groups listed. [docs](https://docs.librenms.org/#Extensions/Distributed-Poller/#distributed-poller)
-* `LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_HOST` : Memcached server for poller synchronization (Defaults to `$MEMCACHED_HOST`)
-* `LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_PORT` : Port of memcached server (Defaults to `$MEMCACHED_PORT`)
-
-#### Cron
-
-> :warning: Only used if you enabled and run a [sidecar cron container](#crons)
-
-* `SIDECAR_CRON` : Set to `1` to enable sidecar cron mode for this container (default `0`)
-* `LIBRENMS_CRON_DISCOVERY_ENABLE` : Enable LibreNMS discovery for this container cronjobs (default `true`)
-* `LIBRENMS_CRON_DAILY_ENABLE` : Enable LibreNMS daily script for this container cronjobs (default `true`)
-* `LIBRENMS_CRON_ALERTS_ENABLE` : Enable LibreNMS alerts generation for this container cronjobs (default `true`)
-* `LIBRENMS_CRON_BILLING_ENABLE` : Enable LibreNMS billing polling for this container cronjobs (default `true`)
-* `LIBRENMS_CRON_BILLING_CALCULATE_ENABLE` : Enable LibreNMS billing for this container cronjobs (default `true`)
-* `LIBRENMS_CRON_CHECK_SERVICES_ENABLE` : Enable LibreNMS service checks for this container cronjobs (default `true`)
-* `LIBRENMS_CRON_POLLER_ENABLE` : Enable LibreNMS polling for this container cronjobs (default `true`)
-
-#### Syslog-ng
-
-> :warning: Only used if you enabled and run a [sidecar syslog-ng container](#syslog-ng-1)
-
-* `SIDECAR_SYSLOGNG` : Set to `1` to enable sidecar syslog-ng mode for this container (default `0`)
-
-#### Database
-
-* `DB_HOST` : MySQL database hostname / IP address
-* `DB_PORT` : MySQL database port (default `3306`)
-* `DB_NAME` : MySQL database name (default `librenms`)
-* `DB_USER` : MySQL user (default `librenms`)
-* `DB_PASSWORD` : MySQL password (default `librenms`)
-* `DB_TIMEOUT` : Time in seconds after which we stop trying to reach the MySQL server (useful for clusters, default `30`)
-
-#### Misc
-
-* `LIBRENMS_SNMP_COMMUNITY` : This container's SNMP v2c community string (default `librenmsdocker`)
-* `MEMCACHED_HOST` : Hostname / IP address of a Memcached server
-* `MEMCACHED_PORT` : Port of the Memcached server (default `11211`)
-* `RRDCACHED_HOST` : Hostname / IP address of a RRDcached server
-* `RRDCACHED_PORT` : Port of the RRDcached server (default `42217`)
-
-### Volumes
-
-* `/data` : Contains configuration, rrd database, logs, additional Monitoring plugins, additional syslog-ng config files
-
-> :warning: Note that the volume should be owned by the user/group with the specified `PUID` and `PGID`. If you don’t give the volume correct permissions, the container may not start.
-
-### Ports
-
-* `80` : HTTP port
-* `514 514/udp` : Syslog ports (Only used if you enabled and run a [sidecar syslog-ng container](#syslog-ng-1))
-
-## Use this image
-
-### Docker Compose
-
-Docker compose is the recommended way to run this image. Copy the content of folder [examples/compose](examples/compose) in `/var/librenms/` on your host for example. Edit the compose and env files with your preferences and run the following commands :
-
-```bash
-touch acme.json
-chmod 600 acme.json
-docker-compose up -d
-docker-compose logs -f
-```
-
-### Command line
-
-You can also use the following minimal command :
-
-```bash
-docker run -d -p 80:80 --name librenms \
-  -v $(pwd)/data:/data \
-  -e "DB_HOST=db" \
-  librenms/librenms:latest
-```
-
-> `-e "DB_HOST=db"`<br />
-> :warning: `db` must be a running MySQL instance
-
-## Notes
-
-### Edit configuration
-
-You can edit configuration of LibreNMS by placing `*.php` files inside `/data/config` folder. Let's say you want to edit the [WebUI config](https://docs.librenms.org/#Support/Configuration/#webui-settings). Create a file called for example `/data/config/webui.php` with this content :
-
-```php
-<?php
-$config['page_refresh'] = "300";
-$config['webui']['default_dashboard_id'] = 0;
-```
-
-This configuration will be included in LibreNMS and will override the default values.
-
-### Add user
-
-On first launch, an initial administrator user will be created :
-
-| Login      | Password   |
-|------------|------------|
-| `librenms` | `librenms` |
-
-You can create an other user using the commande line :
-
-```text
-$ docker-compose exec --user librenms librenms php adduser.php <name> <pass> 10 <email>
-```
-
-> :warning: Substitute your desired username `<name>`, password `<pass>` and email address `<email>`
-
-### Validate
-
-If you want to validate your installation from the CLI, type the following command :
-
-```text
-$ docker-compose exec --user librenms librenms php validate.php
-====================================
-Component | Version
---------- | -------
-LibreNMS  | 1.41
-DB Schema | 253
-PHP       | 7.2.7
-MySQL     | 10.2.16-MariaDB-10.2.16+maria~jessie
-RRDTool   | 1.7.0
-SNMP      | NET-SNMP 5.7.3
-====================================
-
-[OK]    Composer Version: 1.6.5
-[OK]    Dependencies up-to-date.
-[OK]    Database connection successful
-[OK]    Database schema correct
-[WARN]  You have not added any devices yet.
-        [FIX] You can add a device in the webui or with ./addhost.php
-[WARN]  Your install is over 24 hours out of date, last update: Sat, 30 Jun 2018 21:37:37 +0000
-        [FIX] Make sure your daily.sh cron is running and run ./daily.sh by hand to see if there are any errors.
-[WARN]  Your local git branch is not master, this will prevent automatic updates.
-        [FIX] You can switch back to master with git checkout master
-```
-
-### Update database
-
-To update the database manually, type the following command :
-
-```bash
-$ docker-compose exec --user librenms librenms php build-base.php
-```
-
-### Crons
-
-If you want to enable the cronjob, you have to run a "sidecar" container (see cron service in [docker-compose.yml](examples/compose/docker-compose.yml) example) or run a simple container like this :
-
-```bash
-docker run -d --name librenms_cron \
-  --env-file $(pwd)/librenms.env \
-  -e SIDECAR_CRON=1 \
-  -v librenms:/data \
-  librenms/librenms:latest
-```
-
-> `-v librenms:/data`<br />
-> :warning: `librenms` must be a valid volume already attached to a LibreNMS container
-
-### Syslog-ng
-
-If you want to enable syslog-ng, you have to run a "sidecar" container (see syslog-ng service in [docker-compose.yml](examples/compose/docker-compose.yml) example) or run a simple container like this :
-
-```bash
-docker run -d --name librenms_syslog \
-  --env-file $(pwd)/librenms.env \
-  -e SIDECAR_SYSLOGNG=1 \
-  -p 514 -p 514/udp \
-  -v librenms:/data \
-  librenms/librenms:latest
-```
-
-You have to create a configuration file to enable syslog in LibreNMS too. Create a file called for example `/data/config/syslog.php` with this content :
-
-```php
-<?php
-$config['enable_syslog'] = 1;
-```
-
-## Additional Monitoring plugins (Nagios)
-
-You can add a custom Monitoring (Nagios) plugin in `/data/monitoring-plugins/`.
-
-> :warning: Container has to be restarted to propagate changes
-
-## Upgrade
-
-To upgrade to the latest version of LibreNMS, pull the newer image and launch the container. LibreNMS will upgrade automatically :
-
-```bash
-docker-compose pull
-docker-compose up -d
-```
+* Docker
+  * [Environment variables](doc/docker/environment-variables.md)
+  * [Volumes](doc/docker/volumes.md)
+  * [Ports](doc/docker/ports.md)
+* [Usage](doc/usage.md)
+* Notes
+  * [Edit configuration](doc/notes/edit-config.md)
+  * [Add user](doc/notes/add-user.md)
+  * [Validate](doc/notes/validate.md)
+  * [Update database](doc/notes/update-database.md)
+  * [Crons](doc/notes/crons.md)
+  * [Syslog-ng](doc/notes/syslog-ng.md)
+  * [Additional Monitoring plugins (Nagios)](doc/notes/additional-monitoring-plugins.md)
+* [Upgrade](doc/upgrade.md)
 
 ## How can I help ?
 

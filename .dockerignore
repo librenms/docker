@@ -4,6 +4,7 @@
 
 /.git
 /.res
+/doc
 /examples
 /.editorconfig
 /.gitignore
