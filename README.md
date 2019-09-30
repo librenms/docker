@@ -16,7 +16,7 @@
 🐳 [LibreNMS](https://www.librenms.org/) Docker image based on Alpine Linux and Nginx.<br />
 It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/crazy-max/docker-librenms). If you are interested, [check out](https://hub.docker.com/r/crazymax/) his other 🐳 Docker images!
 
-💡 Want to be notified of new releases? Check out 🔔 [Diun (Docker Image Update Notifier)](https://github.com/crazy-max/diun) project! 
+💡 Want to be notified of new releases? Check out 🔔 [Diun (Docker Image Update Notifier)](https://github.com/crazy-max/diun) project!
 
 ## Features
 
