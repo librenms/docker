@@ -1,0 +1,71 @@
+name: test
+
+on:
+  pull_request:
+    branches: 'master'
+  push:
+    branches: 'master'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        # https://github.com/actions/checkout
+        name: Checkout
+        uses: actions/checkout@v1
+      -
+        name: Prepare
+        id: prepare
+        run: |
+          echo ::set-output name=build_tag::test
+          echo ::set-output name=container_name::librenms
+          echo ::set-output name=running_timeout::120
+          echo ::set-output name=running_log_check::snmpd entered RUNNING state
+      -
+        name: Docker Build
+        run: |
+          docker build --tag ${{ steps.prepare.outputs.build_tag }} --file ${{ matrix.docker_file }} .
+      -
+        name: Start MariaDB container
+        run: |
+          docker run -d --name mariadb --hostname mariadb \
+            -e "MYSQL_ALLOW_EMPTY_PASSWORD=yes" \
+            -e "MYSQL_DATABASE=librenms" \
+            -e "MYSQL_USER=librenms" \
+            -e "MYSQL_PASSWORD=asupersecretpassword" \
+            mariadb:10.2 \
+            mysqld --sql-mode= --innodb-file-per-table=1 --lower-case-table-names=0
+      -
+        name: Start container
+        run: |
+          docker run -d --name ${{ steps.prepare.outputs.container_name }} \
+            -e "DB_HOST=mariadb" \
+            -e "DB_NAME=librenms" \
+            -e "DB_USER=librenms" \
+            -e "DB_PASSWORD=asupersecretpassword" \
+            ${{ steps.prepare.outputs.build_tag }}
+      -
+        name: Test run
+        run: |
+          TIMEOUT=$((SECONDS + ${{ steps.prepare.outputs.running_timeout }}))
+          while read LOGLINE; do
+            echo ${LOGLINE}
+            if [[ ${LOGLINE} == *"${{ steps.prepare.outputs.running_log_check }}"* ]]; then
+              echo "🎉 Container up!"
+              break
+            fi
+            if [[ $SECONDS -gt ${TIMEOUT} ]]; then
+              >&2 echo "❌ Failed to run ${{ steps.prepare.outputs.container_name }} container"
+              docker rm -f ${{ steps.prepare.outputs.container_name }} > /dev/null 2>&1 || true
+              exit 1
+            fi
+          done < <(docker logs -f ${{ steps.prepare.outputs.container_name }} 2>&1)
+
+          CONTAINER_STATUS=$(docker container inspect --format "{{.State.Status}}" ${{ steps.prepare.outputs.container_name }})
+          if [[ ${CONTAINER_STATUS} != "running" ]]; then
+            >&2 echo "❌ Container ${{ steps.prepare.outputs.container_name }} returned status '$CONTAINER_STATUS'"
+            docker rm -f ${{ steps.prepare.outputs.container_name }} > /dev/null 2>&1 || true
+            exit 1
+          fi
+          docker rm -f ${{ steps.prepare.outputs.container_name }} > /dev/null 2>&1 || true

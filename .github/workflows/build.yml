@@ -1,0 +1,71 @@
+name: build
+
+on:
+  pull_request:
+    branches: 'master'
+  push:
+    branches: 'master'
+    tags: '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        # https://github.com/actions/checkout
+        name: Checkout
+        uses: actions/checkout@v1
+      -
+        name: Prepare
+        id: prepare
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            TAG=${GITHUB_REF#refs/tags/}
+            echo ::set-output name=tag_name::${TAG}
+            echo ::set-output name=version::${TAG%-*}
+          else
+            echo ::set-output name=version::1.56
+          fi
+          echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+          echo ::set-output name=docker_username::librenmsbot
+          echo ::set-output name=docker_image::librenms/librenms
+          echo ::set-output name=quay_username::librenms+travis
+          echo ::set-output name=quay_image::quay.io/librenms/librenms
+      -
+        name: Docker Build
+        run: |
+          docker build \
+            --label "org.label-schema.build-date=${{ steps.prepare.outputs.build_date }}" \
+            --label "org.label-schema.version=${{ steps.prepare.outputs.version }}" \
+            --label "org.label-schema.vcs-ref=${GITHUB_SHA::8}" \
+            --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
+            --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
+            --tag "${{ steps.prepare.outputs.quay_image }}:${{ steps.prepare.outputs.version }}" \
+            --tag "${{ steps.prepare.outputs.quay_image }}:latest" \
+            --file Dockerfile .
+      -
+        name: Docker Login
+        if: success() && startsWith(github.ref, 'refs/tags/')
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+        run: |
+          echo "${DOCKER_PASSWORD}" | docker login --username "${{ steps.prepare.outputs.docker_username }}" --password-stdin
+          echo "${QUAY_PASSWORD}" | docker login quay.io --username "${{ steps.prepare.outputs.quay_username }}" --password-stdin
+      -
+        name: Docker Push
+        if: success() && startsWith(github.ref, 'refs/tags/')
+        run: |
+          docker push ${{ steps.prepare.outputs.docker_image }}
+          docker push ${{ steps.prepare.outputs.quay_image }}
+      -
+        name: Docker Check Manifest
+        if: always() && startsWith(github.ref, 'refs/tags/')
+        run: |
+          docker run --rm mplatform/mquery ${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}
+          docker run --rm mplatform/mquery ${{ steps.prepare.outputs.quay_image }}:${{ steps.prepare.outputs.version }}
+      -
+        name: Clear
+        if: always() && startsWith(github.ref, 'refs/tags/')
+        run: |
+          rm -f ${HOME}/.docker/config.json

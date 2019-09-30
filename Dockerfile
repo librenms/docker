@@ -1,16 +1,9 @@
 FROM alpine:3.10
 
-ARG BUILD_DATE
-ARG VCS_REF
-ARG VERSION
-
 LABEL maintainer="CrazyMax" \
-  org.label-schema.build-date=$BUILD_DATE \
   org.label-schema.name="librenms" \
   org.label-schema.description="LibreNMS" \
-  org.label-schema.version=$VERSION \
   org.label-schema.url="https://github.com/librenms/docker" \
-  org.label-schema.vcs-ref=$VCS_REF \
   org.label-schema.vcs-url="https://github.com/librenms/docker" \
   org.label-schema.vendor="LibreNMS" \
   org.label-schema.schema-version="1.0"
