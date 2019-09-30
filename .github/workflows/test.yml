@@ -25,7 +25,7 @@ jobs:
       -
         name: Docker Build
         run: |
-          docker build --tag ${{ steps.prepare.outputs.build_tag }} --file ${{ matrix.docker_file }} .
+          docker build --tag ${{ steps.prepare.outputs.build_tag }} --file Dockerfile .
       -
         name: Start MariaDB container
         run: |
