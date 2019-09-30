@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.56-RC1 (2019/09/30)
+
+* LibreNMS 1.56
+
 ## 1.55-RC2 (2019/09/14)
 
 * Review data permissions
