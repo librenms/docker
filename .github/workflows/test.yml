@@ -45,7 +45,7 @@ jobs:
         name: Start container
         run: |
           docker run -d --name ${{ steps.prepare.outputs.container_name }} \
-            --link mariadb
+            --link mariadb \
             --network ${{ steps.prepare.outputs.container_name }} \
             -e "DB_HOST=mariadb" \
             -e "DB_NAME=librenms" \
