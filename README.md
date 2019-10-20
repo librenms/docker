@@ -20,17 +20,11 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 
 ## Features
 
-### Included
-
-* Alpine Linux 3.10, Nginx, PHP 7.3
 * Cron tasks as a ["sidecar" container](doc/notes/crons.md)
 * Syslog-ng support through a ["sidecar" container](doc/notes/syslog-ng.md)
 * Ability to configure [distributed polling](https://docs.librenms.org/#Extensions/Distributed-Poller/#distributed-poller)
 * Ability to add custom Monitoring plugins (Nagios)
 * OPCache enabled to store precompiled script bytecode in shared memory
-
-### From docker-compose
-
 * [Traefik](https://github.com/containous/traefik-library-image) as reverse proxy and creation/renewal of Let's Encrypt certificates
 * [Memcached](https://github.com/docker-library/memcached) image ready to use for better scalability
 * [RRDcached](https://github.com/crazy-max/docker-rrdcached) image ready to use for better scalability
