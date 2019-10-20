@@ -41,6 +41,7 @@ jobs:
             -e "MYSQL_PASSWORD=asupersecretpassword" \
             mariadb:10.2 \
             mysqld --sql-mode= --innodb-file-per-table=1 --lower-case-table-names=0
+          sleep 30
       -
         name: Start container
         run: |
