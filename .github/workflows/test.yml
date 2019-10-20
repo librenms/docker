@@ -27,9 +27,14 @@ jobs:
         run: |
           docker build --tag ${{ steps.prepare.outputs.build_tag }} --file Dockerfile .
       -
+        name: Create network
+        run: |
+          docker network create -d bridge ${{ steps.prepare.outputs.container_name }}
+      -
         name: Start MariaDB container
         run: |
           docker run -d --name mariadb --hostname mariadb \
+            --network ${{ steps.prepare.outputs.container_name }} \
             -e "MYSQL_ALLOW_EMPTY_PASSWORD=yes" \
             -e "MYSQL_DATABASE=librenms" \
             -e "MYSQL_USER=librenms" \
@@ -39,7 +44,9 @@ jobs:
       -
         name: Start container
         run: |
-          docker run -d --link mariadb --name ${{ steps.prepare.outputs.container_name }} \
+          docker run -d --name ${{ steps.prepare.outputs.container_name }} \
+            --link mariadb
+            --network ${{ steps.prepare.outputs.container_name }} \
             -e "DB_HOST=mariadb" \
             -e "DB_NAME=librenms" \
             -e "DB_USER=librenms" \
