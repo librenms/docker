@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.56-RC3 (2019/10/26)
+
+* Base image update
+
 ## 1.56-RC2 (2019/10/25)
 
 * Fix CVE-2019-11043
