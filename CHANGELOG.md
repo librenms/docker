@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.57-RC1 (2019/10/30)
+
+* LibreNMS 1.57
+
 ## 1.56-RC3 (2019/10/26)
 
 * Base image update
