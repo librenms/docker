@@ -1,4 +1,4 @@
-<p align="center"><a href="https://github.com/librenms/docker" target="_blank"><img height="128"src="https://raw.githubusercontent.com/librenms/docker/master/.res/docker-librenms.jpg"></a></p>
+<p align="center"><a href="https://github.com/librenms/docker" target="_blank"><img height="128" src="https://raw.githubusercontent.com/librenms/docker/master/.res/docker-librenms.jpg"></a></p>
 
 <p align="center">
   <a href="https://hub.docker.com/r/librenms/librenms/tags?page=1&ordering=last_updated"><img src="https://img.shields.io/github/v/tag/librenms/docker?label=version&style=flat-square" alt="Latest Version"></a>
@@ -25,7 +25,7 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 * Ability to configure [distributed polling](https://docs.librenms.org/#Extensions/Distributed-Poller/#distributed-poller)
 * Ability to add custom Monitoring plugins (Nagios)
 * OPCache enabled to store precompiled script bytecode in shared memory
-* [Traefik](https://github.com/containous/traefik-library-image) as reverse proxy and creation/renewal of Let's Encrypt certificates
+* [Traefik](https://github.com/containous/traefik-library-image) as reverse proxy and creation/renewal of Let's Encrypt certificates (see [this template](examples/traefik))
 * [Memcached](https://github.com/docker-library/memcached) image ready to use for better scalability
 * [RRDcached](https://github.com/crazy-max/docker-rrdcached) image ready to use for better scalability
 * [Postfix SMTP relay](https://github.com/juanluisbaptiste/docker-postfix) image to send emails

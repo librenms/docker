@@ -1,6 +1,37 @@
 version: "3.5"
 
 services:
+  traefik:
+    image: traefik:1.7-alpine
+    container_name: traefik
+    command:
+      - "--logLevel=INFO"
+      - "--defaultentrypoints=http,https"
+      - "--entryPoints=Name:http Address::80 Redirect.EntryPoint:https"
+      - "--entryPoints=Name:https Address::443 TLS"
+      - "--docker"
+      - "--docker.exposedbydefault=false"
+      - "--docker.domain=example.com"
+      - "--acme=true"
+      - "--acme.acmelogging=true"
+      - "--acme.email=webmaster@example.com"
+      - "--acme.storage=acme.json"
+      - "--acme.entryPoint=https"
+      - "--acme.onhostrule=true"
+      - "--acme.httpchallenge=true"
+      - "--acme.httpchallenge.entrypoint=http"
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+      - target: 443
+        published: 443
+        protocol: tcp
+    volumes:
+      - "./acme.json:/acme.json"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    restart: always
+
   db:
     image: mariadb:10.2
     container_name: librenms_db
@@ -60,10 +91,6 @@ services:
     container_name: librenms
     domainname: example.com
     hostname: librenms
-    ports:
-      - target: 80
-        published: 80
-        protocol: tcp
     depends_on:
       - db
       - memcached
@@ -71,6 +98,11 @@ services:
       - smtp
     volumes:
       - "./librenms:/data"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=librenms"
+      - "traefik.port=80"
+      - "traefik.frontend.rule=Host:librenms.example.com"
     environment:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
