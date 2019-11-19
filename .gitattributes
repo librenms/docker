@@ -1,2 +1,2 @@
 /*.sh linguist-detectable=false
-/assets/** linguist-detectable=false
+/rootfs/** linguist-detectable=false

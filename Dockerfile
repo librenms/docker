@@ -109,7 +109,7 @@ RUN mkdir -p /opt \
   && chown -R nobody.nogroup ${LIBRENMS_PATH} \
   && rm -rf /tmp/*
 
-COPY assets /
+COPY rootfs /
 
 RUN addgroup -g ${PGID} librenms \
   && adduser -D -h ${LIBRENMS_PATH} -u ${PUID} -G librenms -s /bin/sh -D librenms \
