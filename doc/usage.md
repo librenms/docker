@@ -14,7 +14,7 @@ docker-compose logs -f
 You can also use the following minimal command :
 
 ```bash
-docker run -d -p 80:80 --name librenms \
+docker run -d -p 8000:8000 --name librenms \
   -v $(pwd)/data:/data \
   -e "DB_HOST=db" \
   librenms/librenms:latest

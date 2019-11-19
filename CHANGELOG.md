@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.57-RC2 (2019/11/19)
+
+* :warning: Run as non-root user (#6)
+* Switch to [s6-overlay](https://github.com/just-containers/s6-overlay/) as process supervisor
+* Prevent exposing Nginx and PHP version
+* :warning: Bind to unprivileged port (8000)
+* Remove php-fpm access log (already mirrored by nginx)
+
+> :warning: **UPGRADE NOTES**
+> As the Docker container now runs as a non-root user, you have to first stop the container and change permissions to `data` volume:
+> ```
+> docker-compose stop
+> chown -R ${PUID}:${PGID} data/
+> docker-compose pull
+> docker-compose up -d
+> ```
+
 ## 1.57-RC1 (2019/10/30)
 
 * LibreNMS 1.57

@@ -1,9 +1,4 @@
-# Jetbrains
-/.idea
-/*.iml
-
-# Visual Studio Code
-/.vscode
-
-# App
 /.dev
+/.idea
+/.vscode
+/*.iml

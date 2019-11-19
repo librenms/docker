@@ -20,11 +20,13 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 
 ## Features
 
+* Run as non-root user
 * Cron tasks as a ["sidecar" container](doc/notes/crons.md)
 * Syslog-ng support through a ["sidecar" container](doc/notes/syslog-ng.md)
 * Ability to configure [distributed polling](https://docs.librenms.org/#Extensions/Distributed-Poller/#distributed-poller)
 * Ability to add custom Monitoring plugins (Nagios)
 * OPCache enabled to store precompiled script bytecode in shared memory
+* [s6-overlay](https://github.com/just-containers/s6-overlay/) as process supervisor
 * [Traefik](https://github.com/containous/traefik-library-image) as reverse proxy and creation/renewal of Let's Encrypt certificates (see [this template](examples/traefik))
 * [Memcached](https://github.com/docker-library/memcached) image ready to use for better scalability
 * [RRDcached](https://github.com/crazy-max/docker-rrdcached) image ready to use for better scalability

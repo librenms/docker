@@ -101,7 +101,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.backend=librenms"
-      - "traefik.port=80"
+      - "traefik.port=8000"
       - "traefik.frontend.rule=Host:librenms.example.com"
     environment:
       - "TZ=${TZ}"
@@ -111,7 +111,7 @@ services:
       - "DB_NAME=${MYSQL_DATABASE}"
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
-      - "DB_TIMEOUT=30"
+      - "DB_TIMEOUT=60"
     env_file:
       - "./librenms.env"
     restart: always
@@ -133,7 +133,7 @@ services:
       - "DB_NAME=${MYSQL_DATABASE}"
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
-      - "DB_TIMEOUT=30"
+      - "DB_TIMEOUT=60"
       - "SIDECAR_CRON=1"
     env_file:
       - "./librenms.env"
@@ -163,7 +163,7 @@ services:
       - "DB_NAME=${MYSQL_DATABASE}"
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
-      - "DB_TIMEOUT=30"
+      - "DB_TIMEOUT=60"
       - "SIDECAR_SYSLOGNG=1"
     env_file:
       - "./librenms.env"

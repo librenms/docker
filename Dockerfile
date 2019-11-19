@@ -70,7 +70,7 @@ RUN apk --update --no-cache add \
     rrdtool \
     runit \
     shadow \
-    supervisor \
+    su-exec \
     syslog-ng \
     ttf-dejavu \
     tzdata  \
@@ -80,6 +80,8 @@ RUN apk --update --no-cache add \
   && pip2 install python-memcached \
   && pip3 install --upgrade pip \
   && pip3 install python-memcached \
+  && wget -q "https://github.com/just-containers/s6-overlay/releases/latest/download/s6-overlay-amd64.tar.gz" -qO "/tmp/s6-overlay-amd64.tar.gz" \
+  && tar xzf /tmp/s6-overlay-amd64.tar.gz -C / \
   && sed -i -e "s/;date\.timezone.*/date\.timezone = UTC/" /etc/php7/php.ini \
   && rm -rf /var/cache/apk/* /var/www/* /tmp/* \
   && setcap cap_net_raw+ep /usr/bin/nmap \
@@ -87,39 +89,34 @@ RUN apk --update --no-cache add \
 
 ENV LIBRENMS_VERSION="1.57" \
   LIBRENMS_PATH="/opt/librenms" \
-  DATA_PATH="/data" \
-  CRONTAB_PATH="/var/spool/cron/crontabs"
+  PUID="1000" \
+  PGID="1000" \
+  S6_BEHAVIOUR_IF_STAGE2_FAILS="2"
 
 RUN mkdir -p /opt \
-  && addgroup -g 1000 librenms \
-  && adduser -u 1000 -G librenms -h ${LIBRENMS_PATH} -s /bin/sh -D librenms \
-  && passwd -l librenms \
-  && usermod -a -G librenms nginx \
   && curl -sSL https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
   && git clone --branch ${LIBRENMS_VERSION} https://github.com/librenms/librenms.git ${LIBRENMS_PATH} \
-  && chown -R librenms. ${LIBRENMS_PATH} \
-  && su - librenms -c "composer install --no-dev --no-interaction --no-ansi --working-dir=${LIBRENMS_PATH}" \
+  && composer install --no-dev --no-interaction --no-ansi --working-dir=${LIBRENMS_PATH} \
   && curl -sSLk -q https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro -o /usr/bin/distro \
   && chmod +x /usr/bin/distro \
-  && mkdir -p /data ${LIBRENMS_PATH}/config.d /var/log/supervisord \
+  && mkdir -p ${LIBRENMS_PATH}/config.d \
   && cp ${LIBRENMS_PATH}/config.php.default ${LIBRENMS_PATH}/config.php \
   && cp ${LIBRENMS_PATH}/snmpd.conf.example /etc/snmp/snmpd.conf \
   && sed -i "1s|.*|#!/usr/bin/env python3|" ${LIBRENMS_PATH}/snmp-scan.py \
-  && echo "foreach (glob(\"${DATA_PATH}/config/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
+  && echo "foreach (glob(\"/data/config/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
   && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
-  && chown -R librenms. ${DATA_PATH} ${LIBRENMS_PATH} \
-  && chown -R nginx. /var/lib/nginx /var/log/nginx /var/log/php7 /var/tmp/nginx \
   && pip3 install -r ${LIBRENMS_PATH}/requirements.txt \
+  && chown -R nobody.nogroup ${LIBRENMS_PATH} \
   && rm -rf /tmp/*
 
-COPY entrypoint.sh /entrypoint.sh
 COPY assets /
 
-RUN chmod a+x /entrypoint.sh /usr/local/bin/*
+RUN addgroup -g ${PGID} librenms \
+  && adduser -D -h ${LIBRENMS_PATH} -u ${PUID} -G librenms -s /bin/sh -D librenms \
+  && mkdir -p /data /var/run/nginx /var/run/php-fpm
 
-EXPOSE 80 514 514/udp
+EXPOSE 8000 514 514/udp
 WORKDIR ${LIBRENMS_PATH}
-VOLUME [ "${DATA_PATH}" ]
+VOLUME [ "/data" ]
 
-ENTRYPOINT [ "/entrypoint.sh" ]
-CMD [ "/usr/bin/supervisord", "-c", "/etc/supervisord.conf" ]
+ENTRYPOINT [ "/init" ]

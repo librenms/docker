@@ -61,8 +61,8 @@ services:
     domainname: example.com
     hostname: librenms
     ports:
-      - target: 80
-        published: 80
+      - target: 8000
+        published: 8000
         protocol: tcp
     depends_on:
       - db
@@ -79,7 +79,7 @@ services:
       - "DB_NAME=${MYSQL_DATABASE}"
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
-      - "DB_TIMEOUT=30"
+      - "DB_TIMEOUT=60"
     env_file:
       - "./librenms.env"
     restart: always
@@ -101,7 +101,7 @@ services:
       - "DB_NAME=${MYSQL_DATABASE}"
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
-      - "DB_TIMEOUT=30"
+      - "DB_TIMEOUT=60"
       - "SIDECAR_CRON=1"
     env_file:
       - "./librenms.env"
@@ -131,7 +131,7 @@ services:
       - "DB_NAME=${MYSQL_DATABASE}"
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
-      - "DB_TIMEOUT=30"
+      - "DB_TIMEOUT=60"
       - "SIDECAR_SYSLOGNG=1"
     env_file:
       - "./librenms.env"
