@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.58-RC1 (2019/11/25)
+
+* LibreNMS 1.58
+* Remove useless `.git` folder
+* Add `LIBRENMS_DOCKER` env (librenms/librenms#10879)
+
 ## 1.57-RC2 (2019/11/19)
 
 * :warning: Run as non-root user (#6)

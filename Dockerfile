@@ -42,6 +42,7 @@ RUN apk --update --no-cache add \
     php7-cli \
     php7-ctype \
     php7-curl \
+    php7-dom \
     php7-fileinfo \
     php7-fpm \
     php7-gd \
@@ -87,8 +88,9 @@ RUN apk --update --no-cache add \
   && setcap cap_net_raw+ep /usr/bin/nmap \
   && setcap cap_net_raw+ep /usr/sbin/fping
 
-ENV LIBRENMS_VERSION="1.57" \
+ENV LIBRENMS_VERSION="1.58" \
   LIBRENMS_PATH="/opt/librenms" \
+  LIBRENMS_DOCKER="1" \
   PUID="1000" \
   PGID="1000" \
   S6_BEHAVIOUR_IF_STAGE2_FAILS="2"
@@ -96,7 +98,7 @@ ENV LIBRENMS_VERSION="1.57" \
 RUN mkdir -p /opt \
   && curl -sSL https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
   && git clone --branch ${LIBRENMS_VERSION} https://github.com/librenms/librenms.git ${LIBRENMS_PATH} \
-  && composer install --no-dev --no-interaction --no-ansi --working-dir=${LIBRENMS_PATH} \
+  && COMPOSER_CACHE_DIR="/tmp" composer install --no-dev --no-interaction --no-ansi --working-dir=${LIBRENMS_PATH} \
   && curl -sSLk -q https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro -o /usr/bin/distro \
   && chmod +x /usr/bin/distro \
   && mkdir -p ${LIBRENMS_PATH}/config.d \
@@ -107,7 +109,7 @@ RUN mkdir -p /opt \
   && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
   && pip3 install -r ${LIBRENMS_PATH}/requirements.txt \
   && chown -R nobody.nogroup ${LIBRENMS_PATH} \
-  && rm -rf /tmp/*
+  && rm -rf ${LIBRENMS_PATH}/.git /tmp/*
 
 COPY rootfs /
 
