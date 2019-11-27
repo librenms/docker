@@ -15,11 +15,11 @@ RRDTool   | 1.7.2
 SNMP      | NET-SNMP 5.8
 ====================================
 
-[OK]    Installed from package; no Composer required
+[OK]    Installed from the official Docker image; no Composer required
 [OK]    Database connection successful
 [OK]    Database schema correct
 [WARN]  You have not added any devices yet.
         [FIX] You can add a device in the webui or with ./addhost.php
 [WARN]  IPv6 is disabled on your server, you will not be able to add IPv6 devices.
-[WARN]  Non-git install, updates are manual or from package
+[WARN]  Updates are managed through the official Docker image
 ```

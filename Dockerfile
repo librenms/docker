@@ -88,7 +88,7 @@ RUN apk --update --no-cache add \
   && setcap cap_net_raw+ep /usr/bin/nmap \
   && setcap cap_net_raw+ep /usr/sbin/fping
 
-ENV LIBRENMS_VERSION="1.58" \
+ENV LIBRENMS_VERSION="1.58.1" \
   LIBRENMS_PATH="/opt/librenms" \
   LIBRENMS_DOCKER="1" \
   PUID="1000" \
