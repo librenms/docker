@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.58.1-RC2 (2019/11/29)
+
+* Fix php date timezone (#49)
+* `MEMCACHED_PORT` default port not working (#48)
+
 ## 1.58.1-RC1 (2019/11/27)
 
 * LibreNMS 1.58.1
