@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.58.1-RC3 (2019/11/29)
+## 1.58.1-RC3 (2019/12/06)
 
 * Bring back timezone management through symlink (#49)
 
