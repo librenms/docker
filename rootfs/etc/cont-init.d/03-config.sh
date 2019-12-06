@@ -62,7 +62,7 @@ sed -e "s/@MEMORY_LIMIT@/$MEMORY_LIMIT/g" \
 
 echo "Setting PHP INI configuration..."
 sed -i "s|memory_limit.*|memory_limit = ${MEMORY_LIMIT}|g" /etc/php7/php.ini
-sed -i "s|date\.timezone.*|date\.timezone = ${TZ}|g" /etc/php7/php.ini
+sed -i "s|;date\.timezone.*|date\.timezone = ${TZ}|g" /etc/php7/php.ini
 
 # OpCache
 echo "Setting OpCache configuration..."

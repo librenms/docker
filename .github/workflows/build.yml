@@ -24,7 +24,7 @@ jobs:
             echo ::set-output name=tag_name::${TAG}
             echo ::set-output name=version::${TAG%-*}
           else
-            echo ::set-output name=version::1.56
+            echo ::set-output name=version::snapshot
           fi
           echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           echo ::set-output name=docker_username::librenmsbot
