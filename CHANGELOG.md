@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.58.1-RC3 (2019/11/29)
+
+* Bring back timezone management through symlink (#49)
+
 ## 1.58.1-RC2 (2019/11/29)
 
 * Fix php date timezone (#49)

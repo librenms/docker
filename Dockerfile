@@ -83,17 +83,17 @@ RUN apk --update --no-cache add \
   && pip3 install python-memcached \
   && wget -q "https://github.com/just-containers/s6-overlay/releases/latest/download/s6-overlay-amd64.tar.gz" -qO "/tmp/s6-overlay-amd64.tar.gz" \
   && tar xzf /tmp/s6-overlay-amd64.tar.gz -C / \
-  && sed -i -e "s/;date\.timezone.*/date\.timezone = UTC/" /etc/php7/php.ini \
   && rm -rf /var/cache/apk/* /var/www/* /tmp/* \
   && setcap cap_net_raw+ep /usr/bin/nmap \
   && setcap cap_net_raw+ep /usr/sbin/fping
 
-ENV LIBRENMS_VERSION="1.58.1" \
+ENV S6_BEHAVIOUR_IF_STAGE2_FAILS="2" \
+  LIBRENMS_VERSION="1.58.1" \
   LIBRENMS_PATH="/opt/librenms" \
   LIBRENMS_DOCKER="1" \
+  TZ="UTC" \
   PUID="1000" \
-  PGID="1000" \
-  S6_BEHAVIOUR_IF_STAGE2_FAILS="2"
+  PGID="1000"
 
 RUN mkdir -p /opt \
   && curl -sSL https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \

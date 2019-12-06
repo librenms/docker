@@ -23,6 +23,8 @@ file_env() {
   unset "$fileVar"
 }
 
+TZ=${TZ:-UTC}
+
 MEMORY_LIMIT=${MEMORY_LIMIT:-256M}
 UPLOAD_MAX_SIZE=${UPLOAD_MAX_SIZE:-16M}
 OPCACHE_MEM_SIZE=${OPCACHE_MEM_SIZE:-128}
@@ -46,6 +48,11 @@ DB_TIMEOUT=${DB_TIMEOUT:-30}
 
 SIDECAR_CRON=${SIDECAR_CRON:-0}
 SIDECAR_SYSLOGNG=${SIDECAR_SYSLOGNG:-0}
+
+# Timezone
+echo "Setting timezone to ${TZ}..."
+ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime
+echo ${TZ} > /etc/timezone
 
 # PHP
 echo "Setting PHP-FPM configuration..."
