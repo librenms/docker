@@ -11,6 +11,9 @@
 * `REAL_IP_FROM`: Trusted addresses that are known to send correct replacement addresses (default `0.0.0.0/32`)
 * `REAL_IP_HEADER`: Request header field whose value will be used to replace the client address (default `X-Forwarded-For`)
 * `LOG_IP_VAR`: Use another variable to retrieve the remote IP address for access [log_format](http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) on Nginx. (default `remote_addr`)
+* `CERT_PATH`: Absolute path that the SSL certificate will be mounted on in the container. Enables https mode on Nginx (on port 8000). (if not present default is http)
+* `CERT_KEY_PATH`: Absolute path that the SSL certificate key will be mounted on in the container.
+* `SERVERNAME`: Server name is the name used from Nginx and needs to be same as the SSL certificates.
 
 ### (Distributed) Poller
 

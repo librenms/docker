@@ -49,6 +49,17 @@ DB_TIMEOUT=${DB_TIMEOUT:-30}
 SIDECAR_CRON=${SIDECAR_CRON:-0}
 SIDECAR_SYSLOGNG=${SIDECAR_SYSLOGNG:-0}
 
+# set variables for ssl if both paths are given
+SERVERNAME=${SERVERNAME:-"example.com"}
+if [ ! -z "$CERT_PATH" -a ! -z "$CERT_KEY_PATH" ];
+then
+  SSL="ssl"
+  SSL_CIPHERS="ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;"
+  SERVERNAME_DIRECTIVE="server_name $SERVERNAME;"
+  SSL_CERT_DIRECTIVE="ssl_certificate $CERT_PATH;"
+  SSL_CERT_KEY_DIRECTIVE="ssl_certificate_key $CERT_KEY_PATH;"
+fi
+
 # Timezone
 echo "Setting timezone to ${TZ}..."
 ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime
@@ -75,6 +86,11 @@ sed -e "s#@UPLOAD_MAX_SIZE@#$UPLOAD_MAX_SIZE#g" \
   -e "s#@REAL_IP_FROM@#$REAL_IP_FROM#g" \
   -e "s#@REAL_IP_HEADER@#$REAL_IP_HEADER#g" \
   -e "s#@LOG_IP_VAR@#$LOG_IP_VAR#g" \
+  -e "s#@SSL@#$SSL#g" \
+  -e "s#@SERVERNAME_DIRECTIVE@#$SERVERNAME_DIRECTIVE#g" \
+  -e "s#@SSL_CERT_DIRECTIVE@#$SSL_CERT_DIRECTIVE#g" \
+  -e "s#@SSL_CERT_KEY_DIRECTIVE@#$SSL_CERT_KEY_DIRECTIVE#g" \
+  -e "s#@SSL_CIPHERS@#$SSL_CIPHERS#g" \
   /tpls/etc/nginx/nginx.conf > /etc/nginx/nginx.conf
 
 # SNMP
@@ -188,6 +204,13 @@ echo "Fixing perms..."
 chown librenms. /data/config /data/monitoring-plugins /data/rrd
 chown -R librenms. /data/logs ${LIBRENMS_PATH}/config.d ${LIBRENMS_PATH}/bootstrap ${LIBRENMS_PATH}/logs ${LIBRENMS_PATH}/storage
 chmod ug+rw /data/logs /data/rrd ${LIBRENMS_PATH}/bootstrap/cache ${LIBRENMS_PATH}/storage ${LIBRENMS_PATH}/storage/framework/*
+
+if [ ! -z "$CERT_PATH" -a ! -z "$CERT_KEY_PATH" ];
+then
+  chmod ug+s $CERT_PATH;
+  chmod ug+s $CERT_KEY_PATH;
+fi
+
 
 # Check additional Monitoring plugins
 echo "Checking additional Monitoring plugins..."
