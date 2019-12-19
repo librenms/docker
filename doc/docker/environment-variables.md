@@ -34,6 +34,9 @@
 * `LIBRENMS_CRON_BILLING_CALCULATE_ENABLE`: Enable LibreNMS billing for this container cronjobs (default `true`)
 * `LIBRENMS_CRON_CHECK_SERVICES_ENABLE`: Enable LibreNMS service checks for this container cronjobs (default `true`)
 * `LIBRENMS_CRON_POLLER_ENABLE`: Enable LibreNMS polling for this container cronjobs (default `true`)
+* `LIBRENMS_CRON_SNMPSCAN_ENABLE`: Enable LibreNMS SNMP network scanning for this container cronjobs (default `false`)
+* `LIBRENMS_CRON_SNMPSCAN_INTERVAL`: SNMP network scanning cron interval (daily, in "Minute Hour", default `5 0`)
+* `LIBRENMS_CRON_SNMPSCAN_LOGFILE`: SNMP network scanning cron log file (default `/dev/null`)
 
 ### Syslog-ng
 
