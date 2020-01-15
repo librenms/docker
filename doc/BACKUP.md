@@ -92,7 +92,7 @@ nano /var/librenms/docker-compose.yml
 
 ## Update and run
 ```
-cd /var/
+cd /var/librenms/
 docker-compose pull
 docker-compose up -d
 ```
