@@ -51,6 +51,7 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
   * [Syslog-ng](doc/notes/syslog-ng.md)
   * [Additional Monitoring plugins (Nagios)](doc/notes/additional-monitoring-plugins.md)
 * [Upgrade](doc/upgrade.md)
+* [Backup](doc/BACKUP.md)
 
 ## How can I help ?
 
