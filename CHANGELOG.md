@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.58.1-RC6 (2020/01/23)
+
+* Move Nginx temp folders to `/tmp` (#55)
+
 ## 1.58.1-RC5 (2019/12/20)
 
 * Add snmp-scan option for cron container (#53)
