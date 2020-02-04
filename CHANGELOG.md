@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.60-RC1 (2020/02/04)
+
+* LibreNMS 1.60
+
 ## 1.58.1-RC6 (2020/01/23)
 
 * Move Nginx temp folders to `/tmp` (#55)
