@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.61-RC2 (2020/03/05)
+
+* Add `php7-sockets` extension (#61)
+
 ## 1.61-RC1 (2020/03/02)
 
 * LibreNMS 1.61
