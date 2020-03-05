@@ -61,6 +61,7 @@ RUN apk --update --no-cache add \
     php7-session \
     php7-simplexml \
     php7-snmp \
+    php7-sockets \
     php7-tokenizer \
     php7-xml \
     php7-zip \
