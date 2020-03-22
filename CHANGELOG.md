@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.61-RC3 (2020/03/22)
+
+* Allow multi discovery workers through `LIBRENMS_CRON_DISCOVERY_WRAPPER_WORKERS` env var (#59)
+
 ## 1.61-RC2 (2020/03/05)
 
 * Add `php7-sockets` extension (#61)

@@ -28,6 +28,7 @@
 
 * `SIDECAR_CRON`: Set to `1` to enable sidecar cron mode for this container (default `0`)
 * `LIBRENMS_CRON_DISCOVERY_ENABLE`: Enable LibreNMS discovery for this container cronjobs (default `true`)
+* `LIBRENMS_CRON_DISCOVERY_WRAPPER_WORKERS`: Spawn multiple discovery.php processes in parallel (default `1`)
 * `LIBRENMS_CRON_DAILY_ENABLE`: Enable LibreNMS daily script for this container cronjobs (default `true`)
 * `LIBRENMS_CRON_ALERTS_ENABLE`: Enable LibreNMS alerts generation for this container cronjobs (default `true`)
 * `LIBRENMS_CRON_BILLING_ENABLE`: Enable LibreNMS billing polling for this container cronjobs (default `true`)
