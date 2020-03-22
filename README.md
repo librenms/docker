@@ -23,7 +23,7 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 * Run as non-root user
 * Cron tasks as a ["sidecar" container](doc/notes/crons.md)
 * Syslog-ng support through a ["sidecar" container](doc/notes/syslog-ng.md)
-* Ability to configure [distributed polling](https://docs.librenms.org/#Extensions/Distributed-Poller/#distributed-poller)
+* Ability to configure [distributed polling](https://docs.librenms.org/Extensions/Distributed-Poller/)
 * Ability to add custom Monitoring plugins (Nagios)
 * OPCache enabled to store precompiled script bytecode in shared memory
 * [s6-overlay](https://github.com/just-containers/s6-overlay/) as process supervisor
