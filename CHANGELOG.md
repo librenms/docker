@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.61-RC4 (2020/03/27)
+
+* Fix folder creation (#62)
+
 ## 1.61-RC3 (2020/03/22)
 
 * Allow multi discovery workers through `LIBRENMS_CRON_DISCOVERY_WRAPPER_WORKERS` env var (#59)

@@ -115,8 +115,7 @@ RUN mkdir -p /opt \
 COPY rootfs /
 
 RUN addgroup -g ${PGID} librenms \
-  && adduser -D -h ${LIBRENMS_PATH} -u ${PUID} -G librenms -s /bin/sh -D librenms \
-  && mkdir -p /data /var/run/nginx /var/run/php-fpm
+  && adduser -D -h ${LIBRENMS_PATH} -u ${PUID} -G librenms -s /bin/sh -D librenms
 
 EXPOSE 8000 514 514/udp
 WORKDIR ${LIBRENMS_PATH}
