@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.62.2-RC1 (2020/04/04)
+
+* LibreNMS 1.62.2
+
 ## 1.61-RC4 (2020/03/27)
 
 * Fix folder creation (#62)

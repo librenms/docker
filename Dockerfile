@@ -89,7 +89,7 @@ RUN apk --update --no-cache add \
   && setcap cap_net_raw+ep /usr/sbin/fping
 
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS="2" \
-  LIBRENMS_VERSION="1.61" \
+  LIBRENMS_VERSION="1.62.2" \
   LIBRENMS_PATH="/opt/librenms" \
   LIBRENMS_DOCKER="1" \
   TZ="UTC" \
