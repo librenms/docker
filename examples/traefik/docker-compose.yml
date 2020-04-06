@@ -79,8 +79,6 @@ services:
   smtp:
     image: juanluisbaptiste/postfix
     container_name: librenms_smtp
-    volumes:
-      - "/etc/localtime:/etc/localtime:ro"
     environment:
       - "SERVER_HOSTNAME=librenms.example.com"
       - "SMTP_SERVER=${SMTP_SERVER}"
