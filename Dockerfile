@@ -5,15 +5,15 @@ ARG VCS_REF
 ARG VERSION
 
 LABEL maintainer="CrazyMax" \
-  org.label-schema.build-date=$BUILD_DATE \
-  org.label-schema.name="librenms" \
-  org.label-schema.description="LibreNMS" \
-  org.label-schema.version=$VERSION \
-  org.label-schema.url="https://github.com/librenms/docker" \
-  org.label-schema.vcs-ref=$VCS_REF \
-  org.label-schema.vcs-url="https://github.com/librenms/docker" \
-  org.label-schema.vendor="LibreNMS" \
-  org.label-schema.schema-version="1.0"
+  org.opencontainers.image.created=$BUILD_DATE \
+  org.opencontainers.image.url="https://github.com/librenms/docker" \
+  org.opencontainers.image.source="https://github.com/librenms/docker" \
+  org.opencontainers.image.version=$VERSION \
+  org.opencontainers.image.revision=$VCS_REF \
+  org.opencontainers.image.vendor="CrazyMax" \
+  org.opencontainers.image.title="LibreNMS" \
+  org.opencontainers.image.description="LibreNMS" \
+  org.opencontainers.image.licenses="MIT"
 
 RUN apk --update --no-cache add \
     busybox-extras \
