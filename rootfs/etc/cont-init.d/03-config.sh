@@ -85,6 +85,7 @@ sed -i -e "s/RANDOMSTRINGGOESHERE/${LIBRENMS_SNMP_COMMUNITY}/" /etc/snmp/snmpd.c
 # Init files and folders
 echo "Initializing LibreNMS files / folders..."
 mkdir -p /data/config /data/logs /data/monitoring-plugins /data/rrd
+touch /data/logs/librenms.log
 rm -rf ${LIBRENMS_PATH}/logs
 rm -f ${LIBRENMS_PATH}/config.d/*
 

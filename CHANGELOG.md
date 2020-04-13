@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.62.2-RC2 (2020/04/13)
+
+* Fix log file permissions (#66)
+
 ## 1.62.2-RC1 (2020/04/04)
 
 * LibreNMS 1.62.2
