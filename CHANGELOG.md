@@ -3,6 +3,7 @@
 ## 1.62.2-RC2 (2020/04/13)
 
 * Fix log file permissions (#66)
+* Switch to Open Container Specification labels as label-schema.org ones are deprecated
 
 ## 1.62.2-RC1 (2020/04/04)
 
