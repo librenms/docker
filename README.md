@@ -5,7 +5,6 @@
   <a href="https://github.com/librenms/docker/actions"><img src="https://github.com/librenms/docker/workflows/build/badge.svg" alt="Build Status"></a>
   <a href="https://hub.docker.com/r/librenms/librenms/"><img src="https://img.shields.io/docker/stars/librenms/librenms.svg?style=flat-square" alt="Docker Stars"></a>
   <a href="https://hub.docker.com/r/librenms/librenms/"><img src="https://img.shields.io/docker/pulls/librenms/librenms.svg?style=flat-square" alt="Docker Pulls"></a>
-  <a href="https://quay.io/repository/librenms/librenms"><img src="https://quay.io/repository/librenms/librenms/status?style=flat-square" alt="Docker Repository on Quay"></a>
   <br /><a href="https://github.com/sponsors/crazy-max"><img src="https://img.shields.io/badge/sponsor-crazy--max-181717.svg?logo=github&style=flat-square" alt="Become a sponsor"></a>
   <a href="https://www.paypal.me/crazyws"><img src="https://img.shields.io/badge/donate-paypal-00457c.svg?logo=paypal&style=flat-square" alt="Donate Paypal"></a>
 </p>
@@ -20,19 +19,17 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 ## Features
 
 * Run as non-root user
-* Cron tasks as a ["sidecar" container](doc/notes/crons.md)
-* Syslog-ng support through a ["sidecar" container](doc/notes/syslog-ng.md)
+* [Dispatcher service](doc/docker/environment-variables.md#dispatcher-service-under-test) or legacy [cron jobs](doc/docker/environment-variables.md#cron) as "sidecar" containers
+* Syslog-ng support through a ["sidecar" container](doc/docker/environment-variables.md#syslog-ng)
 * Ability to configure [distributed polling](https://docs.librenms.org/Extensions/Distributed-Poller/)
 * Ability to add custom Monitoring plugins (Nagios)
 * OPCache enabled to store precompiled script bytecode in shared memory
 * [s6-overlay](https://github.com/just-containers/s6-overlay/) as process supervisor
 * [Traefik](https://github.com/containous/traefik-library-image) as reverse proxy and creation/renewal of Let's Encrypt certificates (see [this template](examples/traefik))
 * [Memcached](https://github.com/docker-library/memcached) image ready to use for better scalability
-* [RRDcached](https://github.com/crazy-max/docker-rrdcached) image ready to use for better scalability
+* [RRDcached](https://github.com/crazy-max/docker-rrdcached) image ready to use for data caching and graphs
 * [Postfix SMTP relay](https://github.com/juanluisbaptiste/docker-postfix) image to send emails
 * [MariaDB](https://github.com/docker-library/mariadb) image as database instance
-* Cron jobs as a ["sidecar" container](doc/docker/environment-variables.md#cron)
-* Syslog-ng support through a ["sidecar" container](doc/docker/environment-variables.md#syslog-ng)
 
 ## Documentation
 
@@ -46,6 +43,7 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
   * [Add user](doc/notes/add-user.md)
   * [Validate](doc/notes/validate.md)
   * [Update database](doc/notes/update-database.md)
+  * [Dispatcher service](doc/notes/dispatcher-service.md)
   * [Crons](doc/notes/crons.md)
   * [Syslog-ng](doc/notes/syslog-ng.md)
   * [Additional Monitoring plugins (Nagios)](doc/notes/additional-monitoring-plugins.md)

@@ -1,0 +1,149 @@
+version: "3.5"
+
+services:
+  db:
+    image: mariadb:10.2
+    container_name: librenms_db
+    command:
+      - "mysqld"
+      - "--sql-mode="
+      - "--innodb-file-per-table=1"
+      - "--lower-case-table-names=0"
+      - "--character-set-server=utf8"
+      - "--collation-server=utf8_unicode_ci"
+    volumes:
+      - "./db:/var/lib/mysql"
+    environment:
+      - "TZ=${TZ}"
+      - "MYSQL_ALLOW_EMPTY_PASSWORD=yes"
+      - "MYSQL_DATABASE=${MYSQL_DATABASE}"
+      - "MYSQL_USER=${MYSQL_USER}"
+      - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+    restart: always
+
+  memcached:
+    image: memcached:alpine
+    container_name: librenms_memcached
+    environment:
+      - "TZ=${TZ}"
+    restart: always
+
+  redis:
+    image: redis:5.0-alpine
+    container_name: librenms_redis
+    environment:
+      - "TZ=${TZ}"
+    restart: always
+
+  rrdcached:
+    image: crazymax/rrdcached
+    container_name: librenms_rrdcached
+    volumes:
+      - "./librenms/rrd:/data/db"
+      - "./rrd-journal:/data/journal"
+    environment:
+      - "TZ=${TZ}"
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "LOG_LEVEL=LOG_INFO"
+      - "WRITE_TIMEOUT=1800"
+      - "WRITE_JITTER=1800"
+      - "WRITE_THREADS=4"
+      - "FLUSH_DEAD_DATA_INTERVAL=3600"
+    restart: always
+
+  smtp:
+    image: juanluisbaptiste/postfix
+    container_name: librenms_smtp
+    environment:
+      - "SERVER_HOSTNAME=librenms.example.com"
+      - "SMTP_SERVER=${SMTP_SERVER}"
+      - "SMTP_USERNAME=${SMTP_USERNAME}"
+      - "SMTP_PASSWORD=${SMTP_PASSWORD}"
+    restart: always
+
+  librenms:
+    image: librenms/librenms:latest
+    container_name: librenms
+    domainname: example.com
+    hostname: librenms
+    ports:
+      - target: 8000
+        published: 8000
+        protocol: tcp
+    depends_on:
+      - db
+      - memcached
+      - rrdcached
+      - smtp
+    volumes:
+      - "./librenms:/data"
+    environment:
+      - "TZ=${TZ}"
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "DB_HOST=db"
+      - "DB_NAME=${MYSQL_DATABASE}"
+      - "DB_USER=${MYSQL_USER}"
+      - "DB_PASSWORD=${MYSQL_PASSWORD}"
+      - "DB_TIMEOUT=60"
+    env_file:
+      - "./librenms.env"
+    restart: always
+
+  dispatcher:
+    image: librenms/librenms:latest
+    container_name: librenms_dispatcher
+    domainname: example.com
+    hostname: librenms
+    depends_on:
+      - librenms
+      - redis
+    volumes:
+      - "./librenms:/data"
+    environment:
+      - "TZ=${TZ}"
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "DB_HOST=db"
+      - "DB_NAME=${MYSQL_DATABASE}"
+      - "DB_USER=${MYSQL_USER}"
+      - "DB_PASSWORD=${MYSQL_PASSWORD}"
+      - "DB_TIMEOUT=60"
+      - "REDIS_HOST=redis"
+      - "REDIS_PORT=6379"
+      - "REDIS_DB=0"
+      - "SIDECAR_DISPATCHER=1"
+    env_file:
+      - "./librenms.env"
+    restart: always
+
+  syslog-ng:
+    image: librenms/librenms:latest
+    container_name: librenms_syslog
+    domainname: example.com
+    hostname: librenms
+    depends_on:
+      - librenms
+    ports:
+      - target: 514
+        published: 514
+        protocol: tcp
+      - target: 514
+        published: 514
+        protocol: udp
+    volumes:
+      - "./librenms:/data"
+    environment:
+      - "TZ=${TZ}"
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "DB_HOST=db"
+      - "DB_NAME=${MYSQL_DATABASE}"
+      - "DB_USER=${MYSQL_USER}"
+      - "DB_PASSWORD=${MYSQL_PASSWORD}"
+      - "DB_TIMEOUT=60"
+      - "SIDECAR_SYSLOGNG=1"
+    env_file:
+      - "./librenms.env"
+    restart: always
