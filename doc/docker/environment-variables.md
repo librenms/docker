@@ -12,7 +12,7 @@
 * `REAL_IP_HEADER`: Request header field whose value will be used to replace the client address (default `X-Forwarded-For`)
 * `LOG_IP_VAR`: Use another variable to retrieve the remote IP address for access [log_format](http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) on Nginx. (default `remote_addr`)
 
-### Dispatcher service (Under test)
+### Dispatcher service
 
 > :warning: Only used if you enable and run a [sidecar dispatcher container](../notes/crons.md)
 
