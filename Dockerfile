@@ -1,4 +1,4 @@
-FROM alpine:3.10
+FROM alpine:3.11
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -65,7 +65,6 @@ RUN apk --update --no-cache add \
     php7-tokenizer \
     php7-xml \
     php7-zip \
-    py-mysqldb \
     python \
     py2-pip \
     python3 \

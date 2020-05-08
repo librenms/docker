@@ -4,6 +4,7 @@
 
 * LibreNMS 1.63
 * Add `LISTEN_IPV6` env var (#71)
+* Alpine Linux 3.11
 
 ## 1.62.2-RC2 (2020/04/13)
 
