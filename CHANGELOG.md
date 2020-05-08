@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.63-RC2 (2020/05/08)
+
+* Fix poller-wrapper
+
 ## 1.63-RC1 (2020/05/08)
 
 * LibreNMS 1.63
