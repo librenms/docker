@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://hub.docker.com/r/librenms/librenms/tags?page=1&ordering=last_updated"><img src="https://img.shields.io/github/v/tag/librenms/docker?label=version&style=flat-square" alt="Latest Version"></a>
-  <a href="https://github.com/librenms/docker/actions"><img src="https://github.com/librenms/docker/workflows/build/badge.svg" alt="Build Status"></a>
+  <a href="https://github.com/librenms/docker/actions?workflow=build"><img src="https://img.shields.io/github/workflow/status/librenms/docker/build?label=build&logo=github&style=flat-square" alt="Build Status"></a>
   <a href="https://hub.docker.com/r/librenms/librenms/"><img src="https://img.shields.io/docker/stars/librenms/librenms.svg?style=flat-square" alt="Docker Stars"></a>
   <a href="https://hub.docker.com/r/librenms/librenms/"><img src="https://img.shields.io/docker/pulls/librenms/librenms.svg?style=flat-square" alt="Docker Pulls"></a>
   <a href="https://quay.io/repository/librenms/librenms"><img src="https://quay.io/repository/librenms/librenms/status?style=flat-square" alt="Docker Repository on Quay"></a>
