@@ -28,13 +28,6 @@ services:
       - "TZ=${TZ}"
     restart: always
 
-  redis:
-    image: redis:5.0-alpine
-    container_name: librenms_redis
-    environment:
-      - "TZ=${TZ}"
-    restart: always
-
   rrdcached:
     image: crazymax/rrdcached
     container_name: librenms_rrdcached
@@ -91,14 +84,13 @@ services:
       - "./librenms.env"
     restart: always
 
-  dispatcher:
+  cron:
     image: librenms/librenms:latest
-    container_name: librenms_dispatcher
+    container_name: librenms_cron
     domainname: example.com
     hostname: librenms
     depends_on:
       - librenms
-      - redis
     volumes:
       - "./librenms:/data"
     environment:
@@ -110,10 +102,7 @@ services:
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
-      - "REDIS_HOST=redis"
-      - "REDIS_PORT=6379"
-      - "REDIS_DB=0"
-      - "SIDECAR_DISPATCHER=1"
+      - "SIDECAR_CRON=1"
     env_file:
       - "./librenms.env"
     restart: always

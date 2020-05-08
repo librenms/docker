@@ -1,6 +1,6 @@
-## Crons
+## Crons (legacy)
 
-If you want to enable the cronjob, you have to run a "sidecar" container (see cron service in [docker-compose.yml](../../examples/compose/docker-compose.yml) example) or run a simple container like this :
+If you want to enable the old crons, you have to run a "sidecar" container (see cron service in [docker-compose.yml](../../examples/compose-legacy/docker-compose.yml) example) or run a simple container like this :
 
 ```bash
 docker run -d --name librenms_cron \
