@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.63-RC1 (2020/05/08)
+
+* LibreNMS 1.63
+* Add `LISTEN_IPV6` env var (#71)
+
 ## 1.62.2-RC2 (2020/04/13)
 
 * Fix log file permissions (#66)
