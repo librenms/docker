@@ -12,3 +12,5 @@ docker run -d --name librenms_cron \
 
 > `-v librenms:/data`<br />
 > :warning: `librenms` must be a valid volume already attached to a LibreNMS container
+
+> :no_entry: Can't be used with [sidecar dispatcher container](crons.md).

@@ -47,9 +47,6 @@ DB_NAME=${DB_NAME:-librenms}
 DB_USER=${DB_USER:-librenms}
 DB_TIMEOUT=${DB_TIMEOUT:-30}
 
-SIDECAR_CRON=${SIDECAR_CRON:-0}
-SIDECAR_SYSLOGNG=${SIDECAR_SYSLOGNG:-0}
-
 # Timezone
 echo "Setting timezone to ${TZ}..."
 ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime
