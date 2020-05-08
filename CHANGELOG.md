@@ -3,6 +3,7 @@
 ## 1.63-RC1 (2020/05/08)
 
 * LibreNMS 1.63
+* Add sidecar dispatcher container (#70)
 * Add `LISTEN_IPV6` env var (#71)
 * Alpine Linux 3.11
 
