@@ -1,4 +1,4 @@
-## Crons (legacy)
+## Cron (legacy)
 
 If you want to enable the old crons, you have to run a "sidecar" container (see cron service in [docker-compose.yml](../../examples/compose-legacy/docker-compose.yml) example) or run a simple container like this :
 
@@ -13,4 +13,4 @@ docker run -d --name librenms_cron \
 > `-v librenms:/data`<br />
 > :warning: `librenms` must be a valid volume already attached to a LibreNMS container
 
-> :no_entry: Can't be used with [sidecar dispatcher container](crons.md).
+> :no_entry: Can't be used with [sidecar dispatcher container](dispatcher-service.md).

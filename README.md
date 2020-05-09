@@ -19,7 +19,7 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 ## Features
 
 * Run as non-root user
-* [Dispatcher service](doc/docker/environment-variables.md#dispatcher-service-under-test) or legacy [cron jobs](doc/docker/environment-variables.md#cron) as "sidecar" containers
+* [Dispatcher service](doc/docker/environment-variables.md#dispatcher-service) or legacy [cron](doc/docker/environment-variables.md#cron-legacy) as "sidecar" containers
 * Syslog-ng support through a ["sidecar" container](doc/docker/environment-variables.md#syslog-ng)
 * Ability to configure [distributed polling](https://docs.librenms.org/Extensions/Distributed-Poller/)
 * Ability to add custom Monitoring plugins (Nagios)
@@ -44,7 +44,7 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
   * [Validate](doc/notes/validate.md)
   * [Update database](doc/notes/update-database.md)
   * [Dispatcher service](doc/notes/dispatcher-service.md)
-  * [Crons](doc/notes/crons.md)
+  * [Cron (legacy)](doc/notes/cron.md)
   * [Syslog-ng](doc/notes/syslog-ng.md)
   * [Additional Monitoring plugins (Nagios)](doc/notes/additional-monitoring-plugins.md)
 * [Upgrade](doc/upgrade.md)

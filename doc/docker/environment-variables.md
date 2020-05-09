@@ -15,7 +15,7 @@
 
 ### Dispatcher service
 
-> :warning: Only used if you enable and run a [sidecar dispatcher container](../notes/crons.md)
+> :warning: Only used if you enable and run a [sidecar dispatcher container](../notes/dispatcher-service.md)
 
 * `SIDECAR_DISPATCHER`: Set to `1` to enable sidecar dispatcher mode for this container (default `0`)
 * `LIBRENMS_SERVICE_POLLER_WORKERS`: Processes spawned for polling (default `24`)
@@ -36,9 +36,9 @@
 * `REDIS_PASSWORD`: Redis password
 * `REDIS_DB`: Redis database (default `0`)
 
-### Cron
+### Cron (legacy)
 
-> :warning: Only used if you enable and run a [sidecar cron container](../notes/crons.md)
+> :warning: Only used if you enable and run a [sidecar cron container](../notes/cron.md)
 
 * `SIDECAR_CRON`: Set to `1` to enable sidecar cron mode for this container (default `0`)
 * `LIBRENMS_CRON_DISCOVERY_ENABLE`: Enable LibreNMS discovery for this container cronjobs (default `true`)
