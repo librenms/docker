@@ -78,6 +78,8 @@ services:
       - smtp
     volumes:
       - "./librenms:/data"
+    env_file:
+      - "./librenms.env"
     environment:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
@@ -87,8 +89,6 @@ services:
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
-    env_file:
-      - "./librenms.env"
     restart: always
 
   dispatcher:
@@ -101,6 +101,8 @@ services:
       - redis
     volumes:
       - "./librenms:/data"
+    env_file:
+      - "./librenms.env"
     environment:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
@@ -114,8 +116,6 @@ services:
       - "REDIS_PORT=6379"
       - "REDIS_DB=0"
       - "SIDECAR_DISPATCHER=1"
-    env_file:
-      - "./librenms.env"
     restart: always
 
   syslog-ng:
@@ -134,6 +134,8 @@ services:
         protocol: udp
     volumes:
       - "./librenms:/data"
+    env_file:
+      - "./librenms.env"
     environment:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
@@ -144,6 +146,4 @@ services:
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
       - "SIDECAR_SYSLOGNG=1"
-    env_file:
-      - "./librenms.env"
     restart: always

@@ -59,6 +59,13 @@ services:
       - "TZ=${TZ}"
     restart: always
 
+  redis:
+    image: redis:5.0-alpine
+    container_name: librenms_redis
+    environment:
+      - "TZ=${TZ}"
+    restart: always
+
   rrdcached:
     image: crazymax/rrdcached
     container_name: librenms_rrdcached
@@ -103,6 +110,8 @@ services:
       - "traefik.backend=librenms"
       - "traefik.port=8000"
       - "traefik.frontend.rule=Host:librenms.example.com"
+    env_file:
+      - "./librenms.env"
     environment:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
@@ -112,19 +121,20 @@ services:
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
-    env_file:
-      - "./librenms.env"
     restart: always
 
-  cron:
+  dispatcher:
     image: librenms/librenms:latest
-    container_name: librenms_cron
+    container_name: librenms_dispatcher
     domainname: example.com
     hostname: librenms
     depends_on:
       - librenms
+      - redis
     volumes:
       - "./librenms:/data"
+    env_file:
+      - "./librenms.env"
     environment:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
@@ -134,9 +144,10 @@ services:
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
-      - "SIDECAR_CRON=1"
-    env_file:
-      - "./librenms.env"
+      - "REDIS_HOST=redis"
+      - "REDIS_PORT=6379"
+      - "REDIS_DB=0"
+      - "SIDECAR_DISPATCHER=1"
     restart: always
 
   syslog-ng:
@@ -155,6 +166,8 @@ services:
         protocol: udp
     volumes:
       - "./librenms:/data"
+    env_file:
+      - "./librenms.env"
     environment:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
@@ -165,6 +178,4 @@ services:
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
       - "SIDECAR_SYSLOGNG=1"
-    env_file:
-      - "./librenms.env"
     restart: always

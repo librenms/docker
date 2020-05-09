@@ -71,6 +71,8 @@ services:
       - smtp
     volumes:
       - "./librenms:/data"
+    env_file:
+      - "./librenms.env"
     environment:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
@@ -80,8 +82,6 @@ services:
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
-    env_file:
-      - "./librenms.env"
     restart: always
 
   cron:
@@ -93,6 +93,8 @@ services:
       - librenms
     volumes:
       - "./librenms:/data"
+    env_file:
+      - "./librenms.env"
     environment:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
@@ -103,8 +105,6 @@ services:
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
       - "SIDECAR_CRON=1"
-    env_file:
-      - "./librenms.env"
     restart: always
 
   syslog-ng:
@@ -123,6 +123,8 @@ services:
         protocol: udp
     volumes:
       - "./librenms:/data"
+    env_file:
+      - "./librenms.env"
     environment:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
@@ -133,6 +135,4 @@ services:
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
       - "SIDECAR_SYSLOGNG=1"
-    env_file:
-      - "./librenms.env"
     restart: always
