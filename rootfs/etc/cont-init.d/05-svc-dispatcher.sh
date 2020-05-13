@@ -107,6 +107,7 @@ mkdir -p /etc/services.d/dispatcher
 cat > /etc/services.d/dispatcher/run <<EOL
 #!/usr/bin/execlineb -P
 with-contenv
+s6-setuidgid ${PUID}:${PGID}
 /opt/librenms/librenms-service.py -v
 EOL
 chmod +x /etc/services.d/dispatcher/run
