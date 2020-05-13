@@ -27,9 +27,9 @@ if [ "$SIDECAR_CRON" != "1" ]; then
   exit 0
 fi
 
-echo ">>"
-echo ">> Sidecar cron container detected"
-echo ">>"
+echo ">>> WARNING: Sidecar cron container is deprecated and will be removed soon."
+echo ">>> Please switch to the dispatcher service."
+echo ">>> https://github.com/librenms/docker/blob/master/doc/notes/dispatcher-service.md"
 
 rm -rf ${CRONTAB_PATH}
 mkdir -m 0644 -p ${CRONTAB_PATH}
