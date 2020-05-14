@@ -16,6 +16,10 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 
 💡 Want to be notified of new releases? Check out 🔔 [Diun (Docker Image Update Notifier)](https://github.com/crazy-max/diun) project!
 
+## Demo
+
+[![Try in PWD](https://raw.githubusercontent.com/play-with-docker/stacks/master/assets/images/button.png)](https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/librenms/docker/master/examples/pwd/librenms.yml)
+
 ## Features
 
 * Run as non-root user

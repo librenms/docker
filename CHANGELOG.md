@@ -3,7 +3,7 @@
 ## 1.63-RC3 (2020/05/13)
 
 * Run librenms-service as librenms user (#76)
-* Mark sidecar cron container as deprectated
+* Mark sidecar cron container as deprecated
 
 ## 1.63-RC2 (2020/05/08)
 

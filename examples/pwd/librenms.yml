@@ -1,0 +1,137 @@
+version: "3.5"
+
+x-env-global: &env-global
+  - &MYSQL_DATABASE "librenms"
+  - &MYSQL_USER "librenms"
+  - &MYSQL_PASSWORD "asupersecretpassword"
+  - &TZ "UTC"
+  - &PUID "1000"
+  - &PGID "1000"
+
+x-envlibrenms: &envlibrenms
+  MEMORY_LIMIT: "256M"
+  UPLOAD_MAX_SIZE: "16M"
+  OPCACHE_MEM_SIZE: "128"
+  REAL_IP_FROM: "0.0.0.0/32"
+  REAL_IP_HEADER: "X-Forwarded-For"
+  LOG_IP_VAR: "remote_addr"
+  LIBRENMS_SNMP_COMMUNITY: "librenmsdocker"
+  MEMCACHED_HOST: "memcached"
+  MEMCACHED_PORT: "11211"
+  RRDCACHED_HOST: "rrdcached"
+  RRDCACHED_PORT: "42217"
+  LIBRENMS_SERVICE_POLLER_WORKERS: "24"
+  LIBRENMS_SERVICE_SERVICES_WORKERS: "8"
+  LIBRENMS_SERVICE_DISCOVERY_WORKERS: "16"
+  LIBRENMS_SERVICE_POLLER_FREQUENCY: "300"
+  LIBRENMS_SERVICE_SERVICES_FREQUENCY: "300"
+  LIBRENMS_SERVICE_DISCOVERY_FREQUENCY: "21600"
+  LIBRENMS_SERVICE_BILLING_FREQUENCY: "300"
+  LIBRENMS_SERVICE_BILLING_CALCULATE_FREQUENCY: "60"
+  LIBRENMS_SERVICE_POLLER_DOWN_RETRY: "60"
+  LIBRENMS_SERVICE_LOGLEVEL: "INFO"
+  LIBRENMS_SERVICE_UPDATE_FREQUENCY: "86400"
+  LIBRENMS_SERVICE_PING_ENABLED: "false"
+  LIBRENMS_SERVICE_WATCHDOG_ENABLED: "false"
+
+services:
+  db:
+    image: mariadb:10.2
+    command:
+      - "mysqld"
+      - "--sql-mode="
+      - "--innodb-file-per-table=1"
+      - "--lower-case-table-names=0"
+      - "--character-set-server=utf8"
+      - "--collation-server=utf8_unicode_ci"
+    volumes:
+      - "db:/var/lib/mysql"
+    environment:
+      TZ: *TZ
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: *MYSQL_DATABASE
+      MYSQL_USER: *MYSQL_USER
+      MYSQL_PASSWORD: *MYSQL_PASSWORD
+    restart: always
+
+  memcached:
+    image: memcached:alpine
+    environment:
+      TZ: *TZ
+    restart: always
+
+  redis:
+    image: redis:5.0-alpine
+    environment:
+      TZ: *TZ
+    restart: always
+
+  rrdcached:
+    image: crazymax/rrdcached
+    volumes:
+      - "librenms:/data"
+      - "rrd-db:/data/db"
+      - "rrd-journal:/data/journal"
+    environment:
+      TZ: *TZ
+      PUID: *PUID
+      PGID: *PGID
+      LOG_LEVEL: "LOG_INFO"
+      WRITE_TIMEOUT: "1800"
+      WRITE_JITTER: "1800"
+      WRITE_THREADS: "4"
+      FLUSH_DEAD_DATA_INTERVAL: "3600"
+    restart: always
+
+  librenms:
+    image: librenms/librenms:latest
+    hostname: librenms
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - memcached
+      - rrdcached
+    volumes:
+      - "librenms:/data"
+    environment:
+      <<: *envlibrenms
+      TZ: *TZ
+      PUID: *PUID
+      PGID: *PGID
+      DB_HOST: "db"
+      DB_NAME: *MYSQL_DATABASE
+      DB_USER: *MYSQL_USER
+      DB_PASSWORD: *MYSQL_PASSWORD
+      DB_TIMEOUT: "60"
+    restart: always
+
+  dispatcher:
+    image: librenms/librenms:latest
+    hostname: librenms
+    depends_on:
+      - librenms
+      - redis
+    volumes:
+      - "librenms:/data"
+    environment:
+      <<: *envlibrenms
+      TZ: *TZ
+      PUID: *PUID
+      PGID: *PGID
+      DB_HOST: "db"
+      DB_NAME: *MYSQL_DATABASE
+      DB_USER: *MYSQL_USER
+      DB_PASSWORD: *MYSQL_PASSWORD
+      DB_TIMEOUT: "60"
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_DB: "0"
+      SIDECAR_DISPATCHER: "1"
+    restart: always
+
+volumes:
+  db:
+  rrd-db:
+  rrd-journal:
+  librenms:
