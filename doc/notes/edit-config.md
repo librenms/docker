@@ -1,6 +1,6 @@
 ## Edit configuration
 
-You can edit configuration of LibreNMS by placing `*.php` files inside `/data/config` folder. Let's say you want to edit the [WebUI config](https://docs.librenms.org/#Support/Configuration/#webui-settings). Create a file called for example `/data/config/webui.php` with this content :
+You can edit configuration of LibreNMS by placing `*.php` files inside `/data/config` folder. Let's say you want to edit the [WebUI config](https://docs.librenms.org/Support/Configuration/#webui-settings). Create a file called for example `/data/config/webui.php` with this content :
 
 ```php
 <?php
