@@ -130,6 +130,26 @@ services:
       SIDECAR_DISPATCHER: "1"
     restart: always
 
+  syslogng:
+    image: librenms/librenms:latest
+    hostname: librenms
+    depends_on:
+      - librenms
+    volumes:
+      - "librenms:/data"
+    environment:
+      <<: *envlibrenms
+      TZ: *TZ
+      PUID: *PUID
+      PGID: *PGID
+      DB_HOST: "db"
+      DB_NAME: *MYSQL_DATABASE
+      DB_USER: *MYSQL_USER
+      DB_PASSWORD: *MYSQL_PASSWORD
+      DB_TIMEOUT: "60"
+      SIDECAR_SYSLOGNG: "1"
+    restart: always
+
 volumes:
   db:
   rrd-db:
