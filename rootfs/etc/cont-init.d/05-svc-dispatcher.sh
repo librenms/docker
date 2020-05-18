@@ -80,7 +80,6 @@ while ! ${dbcmd} -e "show databases;" > /dev/null 2>&1; do
   fi;
 done
 echo "Database ready!"
-counttables=$(echo 'SHOW TABLES' | ${dbcmd} "$DB_DATABASE" | wc -l)
 
 # Configuration
 cat > ${LIBRENMS_PATH}/config.d/dispatcher.php <<EOL
