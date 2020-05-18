@@ -15,6 +15,8 @@ LABEL maintainer="CrazyMax" \
   org.opencontainers.image.description="LibreNMS" \
   org.opencontainers.image.licenses="MIT"
 
+ENV SYSLOGNG_VERSION="3.22.1-r2"
+
 RUN apk --update --no-cache add \
     busybox-extras \
     acl \
@@ -72,7 +74,7 @@ RUN apk --update --no-cache add \
     runit \
     shadow \
     su-exec \
-    syslog-ng \
+    syslog-ng=${SYSLOGNG_VERSION} \
     ttf-dejavu \
     tzdata  \
     util-linux \
