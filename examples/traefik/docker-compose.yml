@@ -83,14 +83,11 @@ services:
       - "FLUSH_DEAD_DATA_INTERVAL=3600"
     restart: always
 
-  smtp:
-    image: juanluisbaptiste/postfix
-    container_name: librenms_smtp
-    environment:
-      - "SERVER_HOSTNAME=librenms.example.com"
-      - "SMTP_SERVER=${SMTP_SERVER}"
-      - "SMTP_USERNAME=${SMTP_USERNAME}"
-      - "SMTP_PASSWORD=${SMTP_PASSWORD}"
+  msmtpd:
+    image: crazymax/msmtpd:latest
+    container_name: librenms_msmtpd
+    env_file:
+      - "./msmtpd.env"
     restart: always
 
   librenms:
