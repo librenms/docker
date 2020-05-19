@@ -72,7 +72,7 @@ services:
       - db
       - memcached
       - rrdcached
-      - smtp
+      - msmtpd
     volumes:
       - "./librenms:/data"
     env_file:
