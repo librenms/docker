@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.63-RC4 (2020/05/21)
+
+* Add LibreNMS Weathermap plugin (#81)
+* Fix syslogng version
+* Switch to [msmtpd SMTP relay](https://github.com/crazy-max/docker-msmtpd) Docker image
+
 ## 1.63-RC3 (2020/05/13)
 
 * Run librenms-service as librenms user (#76)
