@@ -26,6 +26,7 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 * [Dispatcher service](doc/docker/environment-variables.md#dispatcher-service) or legacy [cron](doc/docker/environment-variables.md#cron-legacy) as "sidecar" containers
 * Syslog-ng support through a ["sidecar" container](doc/docker/environment-variables.md#syslog-ng)
 * Ability to configure [distributed polling](https://docs.librenms.org/Extensions/Distributed-Poller/)
+* Built-in LibreNMS [Weathermap plugin](https://docs.librenms.org/Extensions/Weathermap/)
 * Ability to add custom Monitoring plugins (Nagios)
 * OPCache enabled to store precompiled script bytecode in shared memory
 * [s6-overlay](https://github.com/just-containers/s6-overlay/) as process supervisor
