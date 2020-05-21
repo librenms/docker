@@ -27,13 +27,12 @@ RUN apk --update --no-cache add \
     coreutils \
     curl \
     fping \
-    git \
     graphviz \
     imagemagick \
     ipmitool \
+    mariadb-client \
     monitoring-plugins \
     mtr \
-    mysql-client \
     net-snmp \
     net-snmp-tools \
     nginx \
@@ -105,7 +104,9 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS="2" \
   PUID="1000" \
   PGID="1000"
 
-RUN mkdir -p /opt \
+RUN apk --update --no-cache add -t build-dependencies \
+    git \
+  && mkdir -p /opt \
   && curl -sSL https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
   && git clone --branch ${LIBRENMS_VERSION} https://github.com/librenms/librenms.git ${LIBRENMS_PATH} \
   && COMPOSER_CACHE_DIR="/tmp" composer install --no-dev --no-interaction --no-ansi --working-dir=${LIBRENMS_PATH} \
@@ -118,8 +119,15 @@ RUN mkdir -p /opt \
   && echo "foreach (glob(\"/data/config/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
   && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
   && pip3 install -r ${LIBRENMS_PATH}/requirements.txt \
+  && git clone https://github.com/librenms-plugins/Weathermap.git ${LIBRENMS_PATH}/html/plugins/Weathermap \
   && chown -R nobody.nogroup ${LIBRENMS_PATH} \
-  && rm -rf ${LIBRENMS_PATH}/.git /tmp/*
+  && apk del build-dependencies \
+  && rm -rf /var/cache/apk/* \
+    ${LIBRENMS_PATH}/.git \
+    ${LIBRENMS_PATH}/html/plugins/Test \
+    ${LIBRENMS_PATH}/html/plugins/Weathermap/.git \
+    ${LIBRENMS_PATH}/html/plugins/Weathermap/configs \
+    /tmp/*
 
 COPY rootfs /
 
