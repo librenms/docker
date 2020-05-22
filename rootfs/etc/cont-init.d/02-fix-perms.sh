@@ -6,7 +6,8 @@ mkdir -p /data \
   /var/run/php-fpm
 chown librenms. \
   /data \
-  "${LIBRENMS_PATH}"
+  "${LIBRENMS_PATH}" \
+  "${LIBRENMS_PATH}/html/plugins/Weathermap/output"
 chown -R librenms. \
   /tpls \
   /var/lib/nginx \
