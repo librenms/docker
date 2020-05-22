@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.63-RC5 (2020/05/22)
+
+* Add missing dep and perms for Weathermap plugin (#82)
+
 ## 1.63-RC4 (2020/05/21)
 
 * Add LibreNMS Weathermap plugin (#81)
