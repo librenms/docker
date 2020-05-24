@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.63-RC6 (2020/05/24)
+
+* Bring back Git package
+
 ## 1.63-RC5 (2020/05/22)
 
 * Add missing dep and perms for Weathermap plugin (#82)

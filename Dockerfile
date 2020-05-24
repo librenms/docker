@@ -27,6 +27,7 @@ RUN apk --update --no-cache add \
     coreutils \
     curl \
     fping \
+    git \
     graphviz \
     imagemagick \
     ipmitool \
@@ -105,9 +106,7 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS="2" \
   PUID="1000" \
   PGID="1000"
 
-RUN apk --update --no-cache add -t build-dependencies \
-    git \
-  && mkdir -p /opt \
+RUN mkdir -p /opt \
   && curl -sSL https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
   && git clone --branch ${LIBRENMS_VERSION} https://github.com/librenms/librenms.git ${LIBRENMS_PATH} \
   && COMPOSER_CACHE_DIR="/tmp" composer install --no-dev --no-interaction --no-ansi --working-dir=${LIBRENMS_PATH} \
@@ -122,9 +121,7 @@ RUN apk --update --no-cache add -t build-dependencies \
   && pip3 install -r ${LIBRENMS_PATH}/requirements.txt \
   && git clone https://github.com/librenms-plugins/Weathermap.git ${LIBRENMS_PATH}/html/plugins/Weathermap \
   && chown -R nobody.nogroup ${LIBRENMS_PATH} \
-  && apk del build-dependencies \
-  && rm -rf /var/cache/apk/* \
-    ${LIBRENMS_PATH}/.git \
+  && rm -rf ${LIBRENMS_PATH}/.git \
     ${LIBRENMS_PATH}/html/plugins/Test \
     ${LIBRENMS_PATH}/html/plugins/Weathermap/.git \
     ${LIBRENMS_PATH}/html/plugins/Weathermap/configs \
