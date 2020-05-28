@@ -59,11 +59,11 @@ echo "Database ready!"
 counttables=$(echo 'SHOW TABLES' | ${dbcmd} "$DB_NAME" | wc -l)
 
 echo "Updating database schema..."
-su-exec librenms:librenms php build-base.php
+lnms migrate --force --no-ansi --no-interaction
 
 if [ "${counttables}" -eq "0" ]; then
   echo "Creating admin user..."
-  su-exec librenms:librenms php adduser.php librenms librenms 10 librenms@librenms.docker
+  lnms user:add --password=librenms --email=librenms@librenms.docker --role=admin --no-ansi --no-interaction librenms
 fi
 
 mkdir -p /etc/services.d/nginx

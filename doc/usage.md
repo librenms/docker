@@ -22,3 +22,13 @@ docker run -d -p 8000:8000 --name librenms \
 
 > `-e "DB_HOST=db"`<br />
 > :warning: `db` must be a running MySQL instance
+
+### First launch
+
+On first launch, an initial administrator user will be created:
+
+| Login      | Password   |
+|------------|------------|
+| `librenms` | `librenms` |
+
+You can create another one using the [`lnms` command](notes/lnms-command.md).

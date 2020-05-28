@@ -1,0 +1,3 @@
+#!/bin/sh
+
+su-exec librenms:librenms php -f /opt/librenms/lnms "$@"

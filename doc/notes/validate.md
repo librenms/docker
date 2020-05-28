@@ -1,6 +1,6 @@
 ### Validate
 
-If you want to validate your installation from the CLI, type the following command :
+If you want to validate your installation from the CLI, type the following command:
 
 ```text
 $ docker-compose exec --user librenms librenms php validate.php

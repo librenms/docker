@@ -45,9 +45,8 @@ It's a fork of [CrazyMax's LibreNMS Docker image repository](https://github.com/
 * [Usage](doc/usage.md)
 * Notes
   * [Edit configuration](doc/notes/edit-config.md)
-  * [Add user](doc/notes/add-user.md)
+  * [LNMS command](doc/notes/lnms-command.md)
   * [Validate](doc/notes/validate.md)
-  * [Update database](doc/notes/update-database.md)
   * [Dispatcher service](doc/notes/dispatcher-service.md)
   * [Cron (legacy)](doc/notes/cron.md)
   * [Syslog-ng](doc/notes/syslog-ng.md)
