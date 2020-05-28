@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.63-RC7 (2020/05/28)
+
+* Use recommended `lnms` command
+* Remove `--sql-mode` and bump Mariadb to 10.4
+
 ## 1.63-RC6 (2020/05/24)
 
 * Bring back Git package
