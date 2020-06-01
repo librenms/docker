@@ -1,11 +1,15 @@
 # Changelog
 
+## 1.64.1-RC1 (2020/06/01)
+
+* LibreNMS 1.64.1
+
 ## 1.64-RC1 (2020/06/01)
 
 * LibreNMS 1.64
 * Python 2 removed (librenms/librenms#11531)
 * Multi-platform image
-* Publish edge and nightly images
+* Publish edge image
 
 ## 1.63-RC7 (2020/05/28)
 
