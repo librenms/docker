@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.64-RC1 (2020/06/01)
+
+* LibreNMS 1.64
+* Python 2 removed (librenms/librenms#11531)
+
 ## 1.63-RC7 (2020/05/28)
 
 * Use recommended `lnms` command
