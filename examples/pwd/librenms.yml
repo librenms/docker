@@ -85,7 +85,7 @@ services:
     restart: always
 
   librenms:
-    image: librenms/librenms:latest
+    image: librenms/librenms:edge
     hostname: librenms
     ports:
       - "8000:8000"
@@ -108,7 +108,7 @@ services:
     restart: always
 
   dispatcher:
-    image: librenms/librenms:latest
+    image: librenms/librenms:edge
     hostname: librenms
     depends_on:
       - librenms
@@ -132,7 +132,7 @@ services:
     restart: always
 
   syslogng:
-    image: librenms/librenms:latest
+    image: librenms/librenms:edge
     hostname: librenms
     depends_on:
       - librenms
