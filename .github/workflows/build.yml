@@ -1,11 +1,22 @@
 name: build
 
+
 on:
-  pull_request:
-    branches: 'master'
+  schedule:
+    - cron: '0 10 * * *' # everyday at 10am
   push:
-    branches: 'master'
+    branches: master
     tags: '*'
+    paths:
+      - '.github/workflows/build.yml'
+      - 'rootfs/**'
+      - 'Dockerfile'
+  pull_request:
+    branches: master
+    paths:
+      - '.github/workflows/build.yml'
+      - 'rootfs/**'
+      - 'Dockerfile'
 
 jobs:
   build:
@@ -18,45 +29,57 @@ jobs:
         name: Prepare
         id: prepare
         run: |
+          DOCKER_USERNAME=librenmsbot
+          DOCKER_IMAGE=librenms/librenms
+          DOCKER_PLATFORMS=linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386,linux/ppc64le
+          VERSION=edge
+
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             TAG=${GITHUB_REF#refs/tags/}
-            echo ::set-output name=tag_name::${TAG}
-            echo ::set-output name=version::${TAG%-*}
-          else
-            echo ::set-output name=version::snapshot
+            VERSION=${TAG%-*}
           fi
-          echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-          echo ::set-output name=docker_username::librenmsbot
-          echo ::set-output name=docker_image::librenms/librenms
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            VERSION=nightly
+          fi
+
+          TAGS="--tag ${DOCKER_IMAGE}:${VERSION}"
+          if [ "$VERSION" != "edge" ] && [ "$VERSION" != "nightly" ]; then
+            TAGS="$TAGS --tag ${DOCKER_IMAGE}:latest"
+          fi
+
+          echo ::set-output name=docker_username::${DOCKER_USERNAME}
+          echo ::set-output name=docker_image::${DOCKER_IMAGE}
+          echo ::set-output name=version::${VERSION}
+          echo ::set-output name=buildx_args::--platform ${DOCKER_PLATFORMS} \
+            --build-arg VERSION=${VERSION} \
+            --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') \
+            --build-arg VCS_REF=${GITHUB_SHA::8} \
+            ${TAGS} --file Dockerfile .
       -
-        name: Docker Build
+        name: Set up Docker Buildx
+        uses: crazy-max/ghaction-docker-buildx@v2
+      -
+        name: Docker Buildx (build)
         run: |
-          docker build \
-            --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
-            --build-arg "VCS_REF=${GITHUB_SHA::8}" \
-            --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
-            --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
-            --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
-            --file Dockerfile .
-      -
-        name: Docker Login
-        if: success() && startsWith(github.ref, 'refs/tags/')
+          docker buildx build --output "type=image,push=false" ${{ steps.prepare.outputs.buildx_args }}
+      - name: Docker Login
+        if: success() && github.event_name != 'pull_request'
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           echo "${DOCKER_PASSWORD}" | docker login --username "${{ steps.prepare.outputs.docker_username }}" --password-stdin
       -
-        name: Docker Push
-        if: success() && startsWith(github.ref, 'refs/tags/')
+        name: Docker Buildx (push)
+        if: success() && github.event_name != 'pull_request'
         run: |
-          docker push ${{ steps.prepare.outputs.docker_image }}
+          docker buildx build --output "type=image,push=true" ${{ steps.prepare.outputs.buildx_args }}
       -
         name: Docker Check Manifest
-        if: always() && startsWith(github.ref, 'refs/tags/')
+        if: success() && github.event_name != 'pull_request'
         run: |
           docker run --rm mplatform/mquery ${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}
       -
         name: Clear
-        if: always() && startsWith(github.ref, 'refs/tags/')
+        if: always() && github.event_name != 'pull_request'
         run: |
           rm -f ${HOME}/.docker/config.json

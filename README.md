@@ -23,6 +23,7 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 ## Features
 
 * Run as non-root user
+* Multi-platform image
 * [Dispatcher service](doc/docker/environment-variables.md#dispatcher-service) or legacy [cron](doc/docker/environment-variables.md#cron-legacy) as "sidecar" containers
 * Syslog-ng support through a ["sidecar" container](doc/docker/environment-variables.md#syslog-ng)
 * Ability to configure [distributed polling](https://docs.librenms.org/Extensions/Distributed-Poller/)
@@ -35,6 +36,23 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 * [RRDcached](https://github.com/crazy-max/docker-rrdcached) image ready to use for data caching and graphs
 * [msmtpd SMTP relay](https://github.com/crazy-max/docker-msmtpd) image to send emails
 * [MariaDB](https://github.com/docker-library/mariadb) image as database instance
+
+## Multi-platform image
+
+Following platforms for this image are available:
+
+```
+$ docker run --rm mplatform/mquery librenms/librenms:latest
+Image: librenms/librenms:latest
+ * Manifest List: Yes
+ * Supported platforms:
+   - linux/amd64
+   - linux/arm/v6
+   - linux/arm/v7
+   - linux/arm64
+   - linux/386
+   - linux/ppc64le
+```
 
 ## Documentation
 

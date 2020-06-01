@@ -1,8 +1,12 @@
-FROM alpine:3.11
+FROM --platform=${TARGETPLATFORM:-linux/amd64} alpine:3.11
 
 ARG BUILD_DATE
 ARG VCS_REF
 ARG VERSION
+
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+RUN printf "I am running on ${BUILDPLATFORM:-linux/amd64}, building for ${TARGETPLATFORM:-linux/amd64}\n$(uname -a)\n"
 
 LABEL maintainer="CrazyMax" \
   org.opencontainers.image.created=$BUILD_DATE \
@@ -82,10 +86,20 @@ RUN apk --update --no-cache add \
     mariadb-dev \
     musl-dev \
     python3-dev \
+  && S6_ARCH=$(case ${TARGETPLATFORM:-linux/amd64} in \
+    "linux/amd64")   echo "amd64"   ;; \
+    "linux/arm/v6")  echo "arm"     ;; \
+    "linux/arm/v7")  echo "armhf"   ;; \
+    "linux/arm64")   echo "aarch64" ;; \
+    "linux/386")     echo "x86"     ;; \
+    "linux/ppc64le") echo "ppc64le" ;; \
+    *)               echo ""        ;; esac) \
+  && echo "S6_ARCH=$S6_ARCH" \
+  && wget -q "https://github.com/just-containers/s6-overlay/releases/latest/download/s6-overlay-${S6_ARCH}.tar.gz" -qO "/tmp/s6-overlay-${S6_ARCH}.tar.gz" \
+  && tar xzf /tmp/s6-overlay-${S6_ARCH}.tar.gz -C / \
+  && s6-echo "s6-overlay installed" \
   && pip3 install --upgrade pip \
   && pip3 install python-memcached mysqlclient --upgrade \
-  && wget -q "https://github.com/just-containers/s6-overlay/releases/latest/download/s6-overlay-amd64.tar.gz" -qO "/tmp/s6-overlay-amd64.tar.gz" \
-  && tar xzf /tmp/s6-overlay-amd64.tar.gz -C / \
   && curl -sSL https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
   && apk del build-dependencies \
   && rm -rf /var/cache/apk/* /var/www/* /tmp/* \
