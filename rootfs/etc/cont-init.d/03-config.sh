@@ -126,6 +126,7 @@ EOL
 cat > ${LIBRENMS_PATH}/config.d/user.php <<EOL
 <?php
 \$config['user'] = "librenms";
+\$config['group'] = "librenms";
 EOL
 
 # Config : Fping
