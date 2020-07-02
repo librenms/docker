@@ -1,4 +1,4 @@
-FROM --platform=${TARGETPLATFORM:-linux/amd64} alpine:3.11
+FROM --platform=${TARGETPLATFORM:-linux/amd64} alpine:3.12
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -71,11 +71,12 @@ RUN apk --update --no-cache add \
     php7-xml \
     php7-zip \
     python3 \
+    py3-pip \
     rrdtool \
     runit \
     shadow \
     su-exec \
-    syslog-ng=3.22.1-r2 \
+    syslog-ng=3.27.1-r0 \
     ttf-dejavu \
     tzdata  \
     util-linux \
