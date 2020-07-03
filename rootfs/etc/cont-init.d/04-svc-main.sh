@@ -34,6 +34,7 @@ SIDECAR_SYSLOGNG=${SIDECAR_SYSLOGNG:-0}
 if [ "$SIDECAR_DISPATCHER" = "1" ] || [ "$SIDECAR_SYSLOGNG" = "1" ]; then
   exit 0
 fi
+echo 0 > "/data/.migrated"
 
 # Handle .env
 if [ ! -f "/data/.env" ]; then
@@ -70,6 +71,7 @@ counttables=$(echo 'SHOW TABLES' | ${dbcmd} "$DB_NAME" | wc -l)
 
 echo "Updating database schema..."
 lnms migrate --force --no-ansi --no-interaction
+echo 1 > "/data/.migrated"
 
 echo "Clear cache"
 artisan cache:clear --no-interaction

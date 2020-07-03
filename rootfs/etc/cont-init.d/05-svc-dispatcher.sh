@@ -64,6 +64,14 @@ while ! ${dbcmd} -e "show databases;" > /dev/null 2>&1; do
     exit 1
   fi;
 done
+while ! grep "1" /data/.migrated > /dev/null 2>&1; do
+  sleep 1
+  counter=$((counter + 1))
+  if [ ${counter} -gt ${DB_TIMEOUT} ]; then
+    >&2 echo "ERROR: Database migration not processed on $DB_HOST"
+    exit 1
+  fi;
+done
 echo "Database ready!"
 while ! ${dbcmd} -e "desc $DB_DATABASE.poller_cluster;" > /dev/null 2>&1; do
   sleep 1
