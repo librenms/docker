@@ -24,7 +24,7 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 
 * Run as non-root user
 * Multi-platform image
-* [Dispatcher service](doc/docker/environment-variables.md#dispatcher-service) or legacy [cron](doc/docker/environment-variables.md#cron-legacy) as "sidecar" containers
+* [Dispatcher service](doc/docker/environment-variables.md#dispatcher-service) as "sidecar" container
 * Syslog-ng support through a ["sidecar" container](doc/docker/environment-variables.md#syslog-ng)
 * Ability to configure [distributed polling](https://docs.librenms.org/Extensions/Distributed-Poller/)
 * Built-in LibreNMS [Weathermap plugin](https://docs.librenms.org/Extensions/Weathermap/)
@@ -66,7 +66,6 @@ Image: librenms/librenms:latest
   * [LNMS command](doc/notes/lnms-command.md)
   * [Validate](doc/notes/validate.md)
   * [Dispatcher service](doc/notes/dispatcher-service.md)
-  * [Cron (legacy)](doc/notes/cron.md)
   * [Syslog-ng](doc/notes/syslog-ng.md)
   * [Additional Monitoring plugins (Nagios)](doc/notes/additional-monitoring-plugins.md)
 * [Upgrade](doc/upgrade.md)

@@ -37,25 +37,6 @@
 * `REDIS_PASSWORD`: Redis password
 * `REDIS_DB`: Redis database (default `0`)
 
-### Cron (legacy)
-
-> :warning: Only used if you enable and run a [sidecar cron container](../notes/cron.md)
-
-* `SIDECAR_CRON`: Set to `1` to enable sidecar cron mode for this container (default `0`)
-* `LIBRENMS_CRON_DISCOVERY_ENABLE`: Enable LibreNMS discovery for this container cronjobs (default `true`)
-* `LIBRENMS_CRON_DISCOVERY_WRAPPER_WORKERS`: Spawn multiple discovery.php processes in parallel (default `1`)
-* `LIBRENMS_CRON_DAILY_ENABLE`: Enable LibreNMS daily script for this container cronjobs (default `true`)
-* `LIBRENMS_CRON_ALERTS_ENABLE`: Enable LibreNMS alerts generation for this container cronjobs (default `true`)
-* `LIBRENMS_CRON_BILLING_ENABLE`: Enable LibreNMS billing polling for this container cronjobs (default `true`)
-* `LIBRENMS_CRON_BILLING_CALCULATE_ENABLE`: Enable LibreNMS billing for this container cronjobs (default `true`)
-* `LIBRENMS_CRON_CHECK_SERVICES_ENABLE`: Enable LibreNMS service checks for this container cronjobs (default `true`)
-* `LIBRENMS_CRON_POLLER_ENABLE`: Enable LibreNMS polling for this container cronjobs (default `true`)
-* `LIBRENMS_CRON_SNMPSCAN_ENABLE`: Enable LibreNMS SNMP network scanning for this container cronjobs (default `false`)
-* `LIBRENMS_CRON_SNMPSCAN_INTERVAL`: SNMP network scanning cron interval (daily, in "Minute Hour", default `5 0`)
-* `LIBRENMS_CRON_SNMPSCAN_NETS`: Networks to scan for SNMP network scanning, in CIDR notation.  Multiple networks can be specified separated by a comma.  If this is not set the default is to scan networks defined in `$config['nets']`
-* `LIBRENMS_CRON_SNMPSCAN_THREADS`: SNMP network scanning threads to use (default `32`)
-* `LIBRENMS_CRON_SNMPSCAN_LOGFILE`: SNMP network scanning cron log file (default `/dev/null`)
-
 ### Distributed Poller
 
 * `LIBRENMS_POLLER_THREADS`: Threads that `poller-wrapper.py` runs (default `16`)
