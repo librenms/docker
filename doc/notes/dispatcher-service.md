@@ -5,8 +5,8 @@ If you want to enable the new [Dispatcher service](https://docs.librenms.org/Ext
 ```bash
 docker run -d --name librenms_dispatcher \
   --env-file $(pwd)/librenms.env \
-  -e LIBRENMS_SERVICE_NODE_ID=dispatcher1 \
   -e SIDECAR_DISPATCHER=1 \
+  -e DISPATCHER_NODE_ID=dispatcher1 \
   -v librenms:/data \
   librenms/librenms:latest
 ```

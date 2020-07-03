@@ -18,21 +18,8 @@
 > :warning: Only used if you enable and run a [sidecar dispatcher container](../notes/dispatcher-service.md)
 
 * `SIDECAR_DISPATCHER`: Set to `1` to enable sidecar dispatcher mode for this container (default `0`)
-* `LIBRENMS_SERVICE_NODE_ID`: Unique node ID for your dispatcher service
-* `LIBRENMS_SERVICE_POLLER_WORKERS`: Processes spawned for polling (default `24`)
-* `LIBRENMS_SERVICE_SERVICES_WORKERS`: Processes spawned for service polling (default `8`)
-* `LIBRENMS_SERVICE_DISCOVERY_WORKERS`: Processes spawned for discovery (default `16`)
-* `LIBRENMS_SERVICE_POLLER_FREQUENCY`: Seconds between polling attempts (default `300`)
-* `LIBRENMS_SERVICE_SERVICES_FREQUENCY`: Seconds between service polling attempts (default `300`)
-* `LIBRENMS_SERVICE_DISCOVERY_FREQUENCY`: Seconds between polling attempts (default `21600`)
-* `LIBRENMS_SERVICE_BILLING_FREQUENCY`: Seconds between polling attempts (default `300`)
-* `LIBRENMS_SERVICE_BILLING_CALCULATE_FREQUENCY`: Billing interval (default `60`)
-* `LIBRENMS_SERVICE_POLLER_DOWN_RETRY`: Seconds between failed polling attempts (default `60`)
-* `LIBRENMS_SERVICE_LOGLEVEL`: Must be one of 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL' (default `INFO`)
-* `LIBRENMS_SERVICE_UPDATE_FREQUENCY`: Seconds between LibreNMS update checks (default `86400`)
-* `LIBRENMS_SERVICE_PING_ENABLED`: Enable fast ping scheduler (default `false`)
-* `LIBRENMS_SERVICE_WATCHDOG_ENABLED`: Enable watchdog scheduler (default `false`)
-* `REDIS_HOST`: Redis host for poller synchronization (default `localhost`)
+* `DISPATCHER_NODE_ID`: Unique node ID for your dispatcher service
+* `REDIS_HOST`: Redis host for poller synchronization
 * `REDIS_PORT`: Redis port (default `6379`)
 * `REDIS_PASSWORD`: Redis password
 * `REDIS_DB`: Redis database (default `0`)

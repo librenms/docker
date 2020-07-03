@@ -29,23 +29,7 @@ DB_USERNAME=${DB_USERNAME:-librenms}
 DB_TIMEOUT=${DB_TIMEOUT:-60}
 
 SIDECAR_DISPATCHER=${SIDECAR_DISPATCHER:-0}
-#LIBRENMS_SERVICE_NODE_ID=${LIBRENMS_SERVICE_NODE_ID:-dispatcher1}
-
-LIBRENMS_SERVICE_POLLER_WORKERS=${LIBRENMS_SERVICE_POLLER_WORKERS:-24}
-LIBRENMS_SERVICE_SERVICES_WORKERS=${LIBRENMS_SERVICE_SERVICES_WORKERS:-8}
-LIBRENMS_SERVICE_DISCOVERY_WORKERS=${LIBRENMS_SERVICE_DISCOVERY_WORKERS:-16}
-
-LIBRENMS_SERVICE_POLLER_FREQUENCY=${LIBRENMS_SERVICE_POLLER_FREQUENCY:-300}
-LIBRENMS_SERVICE_SERVICES_FREQUENCY=${LIBRENMS_SERVICE_SERVICES_FREQUENCY:-300}
-LIBRENMS_SERVICE_DISCOVERY_FREQUENCY=${LIBRENMS_SERVICE_DISCOVERY_FREQUENCY:-21600}
-LIBRENMS_SERVICE_BILLING_FREQUENCY=${LIBRENMS_SERVICE_BILLING_FREQUENCY:-300}
-LIBRENMS_SERVICE_BILLING_CALCULATE_FREQUENCY=${LIBRENMS_SERVICE_BILLING_CALCULATE_FREQUENCY:-60}
-LIBRENMS_SERVICE_POLLER_DOWN_RETRY=${LIBRENMS_SERVICE_POLLER_DOWN_RETRY:-60}
-LIBRENMS_SERVICE_LOGLEVEL=${LIBRENMS_SERVICE_LOGLEVEL:-INFO}
-LIBRENMS_SERVICE_UPDATE_FREQUENCY=${LIBRENMS_SERVICE_UPDATE_FREQUENCY:-86400}
-
-LIBRENMS_SERVICE_PING_ENABLED=${LIBRENMS_SERVICE_PING_ENABLED:-false}
-LIBRENMS_SERVICE_WATCHDOG_ENABLED=${LIBRENMS_SERVICE_WATCHDOG_ENABLED:-false}
+#DISPATCHER_NODE_ID=${DISPATCHER_NODE_ID:-dispatcher1}
 
 #REDIS_HOST=${REDIS_HOST:-localhost}
 REDIS_PORT=${REDIS_PORT:-6379}
@@ -81,6 +65,14 @@ while ! ${dbcmd} -e "show databases;" > /dev/null 2>&1; do
   fi;
 done
 echo "Database ready!"
+while ! ${dbcmd} -e "desc $DB_DATABASE.poller_cluster;" > /dev/null 2>&1; do
+  sleep 1
+  counter=$((counter + 1))
+  if [ ${counter} -gt ${DB_TIMEOUT} ]; then
+    >&2 echo "ERROR: Table $DB_DATABASE.poller_cluster does not exist on $DB_HOST"
+    exit 1
+  fi;
+done
 
 # Node ID
 if [ ! -f "/data/.env" ]; then
@@ -88,9 +80,9 @@ if [ ! -f "/data/.env" ]; then
   exit 1
 fi
 cat "/data/.env" >> "${LIBRENMS_PATH}/.env"
-if [ -n "$LIBRENMS_SERVICE_NODE_ID" ]; then
-  echo "NODE_ID: $LIBRENMS_SERVICE_NODE_ID"
-  sed -i "s|^NODE_ID=.*|NODE_ID=$LIBRENMS_SERVICE_NODE_ID|g" "${LIBRENMS_PATH}/.env"
+if [ -n "$DISPATCHER_NODE_ID" ]; then
+  echo "NODE_ID: $DISPATCHER_NODE_ID"
+  sed -i "s|^NODE_ID=.*|NODE_ID=$DISPATCHER_NODE_ID|g" "${LIBRENMS_PATH}/.env"
 fi
 
 # Redis
@@ -104,26 +96,6 @@ REDIS_HOST=${REDIS_HOST}
 REDIS_PORT=${REDIS_PORT}
 REDIS_PASSWORD=${REDIS_PASSWORD}
 REDIS_DB=${REDIS_DB}
-EOL
-
-# Configuration
-cat > ${LIBRENMS_PATH}/config.d/dispatcher.php <<EOL
-<?php
-\$config['service_poller_workers']              = ${LIBRENMS_SERVICE_POLLER_WORKERS};
-\$config['service_services_workers']            = ${LIBRENMS_SERVICE_SERVICES_WORKERS};
-\$config['service_discovery_workers']           = ${LIBRENMS_SERVICE_DISCOVERY_WORKERS};
-
-\$config['service_poller_frequency']            = ${LIBRENMS_SERVICE_POLLER_FREQUENCY};
-\$config['service_services_frequency']          = ${LIBRENMS_SERVICE_SERVICES_FREQUENCY};
-\$config['service_discovery_frequency']         = ${LIBRENMS_SERVICE_DISCOVERY_FREQUENCY};
-\$config['service_billing_frequency']           = ${LIBRENMS_SERVICE_BILLING_FREQUENCY};
-\$config['service_billing_calculate_frequency'] = ${LIBRENMS_SERVICE_BILLING_CALCULATE_FREQUENCY};
-\$config['service_poller_down_retry']           = ${LIBRENMS_SERVICE_POLLER_DOWN_RETRY};
-\$config['service_loglevel']                    = '${LIBRENMS_SERVICE_LOGLEVEL}';
-\$config['service_update_frequency']            = ${LIBRENMS_SERVICE_UPDATE_FREQUENCY};
-
-\$config['service_ping_enabled']                = ${LIBRENMS_SERVICE_PING_ENABLED};
-\$config['service_watchdog_enabled']            = ${LIBRENMS_SERVICE_WATCHDOG_ENABLED};
 EOL
 
 # Create service
