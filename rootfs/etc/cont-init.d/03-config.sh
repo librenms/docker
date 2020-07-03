@@ -94,16 +94,7 @@ rm -f ${LIBRENMS_PATH}/config.d/*
 
 echo "Setting LibreNMS configuration..."
 
-# Config : Directories
-  cat > ${LIBRENMS_PATH}/config.d/directories.php <<EOL
-<?php
-\$config['install_dir'] = '${LIBRENMS_PATH}';
-\$config['log_dir'] = '/data/logs';
-\$config['rrd_dir'] = '/data/rrd';
-EOL
-ln -sf /data/logs ${LIBRENMS_PATH}/logs
-
-# Config : Database
+# Env : Database
 if [ -z "$DB_HOST" ]; then
   >&2 echo "ERROR: DB_HOST must be defined"
   exit 1
@@ -113,14 +104,22 @@ if [ -z "$DB_PASSWORD" ]; then
   >&2 echo "ERROR: Either DB_PASSWORD or DB_PASSWORD_FILE must be defined"
   exit 1
 fi
-cat > ${LIBRENMS_PATH}/config.d/database.php <<EOL
-<?php
-\$config['db_host'] = '${DB_HOST}';
-\$config['db_port'] = ${DB_PORT};
-\$config['db_user'] = '${DB_USER}';
-\$config['db_pass'] = '${DB_PASSWORD}';
-\$config['db_name'] = '${DB_NAME}';
+cat > ${LIBRENMS_PATH}/.env <<EOL
+DB_HOST=${DB_HOST}
+DB_PORT=${DB_PORT}
+DB_DATABASE=${DB_NAME}
+DB_USERNAME=${DB_USER}
+DB_PASSWORD=${DB_PASSWORD}
 EOL
+
+# Config : Directories
+  cat > ${LIBRENMS_PATH}/config.d/directories.php <<EOL
+<?php
+\$config['install_dir'] = '${LIBRENMS_PATH}';
+\$config['log_dir'] = '/data/logs';
+\$config['rrd_dir'] = '/data/rrd';
+EOL
+ln -sf /data/logs ${LIBRENMS_PATH}/logs
 
 # Config : User
 cat > ${LIBRENMS_PATH}/config.d/user.php <<EOL

@@ -37,12 +37,13 @@ fi
 
 # Handle .env
 if [ ! -f "/data/.env" ]; then
-  artisan key:generate --no-interaction --force
-  sed -i "s|^NODE_ID=.*|NODE_ID=$(php -r "echo uniqid();")|g" "${LIBRENMS_PATH}/.env"
-  artisan optimize
-  cp -f "${LIBRENMS_PATH}/.env" /data/.env
+  echo "Generating APP_KEY and unique NODE_ID"
+  cat > "/data/.env" <<EOL
+APP_KEY=$(artisan key:generate --no-interaction --force --show)
+NODE_ID=$(php -r "echo uniqid();")
+EOL
 fi
-cp -f /data/.env "${LIBRENMS_PATH}/.env"
+cat "/data/.env" >> "${LIBRENMS_PATH}/.env"
 chown librenms. /data/.env "${LIBRENMS_PATH}/.env"
 
 file_env 'DB_PASSWORD'
