@@ -188,11 +188,21 @@ if [ ! -z "${LIBRENMS_DISTRIBUTED_POLLER_MEMCACHED_HOST}" -a ! -z "${RRDCACHED_H
 EOL
 fi
 
- # Fix perms
+# Fix perms
 echo "Fixing perms..."
 chown librenms. /data/config /data/monitoring-plugins /data/rrd /data/weathermap
 chown -R librenms. /data/logs ${LIBRENMS_PATH}/config.d ${LIBRENMS_PATH}/bootstrap ${LIBRENMS_PATH}/logs ${LIBRENMS_PATH}/storage
 chmod ug+rw /data/logs /data/rrd ${LIBRENMS_PATH}/bootstrap/cache ${LIBRENMS_PATH}/storage ${LIBRENMS_PATH}/storage/framework/*
+
+# Handle .env
+if [ ! -f "/data/.env" ]; then
+  artisan key:generate --no-interaction --force
+  sed -i "s|^NODE_ID=.*|NODE_ID=$(php -r "echo uniqid();")|g" "${LIBRENMS_PATH}/.env"
+  artisan optimize
+  cp -f "${LIBRENMS_PATH}/.env" /data/.env
+fi
+cp -f /data/.env "${LIBRENMS_PATH}/.env"
+chown librenms. /data/.env "${LIBRENMS_PATH}/.env"
 
 # Check additional Monitoring plugins
 echo "Checking additional Monitoring plugins..."

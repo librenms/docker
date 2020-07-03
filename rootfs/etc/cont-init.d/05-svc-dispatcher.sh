@@ -29,6 +29,7 @@ DB_USERNAME=${DB_USERNAME:-librenms}
 DB_TIMEOUT=${DB_TIMEOUT:-60}
 
 SIDECAR_DISPATCHER=${SIDECAR_DISPATCHER:-0}
+#LIBRENMS_SERVICE_NODE_ID=${LIBRENMS_SERVICE_NODE_ID:-dispatcher1}
 
 LIBRENMS_SERVICE_POLLER_WORKERS=${LIBRENMS_SERVICE_POLLER_WORKERS:-24}
 LIBRENMS_SERVICE_SERVICES_WORKERS=${LIBRENMS_SERVICE_SERVICES_WORKERS:-8}
@@ -80,6 +81,13 @@ while ! ${dbcmd} -e "show databases;" > /dev/null 2>&1; do
   fi;
 done
 echo "Database ready!"
+
+# Node ID
+if [ -n "$LIBRENMS_SERVICE_NODE_ID" ]; then
+  echo "NODE_ID: $LIBRENMS_SERVICE_NODE_ID"
+  sed -i "s|^NODE_ID=.*|NODE_ID=$LIBRENMS_SERVICE_NODE_ID|g" "${LIBRENMS_PATH}/.env"
+  artisan optimize
+fi
 
 # Configuration
 cat > ${LIBRENMS_PATH}/config.d/dispatcher.php <<EOL

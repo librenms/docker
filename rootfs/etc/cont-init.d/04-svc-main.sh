@@ -62,8 +62,8 @@ echo "Updating database schema..."
 lnms migrate --force --no-ansi --no-interaction
 
 echo "Clear cache"
-su-exec librenms:librenms php artisan cache:clear --no-interaction
-su-exec librenms:librenms php artisan config:cache --no-interaction
+artisan cache:clear --no-interaction
+artisan config:cache --no-interaction
 
 if [ "${counttables}" -eq "0" ]; then
   echo "Creating admin user..."

@@ -109,7 +109,7 @@ services:
 
   dispatcher:
     image: librenms/librenms:edge
-    hostname: librenms
+    hostname: librenms-dispatcher-1234
     depends_on:
       - librenms
       - redis
@@ -125,6 +125,32 @@ services:
       DB_USER: *MYSQL_USER
       DB_PASSWORD: *MYSQL_PASSWORD
       DB_TIMEOUT: "60"
+      LIBRENMS_SERVICE_NODE_ID: "dispatcher1234"
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_DB: "0"
+      SIDECAR_DISPATCHER: "1"
+    restart: always
+
+  dispatcher2:
+    image: librenms/librenms:edge
+    hostname: librenms-dispatcher-5678
+    depends_on:
+      - librenms
+      - redis
+    volumes:
+      - "librenms:/data"
+    environment:
+      <<: *envlibrenms
+      TZ: *TZ
+      PUID: *PUID
+      PGID: *PGID
+      DB_HOST: "db"
+      DB_NAME: *MYSQL_DATABASE
+      DB_USER: *MYSQL_USER
+      DB_PASSWORD: *MYSQL_PASSWORD
+      DB_TIMEOUT: "60"
+      LIBRENMS_SERVICE_NODE_ID: "dispatcher5678"
       REDIS_HOST: "redis"
       REDIS_PORT: "6379"
       REDIS_DB: "0"
@@ -133,7 +159,7 @@ services:
 
   syslogng:
     image: librenms/librenms:edge
-    hostname: librenms
+    hostname: librenms-syslogng
     depends_on:
       - librenms
     volumes:

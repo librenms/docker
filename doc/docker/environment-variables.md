@@ -18,6 +18,7 @@
 > :warning: Only used if you enable and run a [sidecar dispatcher container](../notes/dispatcher-service.md)
 
 * `SIDECAR_DISPATCHER`: Set to `1` to enable sidecar dispatcher mode for this container (default `0`)
+* `LIBRENMS_SERVICE_NODE_ID`: Unique node ID for your dispatcher service
 * `LIBRENMS_SERVICE_POLLER_WORKERS`: Processes spawned for polling (default `24`)
 * `LIBRENMS_SERVICE_SERVICES_WORKERS`: Processes spawned for service polling (default `8`)
 * `LIBRENMS_SERVICE_DISCOVERY_WORKERS`: Processes spawned for discovery (default `16`)

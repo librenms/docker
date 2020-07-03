@@ -7,6 +7,7 @@ mkdir -p /data \
 chown librenms. \
   /data \
   "${LIBRENMS_PATH}" \
+  "${LIBRENMS_PATH}/.env" \
   "${LIBRENMS_PATH}/html/plugins/Weathermap/output"
 chown -R librenms. \
   /home/librenms \

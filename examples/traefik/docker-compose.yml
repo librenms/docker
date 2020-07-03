@@ -92,7 +92,6 @@ services:
   librenms:
     image: librenms/librenms:latest
     container_name: librenms
-    domainname: example.com
     hostname: librenms
     depends_on:
       - db
@@ -122,8 +121,7 @@ services:
   dispatcher:
     image: librenms/librenms:latest
     container_name: librenms_dispatcher
-    domainname: example.com
-    hostname: librenms
+    hostname: librenms-dispatcher
     depends_on:
       - librenms
       - redis
@@ -140,17 +138,17 @@ services:
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
+      - "LIBRENMS_SERVICE_NODE_ID=dispatcher1"
       - "REDIS_HOST=redis"
       - "REDIS_PORT=6379"
       - "REDIS_DB=0"
       - "SIDECAR_DISPATCHER=1"
     restart: always
 
-  syslog-ng:
+  syslogng:
     image: librenms/librenms:latest
     container_name: librenms_syslog
-    domainname: example.com
-    hostname: librenms
+    hostname: librenms-syslogng
     depends_on:
       - librenms
     ports:
