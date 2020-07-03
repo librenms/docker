@@ -35,6 +35,16 @@ if [ "$SIDECAR_DISPATCHER" = "1" ] || [ "$SIDECAR_SYSLOGNG" = "1" ]; then
   exit 0
 fi
 
+# Handle .env
+if [ ! -f "/data/.env" ]; then
+  artisan key:generate --no-interaction --force
+  sed -i "s|^NODE_ID=.*|NODE_ID=$(php -r "echo uniqid();")|g" "${LIBRENMS_PATH}/.env"
+  artisan optimize
+  cp -f "${LIBRENMS_PATH}/.env" /data/.env
+fi
+cp -f /data/.env "${LIBRENMS_PATH}/.env"
+chown librenms. /data/.env "${LIBRENMS_PATH}/.env"
+
 file_env 'DB_PASSWORD'
 if [ -z "$DB_PASSWORD" ]; then
   >&2 echo "ERROR: Either DB_PASSWORD or DB_PASSWORD_FILE must be defined"

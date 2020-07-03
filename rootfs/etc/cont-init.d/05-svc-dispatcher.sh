@@ -83,6 +83,12 @@ done
 echo "Database ready!"
 
 # Node ID
+if [ ! -f "/data/.env" ]; then
+  >&2 echo "ERROR: /data/.env file does not exist. Please run the main container first"
+  exit 1
+fi
+cp -f /data/.env "${LIBRENMS_PATH}/.env"
+chown librenms. "${LIBRENMS_PATH}/.env"
 if [ -n "$LIBRENMS_SERVICE_NODE_ID" ]; then
   echo "NODE_ID: $LIBRENMS_SERVICE_NODE_ID"
   sed -i "s|^NODE_ID=.*|NODE_ID=$LIBRENMS_SERVICE_NODE_ID|g" "${LIBRENMS_PATH}/.env"
