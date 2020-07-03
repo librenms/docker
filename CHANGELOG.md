@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.65-RC1 (2020/07/03)
+
+* LibreNMS 1.65
+* Remove `LIBRENMS_DISTRIBUTED_POLLER_*` env vars (now handle through WebUI)
+* Check database migration completed
+* Remove `LIBRENMS_SERVICE_*` env vars (now handle through WebUI)
+* Check `poller_cluster` table exists before running dispatcher
+* Handle Redis for dispatcher through `.env`
+* Remove deprecated sidecar cron container
+* Handle APP_KEY and NODE_ID (#91 #93)
+* Add artisan command
+* Clear cache and reload config cache
+* Set user group config
+* Alpine Linux 3.12
+
 ## 1.64.1-RC1 (2020/06/01)
 
 * LibreNMS 1.64.1
