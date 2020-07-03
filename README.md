@@ -26,7 +26,6 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 * Multi-platform image
 * [Dispatcher service](doc/docker/environment-variables.md#dispatcher-service) as "sidecar" container
 * Syslog-ng support through a ["sidecar" container](doc/docker/environment-variables.md#syslog-ng)
-* Ability to configure [distributed polling](https://docs.librenms.org/Extensions/Distributed-Poller/)
 * Built-in LibreNMS [Weathermap plugin](https://docs.librenms.org/Extensions/Weathermap/)
 * Ability to add custom Monitoring plugins (Nagios)
 * OPCache enabled to store precompiled script bytecode in shared memory
