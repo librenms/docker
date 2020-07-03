@@ -15,6 +15,9 @@
 * Set user group config
 * Alpine Linux 3.12
 
+> :warning: **UPGRADE NOTES**
+> Fill in the "Specific URL" (`base_url`) at `https://librenms.example.com/settings/system/server`
+
 ## 1.64.1-RC1 (2020/06/01)
 
 * LibreNMS 1.64.1
