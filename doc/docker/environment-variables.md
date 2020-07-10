@@ -41,6 +41,7 @@
 
 ### Misc
 
+* `LIBRENMS_BASE_URL`: URL of your LibreNMS instance (default `/`)
 * `LIBRENMS_SNMP_COMMUNITY`: This container's SNMP v2c community string (default `librenmsdocker`)
 * `LIBRENMS_WEATHERMAP`: Enable LibreNMS [Weathermap plugin](https://docs.librenms.org/Extensions/Weathermap/) (default `false`)
 * `LIBRENMS_WEATHERMAP_SCHEDULE`: CRON expression format (default `*/5 * * * *`)

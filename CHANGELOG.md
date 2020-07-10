@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.65.1-RC2 (2020/07/10)
+
+* Add `LIBRENMS_BASE_URL` env var (#95 #99 #100)
+
 ## 1.65.1-RC1 (2020/07/10)
 
 * LibreNMS 1.65.1

@@ -41,6 +41,8 @@ DB_NAME=${DB_NAME:-librenms}
 DB_USER=${DB_USER:-librenms}
 DB_TIMEOUT=${DB_TIMEOUT:-30}
 
+LIBRENMS_BASE_URL=${LIBRENMS_BASE_URL:-/}
+
 # Timezone
 echo "Setting timezone to ${TZ}..."
 ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime
@@ -88,7 +90,7 @@ rm -f ${LIBRENMS_PATH}/config.d/*
 
 echo "Setting LibreNMS configuration..."
 
-# Env : Database
+# Env file
 if [ -z "$DB_HOST" ]; then
   >&2 echo "ERROR: DB_HOST must be defined"
   exit 1
@@ -99,6 +101,7 @@ if [ -z "$DB_PASSWORD" ]; then
   exit 1
 fi
 cat > ${LIBRENMS_PATH}/.env <<EOL
+APP_URL=${LIBRENMS_BASE_URL}
 DB_HOST=${DB_HOST}
 DB_PORT=${DB_PORT}
 DB_DATABASE=${DB_NAME}
@@ -114,6 +117,13 @@ EOL
 \$config['rrd_dir'] = '/data/rrd';
 EOL
 ln -sf /data/logs ${LIBRENMS_PATH}/logs
+
+# Config : Server
+  cat > ${LIBRENMS_PATH}/config.d/server.php <<EOL
+<?php
+\$config['own_hostname'] = '$(hostname)';
+\$config['base_url'] = '${LIBRENMS_BASE_URL}';
+EOL
 
 # Config : User
 cat > ${LIBRENMS_PATH}/config.d/user.php <<EOL
