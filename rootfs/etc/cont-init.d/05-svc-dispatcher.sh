@@ -24,8 +24,8 @@ file_env() {
 }
 
 DB_PORT=${DB_PORT:-3306}
-DB_DATABASE=${DB_DATABASE:-librenms}
-DB_USERNAME=${DB_USERNAME:-librenms}
+DB_NAME=${DB_NAME:-librenms}
+DB_USER=${DB_USER:-librenms}
 DB_TIMEOUT=${DB_TIMEOUT:-60}
 
 SIDECAR_DISPATCHER=${SIDECAR_DISPATCHER:-0}
@@ -51,7 +51,7 @@ if [ -z "$DB_PASSWORD" ]; then
   exit 1
 fi
 
-dbcmd="mysql -h ${DB_HOST} -P ${DB_PORT} -u "${DB_USERNAME}" "-p${DB_PASSWORD}""
+dbcmd="mysql -h ${DB_HOST} -P ${DB_PORT} -u "${DB_USER}" "-p${DB_PASSWORD}""
 unset DB_PASSWORD
 
 echo "Waiting ${DB_TIMEOUT}s for database to be ready..."
@@ -64,20 +64,12 @@ while ! ${dbcmd} -e "show databases;" > /dev/null 2>&1; do
     exit 1
   fi;
 done
-while ! grep "1" /data/.migrated > /dev/null 2>&1; do
-  sleep 1
-  counter=$((counter + 1))
-  if [ ${counter} -gt ${DB_TIMEOUT} ]; then
-    >&2 echo "ERROR: Database migration not processed on $DB_HOST"
-    exit 1
-  fi;
-done
 echo "Database ready!"
-while ! ${dbcmd} -e "desc $DB_DATABASE.poller_cluster;" > /dev/null 2>&1; do
+while ! ${dbcmd} -e "desc $DB_NAME.poller_cluster;" > /dev/null 2>&1; do
   sleep 1
   counter=$((counter + 1))
   if [ ${counter} -gt ${DB_TIMEOUT} ]; then
-    >&2 echo "ERROR: Table $DB_DATABASE.poller_cluster does not exist on $DB_HOST"
+    >&2 echo "ERROR: Table $DB_NAME.poller_cluster does not exist on $DB_HOST"
     exit 1
   fi;
 done
