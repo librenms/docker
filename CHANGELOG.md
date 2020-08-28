@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.66-RC2 (2020/08/28)
+
+* Fix DB connection for dispatcher service (#108 #118 #119)
+* Run maintenance task through a dedicated process (#105)
+* Add `DISPATCHER_ARGS` env var
+
 ## 1.66-RC1 (2020/07/30)
 
 * LibreNMS 1.66
