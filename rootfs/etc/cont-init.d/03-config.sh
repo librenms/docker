@@ -179,6 +179,13 @@ if [ ! -z "${RRDCACHED_HOST}" ]; then
 EOL
 fi
 
+# Config : Dispatcher
+cat > ${LIBRENMS_PATH}/config.d/dispatcher.php <<EOL
+<?php
+\$config['service_update_enabled'] = false;
+\$config['service_watchdog_enabled'] = false;
+EOL
+
 # Fix perms
 echo "Fixing perms..."
 chown librenms. /data/config /data/monitoring-plugins /data/rrd /data/weathermap
