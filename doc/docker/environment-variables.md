@@ -19,6 +19,7 @@
 
 * `SIDECAR_DISPATCHER`: Set to `1` to enable sidecar dispatcher mode for this container (default `0`)
 * `DISPATCHER_NODE_ID`: Unique node ID for your dispatcher service
+* `DISPATCHER_ARGS`: Additional args to pass to the [dispatcher service](https://github.com/librenms/librenms/blob/master/librenms-service.py)
 * `REDIS_HOST`: Redis host for poller synchronization
 * `REDIS_PORT`: Redis port (default `6379`)
 * `REDIS_PASSWORD`: Redis password
