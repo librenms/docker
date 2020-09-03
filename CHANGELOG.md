@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.67-RC1 (2020/09/03)
+
+* LibreNMS 1.67
+* Now based on [Alpine Linux 3.12 with s6 overlay](https://github.com/crazy-max/docker-alpine-s6/)
+* Missing migration seed flag (#122)
+
 ## 1.66-RC2 (2020/08/28)
 
 * Fix DB connection for dispatcher service (#108 #118 #119)
