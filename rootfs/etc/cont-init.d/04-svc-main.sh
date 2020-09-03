@@ -69,7 +69,7 @@ echo "Database ready!"
 counttables=$(echo 'SHOW TABLES' | ${dbcmd} "$DB_NAME" | wc -l)
 
 echo "Updating database schema..."
-lnms migrate --force --no-ansi --no-interaction
+lnms migrate --seed --force --no-ansi --no-interaction
 
 echo "Clear cache"
 artisan cache:clear --no-interaction
