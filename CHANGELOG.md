@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.67-RC2 (2020/09/04)
+
+* Seed through artisan (#122)
+
 ## 1.67-RC1 (2020/09/03)
 
 * LibreNMS 1.67
