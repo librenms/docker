@@ -34,7 +34,7 @@ REAL_IP_HEADER=${REAL_IP_HEADER:-"X-Forwarded-For"}
 LOG_IP_VAR=${LOG_IP_VAR:-remote_addr}
 
 MEMCACHED_PORT=${MEMCACHED_PORT:-11211}
-RRDCACHED_PORT=${RRDCACHED_PORT:-42217}
+RRDCACHED_SERVER=${RRDCACHED_SERVER:-rrdcached:42217}
 
 DB_PORT=${DB_PORT:-3306}
 DB_NAME=${DB_NAME:-librenms}
@@ -171,10 +171,10 @@ EOL
 fi
 
 # Config : RRDcached
-if [ ! -z "${RRDCACHED_HOST}" ]; then
+if [ ! -z "${RRDCACHED_SERVER}" ]; then
     cat > ${LIBRENMS_PATH}/config.d/rrdcached.php <<EOL
 <?php
-\$config['rrdcached'] = "${RRDCACHED_HOST}:${RRDCACHED_PORT}";
+\$config['rrdcached'] = "${RRDCACHED_SERVER}";
 \$config['rrdtool_version'] = '1.7.0';
 EOL
 fi

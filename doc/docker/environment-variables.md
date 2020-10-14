@@ -48,5 +48,4 @@
 * `LIBRENMS_WEATHERMAP_SCHEDULE`: CRON expression format (default `*/5 * * * *`)
 * `MEMCACHED_HOST`: Hostname / IP address of a Memcached server
 * `MEMCACHED_PORT`: Port of the Memcached server (default `11211`)
-* `RRDCACHED_HOST`: Hostname / IP address of a RRDcached server
-* `RRDCACHED_PORT`: Port of the RRDcached server (default `42217`)
+* `RRDCACHED_SERVER`: RRDcached server (default `rrdcached:42217`)
