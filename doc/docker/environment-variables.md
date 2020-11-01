@@ -7,6 +7,7 @@
 * `PGID`: LibreNMS group id (default `1000`)
 * `MEMORY_LIMIT`: PHP memory limit (default `256M`)
 * `UPLOAD_MAX_SIZE`: Upload max size (default `16M`)
+* `CLEAR_ENV`: Clear environment in FPM workers (default `yes`)
 * `OPCACHE_MEM_SIZE`: PHP OpCache memory consumption (default `128`)
 * `LISTEN_IPV6`: Enable IPv6 for Nginx (default `true`)
 * `REAL_IP_FROM`: Trusted addresses that are known to send correct replacement addresses (default `0.0.0.0/32`)
