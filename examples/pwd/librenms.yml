@@ -81,6 +81,7 @@ services:
       - rrdcached
     volumes:
       - "librenms:/data"
+      - "rrd-db:/data/rrd"
     environment:
       <<: *envlibrenms
       TZ: *TZ
