@@ -18,8 +18,7 @@ x-envlibrenms: &envlibrenms
   LIBRENMS_SNMP_COMMUNITY: "librenmsdocker"
   MEMCACHED_HOST: "memcached"
   MEMCACHED_PORT: "11211"
-  RRDCACHED_HOST: "rrdcached"
-  RRDCACHED_PORT: "42217"
+  RRDCACHED_SERVER: "rrdcached:42217"
   LIBRENMS_WEATHERMAP: "true"
   LIBRENMS_WEATHERMAP_SCHEDULE: "*/5 * * * *"
 

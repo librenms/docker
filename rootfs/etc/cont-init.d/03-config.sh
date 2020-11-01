@@ -27,6 +27,7 @@ TZ=${TZ:-UTC}
 
 MEMORY_LIMIT=${MEMORY_LIMIT:-256M}
 UPLOAD_MAX_SIZE=${UPLOAD_MAX_SIZE:-16M}
+CLEAR_ENV=${CLEAR_ENV:-yes}
 OPCACHE_MEM_SIZE=${OPCACHE_MEM_SIZE:-128}
 LISTEN_IPV6=${LISTEN_IPV6:-true}
 REAL_IP_FROM=${REAL_IP_FROM:-"0.0.0.0/32"}
@@ -34,7 +35,7 @@ REAL_IP_HEADER=${REAL_IP_HEADER:-"X-Forwarded-For"}
 LOG_IP_VAR=${LOG_IP_VAR:-remote_addr}
 
 MEMCACHED_PORT=${MEMCACHED_PORT:-11211}
-RRDCACHED_PORT=${RRDCACHED_PORT:-42217}
+RRDCACHED_SERVER=${RRDCACHED_SERVER:-rrdcached:42217}
 
 DB_PORT=${DB_PORT:-3306}
 DB_NAME=${DB_NAME:-librenms}
@@ -52,6 +53,7 @@ echo ${TZ} > /etc/timezone
 echo "Setting PHP-FPM configuration..."
 sed -e "s/@MEMORY_LIMIT@/$MEMORY_LIMIT/g" \
   -e "s/@UPLOAD_MAX_SIZE@/$UPLOAD_MAX_SIZE/g" \
+  -e "s/@CLEAR_ENV@/$CLEAR_ENV/g" \
   /tpls/etc/php7/php-fpm.d/www.conf > /etc/php7/php-fpm.d/www.conf
 
 echo "Setting PHP INI configuration..."
@@ -171,10 +173,10 @@ EOL
 fi
 
 # Config : RRDcached
-if [ ! -z "${RRDCACHED_HOST}" ]; then
+if [ ! -z "${RRDCACHED_SERVER}" ]; then
     cat > ${LIBRENMS_PATH}/config.d/rrdcached.php <<EOL
 <?php
-\$config['rrdcached'] = "${RRDCACHED_HOST}:${RRDCACHED_PORT}";
+\$config['rrdcached'] = "${RRDCACHED_SERVER}";
 \$config['rrdtool_version'] = '1.7.0';
 EOL
 fi
