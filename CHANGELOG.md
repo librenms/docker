@@ -5,7 +5,7 @@
 * LibreNMS 1.69
 * Update to Traefik v2
 * Update PWD example (#135)
-* Allow to `clear` env for FPM workers
+* Allow to clear env for FPM workers
 * Use Docker meta action to handle tags and labels
 * Replace `RRDCACHED_HOST` and `RRDCACHED_PORT` with `RRDCACHED_SERVER` env var
 
