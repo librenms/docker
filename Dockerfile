@@ -69,7 +69,7 @@ RUN apk --update --no-cache add \
     util-linux \
     whois \
   && apk --update --no-cache add -t build-dependencies \
-    gcc \
+    build-base \
     make \
     mariadb-dev \
     musl-dev \
@@ -96,7 +96,12 @@ RUN addgroup -g ${PGID} librenms \
   && chmod +x /usr/bin/distro
 
 WORKDIR ${LIBRENMS_PATH}
-RUN git clone --branch ${LIBRENMS_VERSION} https://github.com/librenms/librenms.git . \
+RUN apk --update --no-cache add -t build-dependencies \
+    build-base \
+    linux-headers \
+    musl-dev \
+    python3-dev \
+  && git clone --branch ${LIBRENMS_VERSION} https://github.com/librenms/librenms.git . \
   && pip3 install -r requirements.txt --upgrade \
   && COMPOSER_CACHE_DIR="/tmp" composer install --no-dev --no-interaction --no-ansi \
   && mkdir config.d \
@@ -107,11 +112,13 @@ RUN git clone --branch ${LIBRENMS_VERSION} https://github.com/librenms/librenms.
   && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> config.php \
   && git clone https://github.com/librenms-plugins/Weathermap.git ./html/plugins/Weathermap \
   && chown -R nobody.nogroup ${LIBRENMS_PATH} \
+  && apk del build-dependencies \
   && rm -rf .git \
     html/plugins/Test \
     html/plugins/Weathermap/.git \
     html/plugins/Weathermap/configs \
-    /tmp/*
+    /tmp/* \
+    /var/cache/apk/*
 
 COPY rootfs /
 RUN chmod a+x /usr/local/bin/*
