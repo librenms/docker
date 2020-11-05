@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.69-RC2 (2020/11/04)
+
+* Do not set default value for `RRDCACHED_SERVER`
+
 ## 1.69-RC1 (2020/11/03)
 
 * LibreNMS 1.69

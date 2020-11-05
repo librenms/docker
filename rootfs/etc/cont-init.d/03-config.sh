@@ -35,7 +35,6 @@ REAL_IP_HEADER=${REAL_IP_HEADER:-"X-Forwarded-For"}
 LOG_IP_VAR=${LOG_IP_VAR:-remote_addr}
 
 MEMCACHED_PORT=${MEMCACHED_PORT:-11211}
-RRDCACHED_SERVER=${RRDCACHED_SERVER:-rrdcached:42217}
 
 DB_PORT=${DB_PORT:-3306}
 DB_NAME=${DB_NAME:-librenms}
@@ -163,7 +162,7 @@ cat > ${LIBRENMS_PATH}/config.d/services.php <<EOL
 EOL
 
 # Config : Memcached
-if [ ! -z "${MEMCACHED_HOST}" ]; then
+if [ -n "${MEMCACHED_HOST}" ]; then
     cat > ${LIBRENMS_PATH}/config.d/memcached.php <<EOL
 <?php
 \$config['memcached']['enable'] = true;
@@ -173,11 +172,11 @@ EOL
 fi
 
 # Config : RRDcached
-if [ ! -z "${RRDCACHED_SERVER}" ]; then
+if [ -n "${RRDCACHED_SERVER}" ]; then
     cat > ${LIBRENMS_PATH}/config.d/rrdcached.php <<EOL
 <?php
 \$config['rrdcached'] = "${RRDCACHED_SERVER}";
-\$config['rrdtool_version'] = '1.7.0';
+\$config['rrdtool_version'] = "1.7.3";
 EOL
 fi
 
