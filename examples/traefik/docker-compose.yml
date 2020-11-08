@@ -68,23 +68,6 @@ services:
       - "TZ=${TZ}"
     restart: always
 
-  rrdcached:
-    image: crazymax/rrdcached
-    container_name: librenms_rrdcached
-    volumes:
-      - "./librenms/rrd:/data/db"
-      - "./rrd-journal:/data/journal"
-    environment:
-      - "TZ=${TZ}"
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
-      - "LOG_LEVEL=LOG_INFO"
-      - "WRITE_TIMEOUT=1800"
-      - "WRITE_JITTER=1800"
-      - "WRITE_THREADS=4"
-      - "FLUSH_DEAD_DATA_INTERVAL=3600"
-    restart: always
-
   msmtpd:
     image: crazymax/msmtpd:latest
     container_name: librenms_msmtpd
@@ -99,7 +82,6 @@ services:
     depends_on:
       - db
       - memcached
-      - rrdcached
       - msmtpd
     volumes:
       - "./librenms:/data"

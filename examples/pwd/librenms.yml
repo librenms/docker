@@ -18,7 +18,6 @@ x-envlibrenms: &envlibrenms
   LIBRENMS_SNMP_COMMUNITY: "librenmsdocker"
   MEMCACHED_HOST: "memcached"
   MEMCACHED_PORT: "11211"
-  RRDCACHED_SERVER: "rrdcached:42217"
   LIBRENMS_WEATHERMAP: "true"
   LIBRENMS_WEATHERMAP_SCHEDULE: "*/5 * * * *"
 
@@ -53,23 +52,6 @@ services:
       TZ: *TZ
     restart: always
 
-  rrdcached:
-    image: crazymax/rrdcached
-    volumes:
-      - "librenms:/data"
-      - "rrd-db:/data/db"
-      - "rrd-journal:/data/journal"
-    environment:
-      TZ: *TZ
-      PUID: *PUID
-      PGID: *PGID
-      LOG_LEVEL: "LOG_INFO"
-      WRITE_TIMEOUT: "1800"
-      WRITE_JITTER: "1800"
-      WRITE_THREADS: "4"
-      FLUSH_DEAD_DATA_INTERVAL: "3600"
-    restart: always
-
   librenms:
     image: librenms/librenms:edge
     hostname: librenms
@@ -78,10 +60,8 @@ services:
     depends_on:
       - db
       - memcached
-      - rrdcached
     volumes:
       - "librenms:/data"
-      - "rrd-db:/data/rrd"
     environment:
       <<: *envlibrenms
       TZ: *TZ
@@ -166,6 +146,4 @@ services:
 
 volumes:
   db:
-  rrd-db:
-  rrd-journal:
   librenms:
