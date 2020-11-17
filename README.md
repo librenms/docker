@@ -28,6 +28,7 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 * Syslog-ng support through a ["sidecar" container](doc/docker/environment-variables.md#syslog-ng)
 * Built-in LibreNMS [Weathermap plugin](https://docs.librenms.org/Extensions/Weathermap/)
 * Ability to add custom Monitoring plugins (Nagios)
+* Ability to add custom alert templates
 * OPCache enabled to store precompiled script bytecode in shared memory
 * [s6-overlay](https://github.com/just-containers/s6-overlay/) as process supervisor
 * [Traefik](https://github.com/containous/traefik-library-image) as reverse proxy and creation/renewal of Let's Encrypt certificates (see [this template](examples/traefik))
@@ -68,6 +69,7 @@ Image: librenms/librenms:latest
   * [Dispatcher service](doc/notes/dispatcher-service.md)
   * [Syslog-ng](doc/notes/syslog-ng.md)
   * [Additional Monitoring plugins (Nagios)](doc/notes/additional-monitoring-plugins.md)
+  * [Custom alert templates](doc/notes/alert-templates.md)
 * [Upgrade](doc/upgrade.md)
 
 ## How can I help?
