@@ -83,7 +83,7 @@ sed -i -e "s/RANDOMSTRINGGOESHERE/${LIBRENMS_SNMP_COMMUNITY}/" /etc/snmp/snmpd.c
 
 # Init files and folders
 echo "Initializing LibreNMS files / folders..."
-mkdir -p /data/config /data/logs /data/monitoring-plugins /data/rrd /data/weathermap
+mkdir -p /data/config /data/logs /data/monitoring-plugins /data/rrd /data/weathermap /data/alert-templates
 ln -sf /data/weathermap ${LIBRENMS_PATH}/html/plugins/Weathermap/configs
 touch /data/logs/librenms.log
 rm -rf ${LIBRENMS_PATH}/logs
@@ -189,7 +189,7 @@ EOL
 
 # Fix perms
 echo "Fixing perms..."
-chown librenms. /data/config /data/monitoring-plugins /data/rrd /data/weathermap
+chown librenms. /data/config /data/monitoring-plugins /data/rrd /data/weathermap /data/alert-templates
 chown -R librenms. /data/logs ${LIBRENMS_PATH}/config.d ${LIBRENMS_PATH}/bootstrap ${LIBRENMS_PATH}/logs ${LIBRENMS_PATH}/storage
 chmod ug+rw /data/logs /data/rrd ${LIBRENMS_PATH}/bootstrap/cache ${LIBRENMS_PATH}/storage ${LIBRENMS_PATH}/storage/framework/*
 
@@ -211,4 +211,20 @@ for mon_plugin in ${mon_plugins}; do
   fi
   echo "  Adding ${mon_plugin} Monitoring plugin"
   ln -sf /data/monitoring-plugins/${mon_plugin} /usr/lib/monitoring-plugins/${mon_plugin}
+done
+
+# Check alert templates
+echo "Checking alert templates..."
+templates=$(ls -l /data/alert-templates | egrep '^-' | awk '{print $9}')
+for template in ${templates}; do
+  if [ -f "${LIBRENMS_PATH}/resources/views/alerts/templates/${template}" ]; then
+    echo "  WARNING: Default alert template ${template} cannot be overriden. Skipping..."
+    continue
+  fi
+  if [[ ${template} != *.php ]]; then
+    echo "  WARNING: Alert template filename ${template} invalid. It must end with '.php'. Skipping..."
+    continue
+  fi
+  echo "  Adding ${template} alert template"
+  ln -sf /data/alert-templates/${template} ${LIBRENMS_PATH}/resources/views/alerts/templates/${template}
 done
