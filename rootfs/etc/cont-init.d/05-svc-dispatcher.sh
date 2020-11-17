@@ -100,7 +100,7 @@ EOL
 else 
   # Redis
   if [ -z "$REDIS_HOST" ]; then
-    >&2 echo "ERROR: REDIS_HOST must be defined"
+    >&2 echo "ERROR: REDIS_HOST or REDIS_SENTINEL must be defined"
     exit 1
   fi
   echo "Setting Redis"
