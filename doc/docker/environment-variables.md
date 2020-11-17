@@ -22,6 +22,8 @@
 * `DISPATCHER_NODE_ID`: Unique node ID for your dispatcher service
 * `DISPATCHER_ARGS`: Additional args to pass to the [dispatcher service](https://github.com/librenms/librenms/blob/master/librenms-service.py)
 * `REDIS_HOST`: Redis host for poller synchronization
+* `REDIS_SENTINEL`: Redis Sentinel host for high availability Redis cluster
+* `REDIS_SENTINEL_SERVICE`: Redis Sentinel service name (default `librenms`)
 * `REDIS_PORT`: Redis port (default `6379`)
 * `REDIS_PASSWORD`: Redis password
 * `REDIS_DB`: Redis database (default `0`)
