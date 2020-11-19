@@ -65,9 +65,11 @@ RUN apk --update --no-cache add \
     su-exec \
     syslog-ng=3.27.1-r0 \
     ttf-dejavu \
-    tzdata  \
     util-linux \
     whois \
+  # FIXME: Remove when tzdata package updated on Alpine stable to 2020d-r0 (https://github.com/librenms/docker/issues/143)
+  && apk --update --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main add \
+    tzdata \
   && apk --update --no-cache add -t build-dependencies \
     build-base \
     make \
