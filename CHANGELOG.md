@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.69-RC3 (2020/11/22)
+
+* Fix tzdata issue with Alpine (#143)
+
 ## 1.69-RC2 (2020/11/04)
 
 * Do not set default value for `RRDCACHED_SERVER`
