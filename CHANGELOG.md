@@ -3,6 +3,8 @@
 ## 1.69-RC3 (2020/11/22)
 
 * Fix tzdata issue with Alpine (#143)
+* Add alert templates (#142)
+* Add redis sentinel support (#141)
 
 ## 1.69-RC2 (2020/11/04)
 
