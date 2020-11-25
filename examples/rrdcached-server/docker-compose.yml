@@ -62,6 +62,9 @@ services:
     image: librenms/librenms:latest
     container_name: librenms
     hostname: librenms
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
     ports:
       - target: 8000
         published: 8000
@@ -90,6 +93,9 @@ services:
     image: librenms/librenms:latest
     container_name: librenms_dispatcher
     hostname: librenms-dispatcher
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
     depends_on:
       - librenms
       - redis
@@ -117,6 +123,9 @@ services:
     image: librenms/librenms:latest
     container_name: librenms_syslogng
     hostname: librenms-syslogng
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
     depends_on:
       - librenms
     ports:

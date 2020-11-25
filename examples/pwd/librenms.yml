@@ -55,6 +55,9 @@ services:
   librenms:
     image: librenms/librenms:edge
     hostname: librenms
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
     ports:
       - "8000:8000"
     depends_on:
@@ -77,6 +80,9 @@ services:
   dispatcher:
     image: librenms/librenms:edge
     hostname: librenms-dispatcher-1234
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
     depends_on:
       - librenms
       - redis
@@ -102,6 +108,9 @@ services:
   dispatcher2:
     image: librenms/librenms:edge
     hostname: librenms-dispatcher-5678
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
     depends_on:
       - librenms
       - redis
@@ -127,6 +136,9 @@ services:
   syslogng:
     image: librenms/librenms:edge
     hostname: librenms-syslogng
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
     depends_on:
       - librenms
     volumes:

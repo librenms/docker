@@ -79,8 +79,11 @@ RUN apk --update --no-cache add \
   && curl -sSL https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
   && apk del build-dependencies \
   && rm -rf /var/cache/apk/* /var/www/* /tmp/* \
+  && echo "/usr/sbin/fping -6 \$@" > /usr/sbin/fping6 \
+  && chmod +x /usr/sbin/fping6 \
   && setcap cap_net_raw+ep /usr/bin/nmap \
-  && setcap cap_net_raw+ep /usr/sbin/fping
+  && setcap cap_net_raw+ep /usr/sbin/fping \
+  && setcap cap_net_raw+ep /usr/sbin/fping6
 
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS="2" \
   LIBRENMS_VERSION="1.69" \
