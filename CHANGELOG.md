@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.70.1-RC1 (2020/12/02)
+
+* LibreNMS 1.70.1
+* Add NET_ADMIN capability and fix fping6 (#140)
+
 ## 1.69-RC3 (2020/11/22)
 
 * Fix tzdata issue with Alpine (#143)
