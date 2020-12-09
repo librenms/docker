@@ -88,7 +88,7 @@ if [ -n "$DISPATCHER_NODE_ID" ]; then
 fi
 
 # Redis Sentinel
-if [ -n "REDIS_SENTINEL" ]; then
+if [ -n "$REDIS_SENTINEL" ]; then
   echo "Setting Redis Sentinel"
   cat >> ${LIBRENMS_PATH}/.env <<EOL
 REDIS_SENTINEL=${REDIS_SENTINEL}
