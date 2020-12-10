@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.70.1-RC2 (2020/12/10)
+
+* Fix Redis for dispatcher
+
 ## 1.70.1-RC1 (2020/12/02)
 
 * LibreNMS 1.70.1
