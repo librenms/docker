@@ -87,25 +87,23 @@ if [ -n "$DISPATCHER_NODE_ID" ]; then
   sed -i "s|^NODE_ID=.*|NODE_ID=$DISPATCHER_NODE_ID|g" "${LIBRENMS_PATH}/.env"
 fi
 
-# Redis Sentinel
-if [ -n "$REDIS_SENTINEL" ]; then
-  echo "Setting Redis Sentinel"
+# Redis
+if [ -z "$REDIS_HOST" ] && [ -z "$REDIS_SENTINEL" ]; then
+  >&2 echo "ERROR: REDIS_HOST or REDIS_SENTINEL must be defined"
+  exit 1
+elif [ -n "$REDIS_HOST" ]; then
+echo "Setting Redis"
   cat >> ${LIBRENMS_PATH}/.env <<EOL
-REDIS_SENTINEL=${REDIS_SENTINEL}
-REDIS_SENTINEL_SERVICE=${REDIS_SENTINEL_SERVICE}
+REDIS_HOST=${REDIS_HOST}
 REDIS_PORT=${REDIS_PORT}
 REDIS_PASSWORD=${REDIS_PASSWORD}
 REDIS_DB=${REDIS_DB}
 EOL
-else 
-  # Redis
-  if [ -z "$REDIS_HOST" ]; then
-    >&2 echo "ERROR: REDIS_HOST or REDIS_SENTINEL must be defined"
-    exit 1
-  fi
-  echo "Setting Redis"
+elif [ -n "$REDIS_SENTINEL" ]; then
+echo "Setting Redis Sentinel"
   cat >> ${LIBRENMS_PATH}/.env <<EOL
-REDIS_HOST=${REDIS_HOST}
+REDIS_SENTINEL=${REDIS_SENTINEL}
+REDIS_SENTINEL_SERVICE=${REDIS_SENTINEL_SERVICE}
 REDIS_PORT=${REDIS_PORT}
 REDIS_PASSWORD=${REDIS_PASSWORD}
 REDIS_DB=${REDIS_DB}
