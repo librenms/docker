@@ -20,6 +20,7 @@ RUN apk --update --no-cache add \
     graphviz \
     imagemagick \
     ipmitool \
+    iputils \
     mariadb-client \
     monitoring-plugins \
     mtr \
@@ -81,9 +82,15 @@ RUN apk --update --no-cache add \
   && rm -rf /var/cache/apk/* /var/www/* /tmp/* \
   && echo "/usr/sbin/fping -6 \$@" > /usr/sbin/fping6 \
   && chmod +x /usr/sbin/fping6 \
+  && chmod u+s,g+s \
+    /bin/ping \
+    /bin/ping6 \
+    /usr/lib/monitoring-plugins/check_icmp \
   && setcap cap_net_raw+ep /usr/bin/nmap \
   && setcap cap_net_raw+ep /usr/sbin/fping \
-  && setcap cap_net_raw+ep /usr/sbin/fping6
+  && setcap cap_net_raw+ep /usr/sbin/fping6 \
+  && setcap cap_net_raw+ep /usr/lib/monitoring-plugins/check_icmp \
+  && setcap cap_net_raw+ep /usr/lib/monitoring-plugins/check_ping
 
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS="2" \
   LIBRENMS_VERSION="1.70.1" \
