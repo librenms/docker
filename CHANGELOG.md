@@ -1,5 +1,13 @@
 # Changelog
 
+## 21.1.0-r0 (2021/02/02)
+
+* LibreNMS 21.1.0
+* Switch to buildx bake
+* Do not fail on permission issue
+* Redis - Add scheme to allow TLS (#159)
+* Add iputils and fix perms (#131)
+
 ## 1.70.1-RC2 (2020/12/10)
 
 * Fix Redis for dispatcher
