@@ -1,8 +1,6 @@
 FROM --platform=${TARGETPLATFORM:-linux/amd64} crazymax/alpine-s6:3.12
-
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
-RUN printf "I am running on ${BUILDPLATFORM:-linux/amd64}, building for ${TARGETPLATFORM:-linux/amd64}\n$(uname -a)\n"
 
 LABEL maintainer="CrazyMax"
 
@@ -93,7 +91,7 @@ RUN apk --update --no-cache add \
   && setcap cap_net_raw+ep /usr/lib/monitoring-plugins/check_ping
 
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS="2" \
-  LIBRENMS_VERSION="1.70.1" \
+  LIBRENMS_VERSION="21.1.0" \
   LIBRENMS_PATH="/opt/librenms" \
   LIBRENMS_DOCKER="1" \
   TZ="UTC" \
