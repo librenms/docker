@@ -1,5 +1,9 @@
 # Changelog
 
+## 21.1.0-r1 (2021/02/13)
+
+* Move back to s6-overlay 2.1.0.2 (#164)
+
 ## 21.1.0-r0 (2021/02/02)
 
 * LibreNMS 21.1.0
