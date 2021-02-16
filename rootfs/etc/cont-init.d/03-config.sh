@@ -174,7 +174,6 @@ if [ -n "${RRDCACHED_SERVER}" ]; then
     cat > ${LIBRENMS_PATH}/config.d/rrdcached.php <<EOL
 <?php
 \$config['rrdcached'] = "${RRDCACHED_SERVER}";
-\$config['rrdtool_version'] = "1.7.3";
 EOL
 fi
 

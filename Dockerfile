@@ -1,4 +1,4 @@
-FROM --platform=${TARGETPLATFORM:-linux/amd64} crazymax/alpine-s6:3.13
+FROM --platform=${TARGETPLATFORM:-linux/amd64} crazymax/alpine-s6:3.13-2.2.0.3
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 
