@@ -1,4 +1,4 @@
-FROM --platform=${TARGETPLATFORM:-linux/amd64} crazymax/alpine-s6:3.12-2.1.0.2
+FROM --platform=${TARGETPLATFORM:-linux/amd64} crazymax/alpine-s6:3.13-2.2.0.3
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 
@@ -62,7 +62,7 @@ RUN apk --update --no-cache add \
     runit \
     shadow \
     su-exec \
-    syslog-ng=3.27.1-r0 \
+    syslog-ng=3.30.1-r0 \
     ttf-dejavu \
     tzdata \
     util-linux \
