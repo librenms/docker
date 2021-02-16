@@ -1,5 +1,9 @@
 # Changelog
 
+## 21.1.0-r2 (2021/02/16)
+
+* Need to specify `rrdtool_version` (librenms/docker@ab027d7)
+
 ## 21.1.0-r1 (2021/02/13)
 
 * Downgrade to `s6-overlay` 2.1.0.2 (#164)
