@@ -1,3 +1,5 @@
+ARG LIBRENMS_VERSION="21.2.0"
+
 FROM --platform=${TARGETPLATFORM:-linux/amd64} crazymax/alpine-s6:3.13-2.2.0.3
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
@@ -91,7 +93,6 @@ RUN apk --update --no-cache add \
   && setcap cap_net_raw+ep /usr/lib/monitoring-plugins/check_ping
 
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS="2" \
-  LIBRENMS_VERSION="21.1.0" \
   LIBRENMS_PATH="/opt/librenms" \
   LIBRENMS_DOCKER="1" \
   TZ="UTC" \
@@ -104,6 +105,7 @@ RUN addgroup -g ${PGID} librenms \
   && chmod +x /usr/bin/distro
 
 WORKDIR ${LIBRENMS_PATH}
+ARG LIBRENMS_VERSION
 RUN apk --update --no-cache add -t build-dependencies \
     build-base \
     linux-headers \
