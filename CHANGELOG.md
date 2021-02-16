@@ -1,5 +1,11 @@
 # Changelog
 
+## 21.2.0-r0 (2021/02/16)
+
+* LibreNMS 21.2.0 (#167)
+* `s6-overlay` 2.2.0.3 (#162)
+* Alpine Linux 3.13 (#162)
+
 ## 21.1.0-r2 (2021/02/16)
 
 * Need to specify `rrdtool_version` (librenms/docker@ab027d7)
