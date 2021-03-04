@@ -1,11 +1,10 @@
 ARG LIBRENMS_VERSION="21.2.0"
 
-FROM --platform=${TARGETPLATFORM:-linux/amd64} crazymax/alpine-s6:3.13-2.2.0.3
-ARG TARGETPLATFORM
-ARG BUILDPLATFORM
-
+FROM crazymax/yasu:latest AS yasu
+FROM crazymax/alpine-s6:3.13-2.1.0.2
 LABEL maintainer="CrazyMax"
 
+COPY --from=yasu / /
 RUN apk --update --no-cache add \
     busybox-extras \
     acl \
@@ -63,7 +62,6 @@ RUN apk --update --no-cache add \
     rrdtool \
     runit \
     shadow \
-    su-exec \
     syslog-ng=3.30.1-r0 \
     ttf-dejavu \
     tzdata \
@@ -131,7 +129,6 @@ RUN apk --update --no-cache add -t build-dependencies \
     /var/cache/apk/*
 
 COPY rootfs /
-RUN chmod a+x /usr/local/bin/*
 
 EXPOSE 8000 514 514/udp
 VOLUME [ "/data" ]
