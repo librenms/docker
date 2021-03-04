@@ -1,4 +1,4 @@
 #!/bin/sh
 
 cd /opt/librenms || exit 1
-su-exec librenms:librenms php artisan "$@"
+yasu librenms:librenms php artisan "$@"
