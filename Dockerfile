@@ -95,7 +95,9 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS="2" \
   LIBRENMS_DOCKER="1" \
   TZ="UTC" \
   PUID="1000" \
-  PGID="1000"
+  PGID="1000" \
+  MIBDIRS="/opt/librenms/mibs:/opt/librenms/mibs/cisco" \
+  MIBS="IF-MIB"
 
 RUN addgroup -g ${PGID} librenms \
   && adduser -D -h /home/librenms -u ${PUID} -G librenms -s /bin/sh -D librenms \
