@@ -5,7 +5,7 @@
 Docker compose is the recommended way to run this image. Copy the content of folder [examples/compose](../examples/compose) in `/var/librenms/` on your host for example. Edit the compose and env files with your preferences and run the following commands:
 
 ```bash
-docker-compose up -d
+docker-compose --project-name LibreNMS up -d
 docker-compose logs -f
 ```
 
