@@ -1,5 +1,9 @@
 # Changelog
 
+## 21.2.0-r2 (2021/03/10)
+
+* Handle LibreNMS plugins (#171)
+
 ## 21.2.0-r1 (2021/03/04)
 
 * Switch to `yasu`
