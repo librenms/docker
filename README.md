@@ -80,6 +80,7 @@ Image: librenms/librenms:latest
   * [LNMS command](doc/notes/lnms-command.md)
   * [Validate](doc/notes/validate.md)
   * [Dispatcher service](doc/notes/dispatcher-service.md)
+  * [Add a LibreNMS plugin](doc/notes/plugins.md)
   * [Syslog-ng](doc/notes/syslog-ng.md)
   * [Additional Monitoring plugins (Nagios)](doc/notes/additional-monitoring-plugins.md)
   * [Custom alert templates](doc/notes/alert-templates.md)
