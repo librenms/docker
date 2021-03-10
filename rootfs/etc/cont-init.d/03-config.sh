@@ -83,7 +83,7 @@ sed -i -e "s/RANDOMSTRINGGOESHERE/${LIBRENMS_SNMP_COMMUNITY}/" /etc/snmp/snmpd.c
 
 # Init files and folders
 echo "Initializing LibreNMS files / folders..."
-mkdir -p /data/config /data/logs /data/monitoring-plugins /data/rrd /data/weathermap /data/alert-templates
+mkdir -p /data/config /data/logs /data/monitoring-plugins /data/plugins /data/rrd /data/weathermap /data/alert-templates
 ln -sf /data/weathermap ${LIBRENMS_PATH}/html/plugins/Weathermap/configs
 touch /data/logs/librenms.log
 rm -rf ${LIBRENMS_PATH}/logs
@@ -185,9 +185,25 @@ cat > ${LIBRENMS_PATH}/config.d/dispatcher.php <<EOL
 \$config['service_watchdog_enabled'] = false;
 EOL
 
+# Check plugins
+echo "Checking LibreNMS plugins..."
+plugins=$(ls -l /data/plugins | egrep '^d' | awk '{print $9}')
+for plugin in ${plugins}; do
+  if [ "${plugin}" == "Weathermap" ]; then
+    echo "  WARNING: Plugin Weathermap cannot be overriden. Skipping..."
+    continue
+  fi
+  echo "  Linking plugin ${plugin}..."
+  if [ -d "${LIBRENMS_PATH}/html/plugins/${plugin}" ]; then
+    rm -rf "${LIBRENMS_PATH}/html/plugins/${plugin}"
+  fi
+  ln -sf "/data/plugins/${plugin}" "${LIBRENMS_PATH}/html/plugins/${plugin}"
+  chown -h librenms. "${LIBRENMS_PATH}/html/plugins/${plugin}"
+done
+
 # Fix perms
 echo "Fixing perms..."
-chown librenms. /data/config /data/monitoring-plugins /data/rrd /data/weathermap /data/alert-templates
+chown librenms. /data/config /data/monitoring-plugins /data/plugins /data/rrd /data/weathermap /data/alert-templates
 chown -R librenms. /data/logs ${LIBRENMS_PATH}/config.d ${LIBRENMS_PATH}/bootstrap ${LIBRENMS_PATH}/logs ${LIBRENMS_PATH}/storage
 chmod ug+rw /data/logs /data/rrd ${LIBRENMS_PATH}/bootstrap/cache ${LIBRENMS_PATH}/storage ${LIBRENMS_PATH}/storage/framework/*
 
