@@ -1,5 +1,9 @@
 # Changelog
 
+## 21.2.0-r3 (2021/03/18)
+
+* Upstream Alpine update
+
 ## 21.2.0-r2 (2021/03/10)
 
 * Handle LibreNMS plugins (#171)
