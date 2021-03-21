@@ -3,6 +3,7 @@
 ## 21.3.0-r0 (2021/03/21)
 
 * LibreNMS 21.3.0
+* Update syslog-ng max-connections (#179)
 
 ## 21.2.0-r3 (2021/03/18)
 
