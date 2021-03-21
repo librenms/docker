@@ -1,5 +1,9 @@
 # Changelog
 
+## 21.3.0-r0 (2021/03/21)
+
+* LibreNMS 21.3.0
+
 ## 21.2.0-r3 (2021/03/18)
 
 * Upstream Alpine update
