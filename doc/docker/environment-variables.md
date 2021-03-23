@@ -35,6 +35,12 @@
 
 * `SIDECAR_SYSLOGNG`: Set to `1` to enable sidecar syslog-ng mode for this container (default `0`)
 
+### Snmptrapd
+
+> :warning: Only used if you enable and run a [sidecar snmptrapd container](../notes/snmptrapd.md)
+
+* `SIDECAR_SNMPTRAPD`: Set to `1` to enable sidecar snmptrapd mode for this container (default `0`)
+
 ### Database
 
 * `DB_HOST`: MySQL database hostname / IP address
