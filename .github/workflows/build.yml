@@ -26,17 +26,19 @@ jobs:
         uses: actions/checkout@v2
       -
         name: Docker meta
-        id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
+        id: meta
+        uses: crazy-max/ghaction-docker-meta@v2
         with:
-          images: ${{ env.DOCKERHUB_SLUG }}
-          tag-edge: true
-          tag-match: (.*)-r
-          tag-match-group: 1
-          label-custom: |
+          images: |
+            ${{ env.DOCKERHUB_SLUG }}
+          tags: |
+            type=match,pattern=(.*)-r,group=1
+            type=ref,event=pr
+            type=edge
+          labels: |
             org.opencontainers.image.title=LibreNMS
             org.opencontainers.image.description=Fully featured network monitoring system
-            org.opencontainers.image.vendor=CrazyMax
+            org.opencontainers.image.vendor=LibreNMS
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -56,17 +58,17 @@ jobs:
         with:
           files: |
             ./docker-bake.hcl
-            ${{ steps.docker_meta.outputs.bake-file }}
+            ${{ steps.meta.outputs.bake-file }}
           targets: image-all
           push: ${{ github.event_name != 'pull_request' }}
       -
         name: Check manifest
         if: github.event_name != 'pull_request'
         run: |
-          docker buildx imagetools inspect ${{ env.DOCKERHUB_SLUG }}:${{ steps.docker_meta.outputs.version }}
+          docker buildx imagetools inspect ${{ env.DOCKERHUB_SLUG }}:${{ steps.meta.outputs.version }}
       -
         name: Inspect
         if: github.event_name != 'pull_request'
         run: |
-          docker pull ${{ env.DOCKERHUB_SLUG }}:${{ steps.docker_meta.outputs.version }}
-          docker image inspect ${{ env.DOCKERHUB_SLUG }}:${{ steps.docker_meta.outputs.version }}
+          docker pull ${{ env.DOCKERHUB_SLUG }}:${{ steps.meta.outputs.version }}
+          docker image inspect ${{ env.DOCKERHUB_SLUG }}:${{ steps.meta.outputs.version }}
