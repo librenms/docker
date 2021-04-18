@@ -1,5 +1,14 @@
 # Changelog
 
+## 21.4.0-r0 (2021/04/18)
+
+* LibreNMS 21.4.0 (#192)
+* Update db service example (#193)
+* Fix weathermap output perms (#191)
+* Fix warnings (#190)
+* All containers should connect to redis (#178)
+* alpine-s6 3.13-2.2.0.3 (#189)
+
 ## 21.3.0-r0 (2021/03/21)
 
 * LibreNMS 21.3.0
