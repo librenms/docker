@@ -88,6 +88,8 @@ ln -sf /data/weathermap ${LIBRENMS_PATH}/html/plugins/Weathermap/configs
 touch /data/logs/librenms.log
 rm -rf ${LIBRENMS_PATH}/logs
 rm -f ${LIBRENMS_PATH}/config.d/*
+mkdir -p /etc/logrotate.d
+touch /etc/logrotate.d/librenms
 
 echo "Setting LibreNMS configuration..."
 
