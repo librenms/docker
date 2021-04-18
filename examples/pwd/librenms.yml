@@ -75,6 +75,9 @@ services:
       DB_USER: *MYSQL_USER
       DB_PASSWORD: *MYSQL_PASSWORD
       DB_TIMEOUT: "60"
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_DB: "0"
     restart: always
 
   dispatcher:
@@ -153,6 +156,9 @@ services:
       DB_USER: *MYSQL_USER
       DB_PASSWORD: *MYSQL_PASSWORD
       DB_TIMEOUT: "60"
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_DB: "0"
       SIDECAR_SYSLOGNG: "1"
     restart: always
 
