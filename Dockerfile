@@ -14,6 +14,7 @@ RUN apk --update --no-cache add \
     ca-certificates \
     coreutils \
     curl \
+    file \
     fping \
     git \
     graphviz \
