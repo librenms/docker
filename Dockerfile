@@ -130,6 +130,7 @@ RUN apk --update --no-cache add -t build-dependencies \
     /var/cache/apk/*
 
 COPY rootfs /
+HEALTHCHECK NONE
 
 EXPOSE 8000 514 514/udp
 VOLUME [ "/data" ]
