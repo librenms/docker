@@ -1,5 +1,11 @@
 # Changelog
 
+## 21.5.1-r0 (2021/05/20)
+
+* LibreNMS 21.5.1 (#205)
+* Move to `docker/metadata-action` (#199)
+* Add `file` package (#195)
+
 ## 21.4.0-r0 (2021/04/18)
 
 * LibreNMS 21.4.0 (#192)
