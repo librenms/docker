@@ -20,6 +20,6 @@ mkdir -p /etc/services.d/snmptrapd
 cat > /etc/services.d/snmptrapd/run <<EOL
 #!/usr/bin/execlineb -P
 with-contenv
-/usr/sbin/snmptrapd -f -m IF-MIB -M /opt/librenms/mibs:/opt/librenms/mibs/cisco
+/usr/sbin/snmptrapd -f -m ALL -M /opt/librenms/mibs:/opt/librenms/mibs/cisco
 EOL
 chmod +x /etc/services.d/snmptrapd/run
