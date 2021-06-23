@@ -12,8 +12,7 @@ echo ">>"
 echo ">> Sidecar snmptrapd container detected"
 echo ">>"
 
-mkdir -p /data/snmptrapd /run/snmptrapd
-chown librenms. /data/snmptrapd
+mkdir -p /run/snmptrapd
 chown -R librenms. /run/snmptrapd
 
 sed -ie "s/@LIBRENMS_SNMP_COMMUNITY@/${LIBRENMS_SNMP_COMMUNITY}/" /etc/snmp/snmptrapd.conf
