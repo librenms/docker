@@ -26,6 +26,7 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 * Multi-platform image
 * [Dispatcher service](doc/docker/environment-variables.md#dispatcher-service) as "sidecar" container
 * Syslog-ng support through a ["sidecar" container](doc/docker/environment-variables.md#syslog-ng)
+* Snmp-trap support through a ["sidecar" container](doc/docker/environment-variables.md#snmptrapd)
 * Built-in LibreNMS [Weathermap plugin](https://docs.librenms.org/Extensions/Weathermap/)
 * Ability to add custom Monitoring plugins (Nagios)
 * Ability to add custom alert templates
