@@ -1,5 +1,10 @@
 # Changelog
 
+## 21.7.0-r0 (2021/08/01)
+
+* LibreNMS 21.7.0 (#215)
+* Create and enable a snmp trap handling container (#180)
+
 ## 21.6.0-r0 (2021/06/28)
 
 * LibreNMS 21.6.0 (#210)

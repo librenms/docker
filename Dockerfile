@@ -1,8 +1,7 @@
-ARG LIBRENMS_VERSION="21.6.0"
+ARG LIBRENMS_VERSION="21.7.0"
 
 FROM crazymax/yasu:latest AS yasu
 FROM crazymax/alpine-s6:3.13-2.2.0.3
-LABEL maintainer="CrazyMax"
 
 COPY --from=yasu / /
 RUN apk --update --no-cache add \
