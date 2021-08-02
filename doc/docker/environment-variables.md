@@ -40,6 +40,15 @@
 > :warning: Only used if you enable and run a [sidecar snmptrapd container](../notes/snmptrapd.md)
 
 * `SIDECAR_SNMPTRAPD`: Set to `1` to enable sidecar snmptrapd mode for this container (default `0`)
+* `SNMP_ACTION`: Sets what actions (`log`, `execute`, and/or `net`) to take with the SNMP trap (default `log,execute,net`)
+* `SNMP_USER`: Defines what username to authenticate with (default `librenms_user`)
+* `SNMP_AUTH`: Defines what password to authenticate with (default `auth_pass` should not be used, but will work)
+* `SNMP_PRIV`: Defines what password to encrypt packages with (default `priv_pass` should not be used, but will work)
+* `SNMP_AUTH_PROTO`: Sets what protocol (`MD5`|`SHA`) to use for authentication (default `SHA`)
+* `SNMP_PRIV_PROTO`: Sets what protocol (`DES`|`AES`) to use for encryption of packages (default `AES`)
+* `SNMP_SECURITY_LEVEL`: Sets what security level (`noauth`|`priv`) to use (default `priv`)
+* `SNMP_ENGINEID`: Defines what SNMP EngineID to use (default `1234567890`)
+* `SNMP_DISABLE_AUTHORIZATION`: Will disable the above access control checks, and revert to the previous behaviour of accepting all incoming notifications. (default `yes`)
 
 ### Database
 
