@@ -25,7 +25,7 @@ mkdir -p /run/snmptrapd
 chown -R librenms. /run/snmptrapd
 
 sed -ie "s/@LIBRENMS_SNMP_COMMUNITY@/${LIBRENMS_SNMP_COMMUNITY}/" /etc/snmp/snmptrapd.conf
-sed -ie "s/@SNMP_PROCESSING_TYPE@/${SNMP_PROCESSING_TYPE}/" /etc/snmp/snmptrapd.conf'
+sed -ie "s/@SNMP_PROCESSING_TYPE@/${SNMP_PROCESSING_TYPE}/" /etc/snmp/snmptrapd.conf
 sed -ie "s/@SNMP_USER@/${SNMP_USER}/" /etc/snmp/snmptrapd.conf
 sed -ie "s/@SNMP_AUTH@/${SNMP_AUTH}/" /etc/snmp/snmptrapd.conf
 sed -ie "s/@SNMP_PRIV@/${SNMP_PRIV}/" /etc/snmp/snmptrapd.conf
