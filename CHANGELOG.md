@@ -1,5 +1,10 @@
 # Changelog
 
+## 21.7.0-r2 (2021/08/10)
+
+* Misspelling of `SIDECAR_SNMPTRAPD` environment variable (#220)
+* Fix `librenms_snmptrapd` service typo (#219)
+
 ## 21.7.0-r1 (2021/08/07)
 
 * Add SNMP config (#216)
