@@ -168,5 +168,5 @@ services:
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
-      - "SIDECAR_SNNMPTRAPD=1"
+      - "SIDECAR_SNMPTRAPD=1"
     restart: always
