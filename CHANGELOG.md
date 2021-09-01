@@ -1,5 +1,10 @@
 # Changelog
 
+## 21.8.0-r0 (2021/09/01)
+
+* LibreNMS 21.8.0 (#222)
+* Alpine Linux 3.14 (#221)
+
 ## 21.7.0-r2 (2021/08/10)
 
 * Misspelling of `SIDECAR_SNMPTRAPD` environment variable (#220)
