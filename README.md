@@ -28,7 +28,7 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 * Syslog-ng support through a ["sidecar" container](doc/docker/environment-variables.md#syslog-ng)
 * Snmp-trap support through a ["sidecar" container](doc/docker/environment-variables.md#snmptrapd)
 * Built-in LibreNMS [Weathermap plugin](https://docs.librenms.org/Extensions/Weathermap/)
-* Ability to add custom Monitoring plugins (Nagios)
+* Ability to add custom Monitoring plugins
 * Ability to add custom alert templates
 * OPCache enabled to store precompiled script bytecode in shared memory
 * [s6-overlay](https://github.com/just-containers/s6-overlay/) as process supervisor
@@ -83,7 +83,7 @@ Image: librenms/librenms:latest
   * [Dispatcher service](doc/notes/dispatcher-service.md)
   * [Add a LibreNMS plugin](doc/notes/plugins.md)
   * [Syslog-ng](doc/notes/syslog-ng.md)
-  * [Additional Monitoring plugins (Nagios)](doc/notes/additional-monitoring-plugins.md)
+  * [Additional Monitoring plugins](doc/notes/additional-monitoring-plugins.md)
   * [Custom alert templates](doc/notes/alert-templates.md)
 * [Upgrade](doc/upgrade.md)
 
