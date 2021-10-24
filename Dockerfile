@@ -24,6 +24,7 @@ RUN apk --update --no-cache add \
     monitoring-plugins \
     mtr \
     net-snmp \
+    net-snmp-perl \
     net-snmp-tools \
     nginx \
     nmap \
