@@ -74,7 +74,7 @@ RUN apk --update --no-cache add \
     musl-dev \
     python3-dev \
   && pip3 install --upgrade pip \
-  && pip3 install python-memcached mysqlclient --upgrade \
+  && pip3 install python-memcached mysqlclient pywinrm --upgrade \
   && curl -sSL https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
   && apk del build-dependencies \
   && rm -rf /var/cache/apk/* /var/www/* /tmp/* \
