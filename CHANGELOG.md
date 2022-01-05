@@ -1,5 +1,11 @@
 # Changelog
 
+## 21.12.1-r0 (2022/01/05)
+
+* LibreNMS 21.12.1 (#247)
+* Fix pip pkgs (#249)
+* nginx: increase fastcgi buffer size (#246)
+
 ## 21.11.0-r0 (2021/11/14)
 
 * LibreNMS 21.11.0 (#242)
