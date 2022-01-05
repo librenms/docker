@@ -77,7 +77,7 @@ RUN apk --update --no-cache add \
   && pip3 install python-memcached mysqlclient --upgrade \
   && curl -sSL https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
   && apk del build-dependencies \
-  && rm -rf /var/cache/apk/* /var/www/* /tmp/* \
+  && rm -rf /var/www/* /tmp/* \
   && echo "/usr/sbin/fping -6 \$@" > /usr/sbin/fping6 \
   && chmod +x /usr/sbin/fping6 \
   && chmod u+s,g+s \
@@ -110,7 +110,7 @@ RUN apk --update --no-cache add -t build-dependencies \
     musl-dev \
     python3-dev \
   && git clone --branch ${LIBRENMS_VERSION} https://github.com/librenms/librenms.git . \
-  && pip3 install -r requirements.txt --upgrade \
+  && pip3 install --ignore-installed -r requirements.txt --upgrade \
   && COMPOSER_CACHE_DIR="/tmp" composer install --no-dev --no-interaction --no-ansi \
   && mkdir config.d \
   && cp config.php.default config.php \
@@ -125,8 +125,7 @@ RUN apk --update --no-cache add -t build-dependencies \
     html/plugins/Test \
     html/plugins/Weathermap/.git \
     html/plugins/Weathermap/configs \
-    /tmp/* \
-    /var/cache/apk/*
+    /tmp/*
 
 COPY rootfs /
 
