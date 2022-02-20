@@ -1,7 +1,7 @@
 ARG LIBRENMS_VERSION="22.2.0"
 
 FROM crazymax/yasu:latest AS yasu
-FROM crazymax/alpine-s6:3.14-2.2.0.3
+FROM crazymax/alpine-s6:3.15-2.2.0.3
 
 COPY --from=yasu / /
 RUN apk --update --no-cache add \
@@ -62,7 +62,7 @@ RUN apk --update --no-cache add \
     rrdtool \
     runit \
     shadow \
-    syslog-ng=3.30.1-r1 \
+    syslog-ng=3.30.1-r3 \
     ttf-dejavu \
     tzdata \
     util-linux \
