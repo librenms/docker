@@ -67,7 +67,14 @@ while ! ${dbcmd} -e "show databases;" > /dev/null 2>&1; do
   fi;
 done
 echo "Database ready!"
-counttables=$(echo 'SHOW TABLES' | ${dbcmd} "$DB_NAME" | wc -l)
+existingusertable=$(echo 'SHOW TABLES' | ${dbcmd} "$DB_NAME" | grep -cE '^users$')
+existingusers=$(
+  if [ "${existingusertable}" -eq "0" ]; then
+    echo "0"
+  else
+    echo 'SELECT COUNT(*) FROM users' | ${dbcmd} -s "$DB_NAME"
+  fi
+)
 
 echo "Updating database schema..."
 lnms migrate --force --no-ansi --no-interaction
@@ -77,7 +84,7 @@ echo "Clear cache"
 artisan cache:clear --no-interaction
 artisan config:cache --no-interaction
 
-if [ "${counttables}" -eq "0" ]; then
+if [ "${existingusertable}" -eq "0"] || [ "${existingusers}" -eq "0" ]; then
   echo "Creating admin user..."
   lnms user:add --password=librenms --email=librenms@librenms.docker --role=admin --no-ansi --no-interaction librenms
 fi
