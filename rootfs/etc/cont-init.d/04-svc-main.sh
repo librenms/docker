@@ -84,7 +84,7 @@ echo "Clear cache"
 artisan cache:clear --no-interaction
 artisan config:cache --no-interaction
 
-if [ "${existingusertable}" -eq "0"] || [ "${existingusers}" -eq "0" ]; then
+if [ "${existingusertable}" -eq "0" ] || [ "${existingusers}" -eq "0" ]; then
   echo "Creating admin user..."
   lnms user:add --password=librenms --email=librenms@librenms.docker --role=admin --no-ansi --no-interaction librenms
 fi
