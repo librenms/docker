@@ -1,4 +1,4 @@
-ARG LIBRENMS_VERSION="22.2.1"
+ARG LIBRENMS_VERSION="22.2.2"
 
 FROM crazymax/yasu:latest AS yasu
 FROM crazymax/alpine-s6:3.15-2.2.0.3
