@@ -1,4 +1,4 @@
-ARG LIBRENMS_VERSION="22.4.0"
+ARG LIBRENMS_VERSION="22.4.1"
 
 FROM crazymax/yasu:latest AS yasu
 FROM crazymax/alpine-s6:3.15-2.2.0.3
@@ -62,7 +62,7 @@ RUN apk --update --no-cache add \
     rrdtool \
     runit \
     shadow \
-    syslog-ng=3.30.1-r3 \
+    syslog-ng=3.35.1 \
     ttf-dejavu \
     tzdata \
     util-linux \
