@@ -1,3 +1,14 @@
 #!/bin/sh
 
-yasu librenms:librenms php -f /opt/librenms/lnms "$@"
+currUser=`ps -o user= -p $$`
+currGroup=`ps -o group= -p $$`
+
+if [[ "$currUser" == "$LIBRENMS_USER" ]]; then
+  if [[ "$currGroup" == "$LIBRENMS_GROUP" ]]; then
+    php -f /opt/librenms/lnms "$@"
+  else
+    yasu librenms:librenms php -f /opt/librenms/lnms "$@";
+  fi
+else
+  yasu librenms:librenms php -f /opt/librenms/lnms "$@";
+fi
