@@ -125,6 +125,8 @@ RUN apk --update --no-cache add -t build-dependencies \
   && rm -rf .git \
     html/plugins/Test \
     html/plugins/Weathermap/.git \
+    doc/ \
+    tests/ \
     /tmp/*
 
 COPY rootfs /
