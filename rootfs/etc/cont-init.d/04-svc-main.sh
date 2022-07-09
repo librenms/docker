@@ -70,6 +70,13 @@ while ! ${dbcmd} -e "show databases;" >/dev/null 2>&1; do
 done
 echo "Database ready!"
 
+# Enable first run wizard if db is empty
+counttables=$(echo 'SHOW TABLES' | ${dbcmd} "$DB_NAME" | wc -l)
+if [ "${counttables}" -eq "0" ]; then
+  echo "Enabling First Run Wizard..."
+  echo "INSTALL=user,finish">> ${LIBRENMS_PATH}/.env
+fi
+
 echo "Updating database schema..."
 lnms migrate --force --no-ansi --no-interaction
 artisan db:seed --force --no-ansi --no-interaction
