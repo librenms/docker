@@ -1,5 +1,6 @@
 #!/usr/bin/with-contenv sh
 
+STANDALONE=${STANDALONE:-0}
 SIDECAR_SNMPTRAPD=${SIDECAR_SNMPTRAPD:-0}
 LIBRENMS_SNMP_COMMUNITY=${LIBRENMS_SNMP_COMMUNITY:-librenmsdocker}
 SNMP_PROCESSING_TYPE=${SNMP_PROCESSING_TYPE:-log,execute,net}
@@ -12,14 +13,17 @@ SNMP_SECURITY_LEVEL=${SNMP_SECURITY_LEVEL:-priv}
 SNMP_ENGINEID=${SNMP_ENGINEID:-1234567890}
 SNMP_DISABLE_AUTHORIZATION=${SNMP_DISABLE_AUTHORIZATION:-yes}
 
-# Continue only if sidecar snmptrapd container
-if [ "$SIDECAR_SNMPTRAPD" != "1" ]; then
+# Continue only if sidecar snmptrapd container or stand-alone
+if [ "$STANDALONE" == "1" ]; then
+  echo "Configuring snmptrapd in stand-alone mode"
+elif [ "$SIDECAR_SNMPTRAPD" != "1" ]; then
   exit 0
+else
+  echo ">>"
+  echo ">> Sidecar snmptrapd container detected"
+  echo ">>"
 fi
 
-echo ">>"
-echo ">> Sidecar snmptrapd container detected"
-echo ">>"
 
 mkdir -p /run/snmptrapd
 chown -R librenms. /run/snmptrapd

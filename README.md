@@ -27,6 +27,7 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 * [Dispatcher service](doc/docker/environment-variables.md#dispatcher-service) as "sidecar" container
 * Syslog-ng support through a ["sidecar" container](doc/docker/environment-variables.md#syslog-ng)
 * Snmp-trap support through a ["sidecar" container](doc/docker/environment-variables.md#snmptrapd)
+* Sidecar modular service mode or stand-alone mode
 * Built-in LibreNMS [Weathermap plugin](https://docs.librenms.org/Extensions/Weathermap/)
 * Ability to add custom Monitoring plugins
 * Ability to add custom alert templates
@@ -37,6 +38,46 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 * [RRDcached](https://github.com/crazy-max/docker-rrdcached) image ready to use for data caching and graphs
 * [msmtpd SMTP relay](https://github.com/crazy-max/docker-msmtpd) image to send emails
 * [MariaDB](https://github.com/docker-library/mariadb) image as database instance
+
+## Quick Start
+
+### Modular sidecar layout
+
+You should carefully review the Docker compose file and edit it to suit your needs.
+
+```shell
+wget https://raw.githubusercontent.com/librenms/docker/master/examples/compose/docker-compose.yml
+
+editor docker-compose.yml
+
+MYSQL_DATABASE=librenms \
+MYSQL_USER=librenms \
+MYSQL_PASSWORD="super_secure_password123" \
+docker-compose -f docker-compose.yml up -d
+```
+
+### Stand-alone layout
+
+Install mariadb and librenms as two containers listening on port 8000.
+This uses pwgen to generate a random mysql password, alternatively, you may just enter a password. 
+
+```shell
+wget https://raw.githubusercontent.com/librenms/docker/master/examples/compose/docker-compose-standalone.yml
+MYSQL_PASSWORD="`pwgen -Bs1 12`" docker-compose -f docker-compose-standalone.yml up -d
+```
+
+### Stand-alone with HTTPS
+
+Use Traefik to generate a letsencrypt ssl certificate and redirect to https.  Uses pwgen.
+
+```shell
+wget https://raw.githubusercontent.com/librenms/docker/master/examples/compose/docker-compose-standalone-https.yml
+MYSQL_PASSWORD="`pwgen -Bs1 12`" \
+LETSENCRYPT_EMAIL="email@example.com" \
+LIBRENMS_BASE_URL="public-dns.example.com" \
+docker-compose -f docker-compose-standalone-https.yml up -d
+```
+
 
 ## Build locally
 
