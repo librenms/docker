@@ -116,6 +116,14 @@ DB_USERNAME=${DB_USER}
 DB_PASSWORD=${DB_PASSWORD}
 EOL
 
+# Enable first run wizard if db is empty
+counttables=$(echo 'SHOW TABLES' | ${dbcmd} "$DB_NAME" | wc -l)
+if [ "${counttables}" -eq "0" ]; then
+  echo "Enabling First Run Wizard..."
+  echo "INSTALL=user,finish">> ${LIBRENMS_PATH}/.env
+fi
+
+
 # Config : Directories
 cat >${LIBRENMS_PATH}/database/seeders/config/directories.yaml <<EOL
 install_dir: '${LIBRENMS_PATH}'
