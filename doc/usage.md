@@ -6,7 +6,8 @@ Docker compose is the recommended way to run this image.
 
 ### Modular sidecar layout
 
-Copy the content of folder [examples/compose](../examples/compose) to your host. Edit the compose and env files with your preferences and run the following commands:
+Copy the contents of the examples folder [examples/compose](../examples/compose) to your host.
+Edit the compose and env files with your preferences and run the following commands:
 You should carefully review the Docker compose file and edit it to suit your needs.
 
 ```shell
