@@ -60,6 +60,7 @@ RUN apk --update --no-cache add \
     python3 \
     py3-pip \
     rrdtool \
+    rrdtool-cached \
     runit \
     shadow \
     syslog-ng=3.30.1-r4 \
@@ -109,7 +110,7 @@ RUN apk --update --no-cache add -t build-dependencies \
     linux-headers \
     musl-dev \
     python3-dev \
-  && git clone --branch ${LIBRENMS_VERSION} https://github.com/librenms/librenms.git . \
+  && git clone --depth 1 --branch ${LIBRENMS_VERSION} https://github.com/librenms/librenms.git . \
   && pip3 install --ignore-installed -r requirements.txt --upgrade \
   && COMPOSER_CACHE_DIR="/tmp" composer install --no-dev --no-interaction --no-ansi \
   && mkdir config.d \
@@ -129,7 +130,7 @@ RUN apk --update --no-cache add -t build-dependencies \
 
 COPY rootfs /
 
-EXPOSE 8000 514 514/udp 162 162/udp
+EXPOSE 8000 42217 514 514/udp 162 162/udp
 VOLUME [ "/data" ]
 
 ENTRYPOINT [ "/init" ]

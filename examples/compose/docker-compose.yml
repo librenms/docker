@@ -61,6 +61,7 @@ services:
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
+      - "RRDCACHED_SERVER=rrdcached:42217"
       - "REDIS_HOST=redis"
       - "REDIS_PORT=6379"
       - "REDIS_DB=0"
@@ -89,6 +90,7 @@ services:
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
+      - "RRDCACHED_SERVER=rrdcached:42217"
       - "DISPATCHER_NODE_ID=dispatcher1"
       - "REDIS_HOST=redis"
       - "REDIS_PORT=6379"
@@ -161,4 +163,29 @@ services:
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
       - "SIDECAR_SNMPTRAPD=1"
+    restart: always
+
+  rrdcached:
+    image: librenms/librenms:latest
+    container_name: librenms_rrdcached
+    hostname: librenms-rrdcached
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    depends_on:
+      - librenms
+    ports:
+      - target: 42217
+        published: 42217
+        protocol: tcp
+    volumes:
+      - "./librenms:/data"
+    env_file:
+      - "./librenms.env"
+    environment:
+      - "TZ=${TZ}"
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "SIDECAR_RRDCACHED=1"
+      - "RRDCACHED_SERVER=rrdcached:42217"
     restart: always
