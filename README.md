@@ -27,6 +27,7 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 * [Dispatcher service](doc/docker/environment-variables.md#dispatcher-service) as "sidecar" container
 * Syslog-ng support through a ["sidecar" container](doc/docker/environment-variables.md#syslog-ng)
 * Snmp-trap support through a ["sidecar" container](doc/docker/environment-variables.md#snmptrapd)
+* Sidecar modular service mode or stand-alone mode
 * Built-in LibreNMS [Weathermap plugin](https://docs.librenms.org/Extensions/Weathermap/)
 * Ability to add custom Monitoring plugins
 * Ability to add custom alert templates
@@ -37,6 +38,10 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 * [RRDcached](https://github.com/crazy-max/docker-rrdcached) image ready to use for data caching and graphs
 * [msmtpd SMTP relay](https://github.com/crazy-max/docker-msmtpd) image to send emails
 * [MariaDB](https://github.com/docker-library/mariadb) image as database instance
+
+## Quick Start
+
+Visit the [usage documentation](doc/usage.md) and run the stand-alone docker compose.
 
 ## Build locally
 

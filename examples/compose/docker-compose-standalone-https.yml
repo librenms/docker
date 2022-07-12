@@ -1,0 +1,88 @@
+version: "3.5"
+
+services:
+  db:
+    image: mariadb:10.7
+    container_name: librenms_db
+    restart: always
+    command:
+      - "mysqld"
+      - "--innodb-file-per-table=1"
+      - "--lower-case-table-names=0"
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+    volumes:
+      - "./db:/var/lib/mysql"
+    environment:
+      - "TZ=${TZ}"
+      - "MYSQL_ALLOW_EMPTY_PASSWORD=yes"
+      - "MYSQL_DATABASE=librenms"
+      - "MYSQL_USER=librenms"
+      - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+
+  # simple static Traefik config, you may want to use the docker provider and labels instead
+  traefik:
+    image: traefik:2.7 # please check version tag to use the most current version
+    restart: unless-stopped
+    volumes:
+      - ./letsencrypt/:/letsencrypt/       # TLS certificate storage
+    ports:
+      - "80:80"
+      - "443:443"
+    command:
+      - "--entryPoints.web.address=:80"
+      - "--entryPoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencryptresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.letsencryptresolver.acme.tlschallenge.entrypoint=websecure"
+      - "--certificatesresolvers.letsencryptresolver.acme.email=$LETSENCRYPT_EMAIL"
+      - "--certificatesresolvers.letsencryptresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.letsencryptresolver.acme.caserver: https://acme-staging-v02.api.letsencrypt.org/directory" # Use staging server first
+      - "--http.routers.http-catchall.entrypoints=web"
+      - "--http.routers.http-catchall.rule=HostRegexp(`{host:.+}`)"
+      - "--http.routers.http-catchall.middlewares=redirect-to-https"
+      - "--http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "--http.routers.librenms.entrypoints=websecure"
+      - "--http.routers.librenms.tls.certresolver=letsencryptresolver"
+      - "--http.routers.librenms.rule=Host(`$LIBRENMS_BASE_URL`)"
+      - "--http.routers.librenms.service=librenms"
+
+  librenms:
+    image: librenms/librenms:latest
+    container_name: librenms
+    hostname: librenms
+    restart: always
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    ports:
+      - target: 8000
+        published: 8000
+        protocol: tcp
+      - target: 162
+        published: 162
+        protocol: tcp
+      - target: 162
+        published: 162
+        protocol: udp
+      - target: 514
+        published: 514
+        protocol: tcp
+      - target: 514
+        published: 514
+        protocol: udp
+    depends_on:
+      - db
+    volumes:
+      - "./librenms:/data"
+    environment:
+      - "STANDALONE=1"
+      - "TZ=${TZ}"
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "DB_HOST=db"
+      - "DB_NAME=librenms"
+      - "DB_USER=librenms"
+      - "DB_PASSWORD=${MYSQL_PASSWORD}"
+      - "DB_TIMEOUT=60"
+
+

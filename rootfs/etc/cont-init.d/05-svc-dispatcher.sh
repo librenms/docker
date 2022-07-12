@@ -28,6 +28,7 @@ DB_NAME=${DB_NAME:-librenms}
 DB_USER=${DB_USER:-librenms}
 DB_TIMEOUT=${DB_TIMEOUT:-60}
 
+STANDALONE=${STANDALONE:-0}
 SIDECAR_DISPATCHER=${SIDECAR_DISPATCHER:-0}
 #DISPATCHER_NODE_ID=${DISPATCHER_NODE_ID:-dispatcher1}
 
@@ -38,6 +39,27 @@ REDIS_PORT=${REDIS_PORT:-6379}
 REDIS_SENTINEL_SERVICE=${REDIS_SENTINEL_SERVICE:-librenms}
 file_env 'REDIS_PASSWORD'
 REDIS_DB=${REDIS_DB:-0}
+
+# If stand-alone or dispatcher sidecar, install the service
+if [ "$STANDALONE" == "1" ]; then
+  echo "Configuring dispatcher in stand-alone mode"
+elif [ "$SIDECAR_DISPATCHER" != "1" ]; then
+  exit 0
+else
+  echo ">>"
+  echo ">> Sidecar dispatcher container detected"
+  echo ">>"
+fi
+
+# Create service
+mkdir -p /etc/services.d/dispatcher
+cat > /etc/services.d/dispatcher/run <<EOL
+#!/usr/bin/execlineb -P
+with-contenv
+s6-setuidgid ${PUID}:${PGID}
+/opt/librenms/librenms-service.py ${DISPATCHER_ARGS}
+EOL
+chmod +x /etc/services.d/dispatcher/run
 
 # Continue only if sidecar dispatcher container
 if [ "$SIDECAR_DISPATCHER" != "1" ]; then
@@ -111,13 +133,3 @@ REDIS_PASSWORD=${REDIS_PASSWORD}
 REDIS_DB=${REDIS_DB}
 EOL
 fi
-
-# Create service
-mkdir -p /etc/services.d/dispatcher
-cat > /etc/services.d/dispatcher/run <<EOL
-#!/usr/bin/execlineb -P
-with-contenv
-s6-setuidgid ${PUID}:${PGID}
-/opt/librenms/librenms-service.py ${DISPATCHER_ARGS}
-EOL
-chmod +x /etc/services.d/dispatcher/run
