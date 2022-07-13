@@ -182,8 +182,7 @@ Image: librenms/librenms:latest
 
 ## Volumes
 
-* `/data`: Contains configuration, plugins, rrd database, logs, additional
-* Monitoring plugins, additional syslog-ng config files
+* `/data`: Contains configuration, plugins, rrd database, logs, additional Monitoring plugins, additional syslog-ng config files
 
 > **Warning**
 >
@@ -240,7 +239,8 @@ On first launch, an initial administrator user will be created:
 
 ## Upgrade
 
-To upgrade to the latest version of LibreNMS, pull the newer image and launch the container. LibreNMS will upgrade automatically:
+To upgrade to the latest version of LibreNMS, pull the newer image and launch
+the container. LibreNMS will upgrade automatically:
 
 ```console
 $ docker-compose down
