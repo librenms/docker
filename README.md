@@ -118,6 +118,16 @@ Image: librenms/librenms:latest
 * `REAL_IP_FROM`: Trusted addresses that are known to send correct replacement addresses (default `0.0.0.0/32`)
 * `REAL_IP_HEADER`: Request header field whose value will be used to replace the client address (default `X-Forwarded-For`)
 * `LOG_IP_VAR`: Use another variable to retrieve the remote IP address for access [log_format](http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) on Nginx. (default `remote_addr`)
+* `REDIS_HOST`: Redis host for poller synchronization
+* `REDIS_SENTINEL`: Redis Sentinel host for high availability Redis cluster
+* `REDIS_SENTINEL_SERVICE`: Redis Sentinel service name (default `librenms`)
+* `REDIS_SCHEME`: Redis scheme (default `tcp`)
+* `REDIS_PORT`: Redis port (default `6379`)
+* `REDIS_PASSWORD`: Redis password
+* `REDIS_DB`: Redis database (default `0`)
+* `REDIS_CACHE_DB`: Redis cache database (default `1`)
+* `SESSION_DRIVER`: [Driver to use for session storage](https://github.com/librenms/librenms/blob/master/config/session.php) (default `file`)
+* `CACHE_DRIVER`: [Driver to use for cache and locks](https://github.com/librenms/librenms/blob/master/config/cache.php) (default `database`)
 
 ### Dispatcher service
 

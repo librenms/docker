@@ -81,8 +81,8 @@ services:
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
       - "REDIS_HOST=redis"
-      - "REDIS_PORT=6379"
-      - "REDIS_DB=0"
+      - "CACHE_DRIVER=redis"
+      - "SESSION_DRIVER=redis"
     restart: always
 
   dispatcher:
@@ -110,8 +110,8 @@ services:
       - "DB_TIMEOUT=60"
       - "DISPATCHER_NODE_ID=dispatcher1"
       - "REDIS_HOST=redis"
-      - "REDIS_PORT=6379"
-      - "REDIS_DB=0"
+      - "CACHE_DRIVER=redis"
+      - "SESSION_DRIVER=redis"
       - "SIDECAR_DISPATCHER=1"
     restart: always
 
@@ -145,8 +145,8 @@ services:
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
       - "REDIS_HOST=redis"
-      - "REDIS_PORT=6379"
-      - "REDIS_DB=0"
+      - "CACHE_DRIVER=redis"
+      - "SESSION_DRIVER=redis"
       - "SIDECAR_SYSLOGNG=1"
     restart: always
 
@@ -179,5 +179,8 @@ services:
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
+      - "REDIS_HOST=redis"
+      - "CACHE_DRIVER=redis"
+      - "SESSION_DRIVER=redis"
       - "SIDECAR_SNMPTRAPD=1"
     restart: always
