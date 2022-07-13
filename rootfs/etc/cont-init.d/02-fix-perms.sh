@@ -1,4 +1,6 @@
 #!/usr/bin/with-contenv sh
+# shellcheck shell=sh
+set -e
 
 echo "Fixing perms..."
 mkdir -p /data \
