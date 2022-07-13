@@ -1,4 +1,6 @@
 #!/usr/bin/with-contenv sh
+# shellcheck shell=sh
+set -e
 
 SIDECAR_SYSLOGNG=${SIDECAR_SYSLOGNG:-0}
 
@@ -17,7 +19,7 @@ chown -R librenms. /run/syslog-ng
 
 # Create service
 mkdir -p /etc/services.d/syslogng
-cat > /etc/services.d/syslogng/run <<EOL
+cat >/etc/services.d/syslogng/run <<EOL
 #!/usr/bin/execlineb -P
 with-contenv
 /usr/sbin/syslog-ng -F

@@ -1,4 +1,6 @@
 #!/usr/bin/with-contenv bash
+# shellcheck shell=bash
+set -e
 
 CRONTAB_PATH="/var/spool/cron/crontabs"
 
@@ -21,11 +23,11 @@ touch ${CRONTAB_PATH}/librenms
 
 # Cron
 echo "Creating LibreNMS daily.sh cron task with the following period fields: $LIBRENMS_DAILY_SCHEDULE"
-echo "${LIBRENMS_DAILY_SCHEDULE} cd /opt/librenms/ && bash daily.sh" >> ${CRONTAB_PATH}/librenms
+echo "${LIBRENMS_DAILY_SCHEDULE} cd /opt/librenms/ && bash daily.sh" >>${CRONTAB_PATH}/librenms
 
 if [ "$LIBRENMS_WEATHERMAP" = "true" ] && [ -n "$LIBRENMS_WEATHERMAP_SCHEDULE" ]; then
   echo "Creating LibreNMS Weathermap cron task with the following period fields: $LIBRENMS_WEATHERMAP_SCHEDULE"
-  echo "${LIBRENMS_WEATHERMAP_SCHEDULE} php -f /opt/librenms/html/plugins/Weathermap/map-poller.php" >> ${CRONTAB_PATH}/librenms
+  echo "${LIBRENMS_WEATHERMAP_SCHEDULE} php -f /opt/librenms/html/plugins/Weathermap/map-poller.php" >>${CRONTAB_PATH}/librenms
 fi
 
 # Fix perms
@@ -34,7 +36,7 @@ chmod -R 0644 ${CRONTAB_PATH}
 
 # Create service
 mkdir -p /etc/services.d/cron
-cat > /etc/services.d/cron/run <<EOL
+cat >/etc/services.d/cron/run <<EOL
 #!/usr/bin/execlineb -P
 with-contenv
 exec busybox crond -f -L /dev/stdout

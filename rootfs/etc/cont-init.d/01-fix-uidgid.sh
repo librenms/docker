@@ -1,4 +1,6 @@
 #!/usr/bin/with-contenv sh
+# shellcheck shell=sh
+set -e
 
 if [ -n "${PGID}" ] && [ "${PGID}" != "$(id -g librenms)" ]; then
   echo "Switching to PGID ${PGID}..."
