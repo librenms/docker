@@ -33,6 +33,7 @@ LISTEN_IPV6=${LISTEN_IPV6:-true}
 REAL_IP_FROM=${REAL_IP_FROM:-"0.0.0.0/32"}
 REAL_IP_HEADER=${REAL_IP_HEADER:-"X-Forwarded-For"}
 LOG_IP_VAR=${LOG_IP_VAR:-remote_addr}
+MAX_INPUT_VARS=${MAX_INPUT_VARS:-1000}
 
 MEMCACHED_PORT=${MEMCACHED_PORT:-11211}
 
@@ -58,6 +59,7 @@ sed -e "s/@MEMORY_LIMIT@/$MEMORY_LIMIT/g" \
 echo "Setting PHP INI configuration..."
 sed -i "s|memory_limit.*|memory_limit = ${MEMORY_LIMIT}|g" /etc/php7/php.ini
 sed -i "s|;date\.timezone.*|date\.timezone = ${TZ}|g" /etc/php7/php.ini
+sed -i "s|;max_input_vars.*|max_input_vars = ${MAX_INPUT_VARS}|g" /etc/php7/php.ini
 
 # OpCache
 echo "Setting OpCache configuration..."
