@@ -13,6 +13,16 @@
 * `REAL_IP_FROM`: Trusted addresses that are known to send correct replacement addresses (default `0.0.0.0/32`)
 * `REAL_IP_HEADER`: Request header field whose value will be used to replace the client address (default `X-Forwarded-For`)
 * `LOG_IP_VAR`: Use another variable to retrieve the remote IP address for access [log_format](http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) on Nginx. (default `remote_addr`)
+* `REDIS_HOST`: Redis host for poller synchronization
+* `REDIS_SENTINEL`: Redis Sentinel host for high availability Redis cluster
+* `REDIS_SENTINEL_SERVICE`: Redis Sentinel service name (default `librenms`)
+* `REDIS_SCHEME`: Redis scheme (default `tcp`)
+* `REDIS_PORT`: Redis port (default `6379`)
+* `REDIS_PASSWORD`: Redis password
+* `REDIS_DB`: Redis database (default `0`)
+* `REDIS_CACHE_DB`: Redis cache database (default `1`)
+* `SESSION_DRIVER`: [Driver to use for session storage](https://github.com/librenms/librenms/blob/master/config/session.php) (default `file`)
+* `CACHE_DRIVER`: [Driver to use for cache and locks](https://github.com/librenms/librenms/blob/master/config/cache.php) (default `database`)
 
 ### Dispatcher service
 
@@ -21,13 +31,6 @@
 * `SIDECAR_DISPATCHER`: Set to `1` to enable sidecar dispatcher mode for this container (default `0`)
 * `DISPATCHER_NODE_ID`: Unique node ID for your dispatcher service
 * `DISPATCHER_ARGS`: Additional args to pass to the [dispatcher service](https://github.com/librenms/librenms/blob/master/librenms-service.py)
-* `REDIS_HOST`: Redis host for poller synchronization
-* `REDIS_SENTINEL`: Redis Sentinel host for high availability Redis cluster
-* `REDIS_SENTINEL_SERVICE`: Redis Sentinel service name (default `librenms`)
-* `REDIS_SCHEME`: Redis scheme (default `tcp`)
-* `REDIS_PORT`: Redis port (default `6379`)
-* `REDIS_PASSWORD`: Redis password
-* `REDIS_DB`: Redis database (default `0`)
 
 ### Syslog-ng
 
@@ -65,6 +68,10 @@
 * `LIBRENMS_SNMP_COMMUNITY`: This container's SNMP v2c community string (default `librenmsdocker`)
 * `LIBRENMS_WEATHERMAP`: Enable LibreNMS [Weathermap plugin](https://docs.librenms.org/Extensions/Weathermap/) (default `false`)
 * `LIBRENMS_WEATHERMAP_SCHEDULE`: CRON expression format (default `*/5 * * * *`)
-* `MEMCACHED_HOST`: Hostname / IP address of a Memcached server
-* `MEMCACHED_PORT`: Port of the Memcached server (default `11211`)
 * `RRDCACHED_SERVER`: RRDcached server (eg. `rrdcached:42217`)
+
+### Additional
+
+LibreNMS supports most environment variables provided by Laravel (the framework LibreNMS is built on top of).
+
+Check the [Laravel docs](https://laravel.com/docs) for additonal variables.

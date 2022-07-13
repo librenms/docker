@@ -1,11 +1,11 @@
 #!/usr/bin/with-contenv sh
 
-STANDALONE=${STANDALONE:-0}
+MONOLITHIC=${MONOLITHIC:-0}
 SIDECAR_SYSLOGNG=${SIDECAR_SYSLOGNG:-0}
 
 # Continue only if sidecar syslogng container
-if [ "$STANDALONE" == "1" ]; then
-  echo "Configuring syslog-ng in stand-alone mode"
+if [ "$MONOLITHIC" == "1" ]; then
+  echo "Configuring syslog-ng in monolithic mode"
 elif [ "$SIDECAR_SYSLOGNG" != "1" ]; then
   exit 0
 else

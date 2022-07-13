@@ -28,7 +28,7 @@ DB_NAME=${DB_NAME:-librenms}
 DB_USER=${DB_USER:-librenms}
 DB_TIMEOUT=${DB_TIMEOUT:-60}
 
-STANDALONE=${STANDALONE:-0}
+MONOLITHIC=${MONOLITHIC:-0}
 SIDECAR_DISPATCHER=${SIDECAR_DISPATCHER:-0}
 #DISPATCHER_NODE_ID=${DISPATCHER_NODE_ID:-dispatcher1}
 
@@ -40,9 +40,9 @@ REDIS_SENTINEL_SERVICE=${REDIS_SENTINEL_SERVICE:-librenms}
 file_env 'REDIS_PASSWORD'
 REDIS_DB=${REDIS_DB:-0}
 
-# If stand-alone or dispatcher sidecar, install the service
-if [ "$STANDALONE" == "1" ]; then
-  echo "Configuring dispatcher in stand-alone mode"
+# If monolithic or dispatcher sidecar, install the service
+if [ "$MONOLITHIC" == "1" ]; then
+  echo "Configuring dispatcher in monolithic mode"
 elif [ "$SIDECAR_DISPATCHER" != "1" ]; then
   exit 0
 else

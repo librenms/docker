@@ -16,8 +16,6 @@ x-envlibrenms: &envlibrenms
   REAL_IP_HEADER: "X-Forwarded-For"
   LOG_IP_VAR: "remote_addr"
   LIBRENMS_SNMP_COMMUNITY: "librenmsdocker"
-  MEMCACHED_HOST: "memcached"
-  MEMCACHED_PORT: "11211"
   LIBRENMS_WEATHERMAP: "true"
   LIBRENMS_WEATHERMAP_SCHEDULE: "*/5 * * * *"
 
@@ -40,12 +38,6 @@ services:
       MYSQL_PASSWORD: *MYSQL_PASSWORD
     restart: always
 
-  memcached:
-    image: memcached:alpine
-    environment:
-      TZ: *TZ
-    restart: always
-
   redis:
     image: redis:5.0-alpine
     environment:
@@ -62,7 +54,6 @@ services:
       - "8000:8000"
     depends_on:
       - db
-      - memcached
     volumes:
       - "librenms:/data"
     environment:
@@ -77,7 +68,10 @@ services:
       DB_TIMEOUT: "60"
       REDIS_HOST: "redis"
       REDIS_PORT: "6379"
-      REDIS_DB: "0"
+      REDIS_DB: 0
+      REDIS_CACHE_DB: 1
+      CACHE_DRIVER: "redis"
+      SESSION_DRIVER: "redis"
     restart: always
 
   dispatcher:

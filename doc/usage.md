@@ -21,8 +21,8 @@ Install mariadb and librenms as two containers listening on port 8000.
 This uses pwgen to generate a random mysql password, alternatively, you may just enter a password.
 
 ```shell
-wget https://raw.githubusercontent.com/librenms/docker/master/examples/compose/docker-compose-standalone.yml
-MYSQL_PASSWORD="`pwgen -Bs1 12`" docker-compose -f docker-compose-standalone.yml up -d
+wget https://raw.githubusercontent.com/librenms/docker/master/examples/monolithic/docker-compose.yml
+MYSQL_PASSWORD="`pwgen -Bs1 12`" docker-compose up -d
 docker-compose logs -f
 ```
 
@@ -31,11 +31,12 @@ docker-compose logs -f
 Use Traefik to generate a letsencrypt ssl certificate and redirect to https.  Uses pwgen.
 
 ```shell
-wget https://raw.githubusercontent.com/librenms/docker/master/examples/compose/docker-compose-standalone-https.yml
+wget https://raw.githubusercontent.com/librenms/docker/master/examples/compose/docker-compose-monolithic-https.yml
+
 MYSQL_PASSWORD="`pwgen -Bs1 12`" \
 LETSENCRYPT_EMAIL="email@example.com" \
 LIBRENMS_BASE_URL="public-dns.example.com" \
-docker-compose -f docker-compose-standalone-https.yml up -d
+docker-compose -f docker-compose-monolithic-https.yml up -d
 
 docker-compose logs -f
 ```
@@ -48,7 +49,7 @@ You can also use the following minimal command :
 docker run -d -p 8000:8000 --name librenms \
   -v $(pwd)/data:/data \
   -e "DB_HOST=db" \
-  -e "STANDALONE=1" \
+  -e "MONOLITHIC=1" \
   librenms/librenms:latest
 ```
 

@@ -48,7 +48,7 @@ services:
     volumes:
       - "./librenms:/data"
     environment:
-      - "STANDALONE=1"
+      - "MONOLITHIC=1"
       - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"

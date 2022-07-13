@@ -22,7 +22,7 @@ services:
 
   # simple static Traefik config, you may want to use the docker provider and labels instead
   traefik:
-    image: traefik:2.7 # please check version tag to use the most current version
+    image: traefik:2.8 # please check version tag to use the most current version
     restart: unless-stopped
     volumes:
       - ./letsencrypt/:/letsencrypt/       # TLS certificate storage
@@ -75,7 +75,7 @@ services:
     volumes:
       - "./librenms:/data"
     environment:
-      - "STANDALONE=1"
+      - "MONOLITHIC=1"
       - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"

@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-STANDALONE=${STANDALONE:-0}
+MONOLITHIC=${MONOLITHIC:-0}
 SIDECAR_SNMPTRAPD=${SIDECAR_SNMPTRAPD:-0}
 LIBRENMS_SNMP_COMMUNITY=${LIBRENMS_SNMP_COMMUNITY:-librenmsdocker}
 SNMP_PROCESSING_TYPE=${SNMP_PROCESSING_TYPE:-log,execute,net}
@@ -13,9 +13,9 @@ SNMP_SECURITY_LEVEL=${SNMP_SECURITY_LEVEL:-priv}
 SNMP_ENGINEID=${SNMP_ENGINEID:-1234567890}
 SNMP_DISABLE_AUTHORIZATION=${SNMP_DISABLE_AUTHORIZATION:-yes}
 
-# Continue only if sidecar snmptrapd container or stand-alone
-if [ "$STANDALONE" == "1" ]; then
-  echo "Configuring snmptrapd in stand-alone mode"
+# Continue only if sidecar snmptrapd container or monolithic
+if [ "$MONOLITHIC" == "1" ]; then
+  echo "Configuring snmptrapd in monolithic mode"
 elif [ "$SIDECAR_SNMPTRAPD" != "1" ]; then
   exit 0
 else

@@ -1,11 +1,11 @@
 #!/usr/bin/with-contenv sh
 
-STANDALONE=${STANDALONE:-0}
+MONOLITHIC=${MONOLITHIC:-0}
 SIDECAR_RRDCACHED=${SIDECAR_RRDCACHED:-0}
 
 # Continue only if sidecar rrdcached container
-if [ "$STANDALONE" == "1" ]; then
-  echo "Configuring rrdcached in stand-alone mode"
+if [ "$MONOLITHIC" == "1" ]; then
+  echo "Configuring rrdcached in monolithic mode"
 elif [ "$SIDECAR_RRDCACHED" != "1" ]; then
   exit 0
 else

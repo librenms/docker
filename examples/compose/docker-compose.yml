@@ -65,6 +65,9 @@ services:
       - "REDIS_HOST=redis"
       - "REDIS_PORT=6379"
       - "REDIS_DB=0"
+      - "REDIS_CACHE_DB=1"
+      - "CACHE_DRIVER=redis"
+      - "SESSION_DRIVER=redis"
     restart: always
 
   dispatcher:
