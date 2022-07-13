@@ -54,13 +54,6 @@ services:
       - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
     restart: always
 
-  memcached:
-    image: memcached:alpine
-    container_name: librenms_memcached
-    environment:
-      - "TZ=${TZ}"
-    restart: always
-
   redis:
     image: redis:5.0-alpine
     container_name: librenms_redis
@@ -81,7 +74,7 @@ services:
     hostname: librenms
     depends_on:
       - db
-      - memcached
+      - redis
       - msmtpd
     volumes:
       - "./librenms:/data"

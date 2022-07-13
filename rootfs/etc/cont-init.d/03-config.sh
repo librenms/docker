@@ -165,16 +165,6 @@ cat >${LIBRENMS_PATH}/config.d/services.php <<EOL
 \$config['nagios_plugins'] = "/usr/lib/monitoring-plugins";
 EOL
 
-# Config : Memcached
-if [ -n "${MEMCACHED_HOST}" ]; then
-  cat >${LIBRENMS_PATH}/config.d/memcached.php <<EOL
-<?php
-\$config['memcached']['enable'] = true;
-\$config['memcached']['host'] = '${MEMCACHED_HOST}';
-\$config['memcached']['port'] = ${MEMCACHED_PORT};
-EOL
-fi
-
 # Config : RRDcached
 if [ -n "${RRDCACHED_SERVER}" ]; then
   cat >${LIBRENMS_PATH}/config.d/rrdcached.php <<EOL
