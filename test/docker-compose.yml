@@ -54,9 +54,6 @@ services:
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
-      - "REDIS_HOST=redis"
-      - "REDIS_PORT=6379"
-      - "REDIS_DB=0"
     restart: always
 
   dispatcher:
@@ -83,9 +80,6 @@ services:
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
       - "DISPATCHER_NODE_ID=dispatcher1"
-      - "REDIS_HOST=redis"
-      - "REDIS_PORT=6379"
-      - "REDIS_DB=0"
       - "SIDECAR_DISPATCHER=1"
     restart: always
 
@@ -98,6 +92,7 @@ services:
       - NET_RAW
     depends_on:
       - librenms
+      - redis
     ports:
       - target: 514
         published: 514
@@ -118,9 +113,6 @@ services:
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
-      - "REDIS_HOST=redis"
-      - "REDIS_PORT=6379"
-      - "REDIS_DB=0"
       - "SIDECAR_SYSLOGNG=1"
     restart: always
 
@@ -133,6 +125,7 @@ services:
       - NET_RAW
     depends_on:
       - librenms
+      - redis
     ports:
       - target: 162
         published: 162
