@@ -5,6 +5,7 @@
 * Add PHP GMP extension (#288)
 * Ensure scripts exit early on error and set shellcheck (#283)
 * Add `MAX_INPUT_VARS` env var (#271)
+* Remove test data that is not used in production (#281)
 
 ## 22.6.0-r0 (2022/06/17)
 
