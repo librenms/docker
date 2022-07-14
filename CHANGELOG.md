@@ -1,5 +1,11 @@
 # Changelog
 
+## 22.6.0-r1 (2022/07/14)
+
+* Add PHP GMP extension (#288)
+* Ensure scripts exit early on error and set shellcheck (#283)
+* Add `MAX_INPUT_VARS` env var (#271)
+
 ## 22.6.0-r0 (2022/06/17)
 
 * LibreNMS 22.6.0 (#275)
