@@ -24,7 +24,7 @@ echo ">> Sidecar snmptrapd container detected"
 echo ">>"
 
 mkdir -p /run/snmptrapd
-chown -R librenms. /run/snmptrapd
+chown -R librenms:librenms /run/snmptrapd
 
 sed -ie "s/@LIBRENMS_SNMP_COMMUNITY@/${LIBRENMS_SNMP_COMMUNITY}/" /etc/snmp/snmptrapd.conf
 sed -ie "s/@SNMP_PROCESSING_TYPE@/${SNMP_PROCESSING_TYPE}/" /etc/snmp/snmptrapd.conf
