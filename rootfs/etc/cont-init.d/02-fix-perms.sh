@@ -6,16 +6,16 @@ echo "Fixing perms..."
 mkdir -p /data \
   /var/run/nginx \
   /var/run/php-fpm
-chown librenms. \
+chown librenms:librenms \
   /data \
   "${LIBRENMS_PATH}" \
   "${LIBRENMS_PATH}/.env"
-chown -R librenms. \
+chown -R librenms:librenms \
   "${LIBRENMS_PATH}/html/plugins/Weathermap/output" \
   /home/librenms \
   /tpls \
   /var/lib/nginx \
   /var/log/nginx \
-  /var/log/php7 \
+  /var/log/php8 \
   /var/run/nginx \
   /var/run/php-fpm
