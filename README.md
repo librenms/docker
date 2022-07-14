@@ -24,6 +24,7 @@ ___
 * [Image](#image)
 * [Environment variables](#environment-variables)
   * [General](#general)
+  * [Redis](#redis)
   * [Dispatcher service](#dispatcher-service)
   * [Syslog-ng](#syslog-ng)
   * [Snmptrapd](#snmptrapd)
@@ -119,9 +120,12 @@ Image: librenms/librenms:latest
 * `REAL_IP_HEADER`: Request header field whose value will be used to replace the client address (default `X-Forwarded-For`)
 * `LOG_IP_VAR`: Use another variable to retrieve the remote IP address for access [log_format](http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) on Nginx. (default `remote_addr`)
 
-### Redis Settings
+### Redis
 
- > Redis variables should be set on all containers and are required when running more than one dispatcher.
+> **Note**
+>
+> Redis variables should be set on all containers and are required when running
+> more than one dispatcher.
 
 * `REDIS_HOST`: Redis host for poller synchronization
 * `REDIS_SENTINEL`: Redis Sentinel host for high availability Redis cluster
