@@ -1,3 +1,7 @@
 #!/usr/bin/env sh
 
-yasu librenms:librenms php -f /opt/librenms/lnms "$@"
+if [ "$(id -u -n)" = "librenms" -a "$(id -g -n)" = "librenms" ]; then
+  php -f /opt/librenms/lnms "$@"
+else
+  yasu librenms:librenms php -f /opt/librenms/lnms "$@"
+fi
