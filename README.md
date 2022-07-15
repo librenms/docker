@@ -243,15 +243,11 @@ $ docker run -d -p 8000:8000 --name librenms \
 
 ### First launch
 
-On first launch, an initial administrator user will be created:
-
-| Login      | Password   |
-|------------|------------|
-| `librenms` | `librenms` |
+When you first access the webui, you will be prompted to create an admin user.
 
 > **Note**
 >
-> You can create another one using the [`lnms` command](#lnms-command).
+> If you lose access, you can create another one using the [`lnms` command](#lnms-command).
 
 ## Upgrade
 
