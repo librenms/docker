@@ -37,8 +37,12 @@ ___
   * [Command line](#command-line)
   * [First launch](#first-launch)
 * [Upgrade](#upgrade)
+* [Configuration Management](#configuration-management)
+  * [Initial Configuration](#initial-configuration)
+  * [Live Configuration](#live-configuration)
+  * [Re-Apply YAML Config](#re-apply-yaml-config)
+  * [Live Config](#live-config)
 * [Notes](#notes)
-  * [Edit configuration](#edit-configuration)
   * [LNMS command](#lnms-command)
   * [Validate](#validate)
   * [Dispatcher service container](#dispatcher-service-container)
@@ -260,13 +264,40 @@ $ docker-compose pull
 $ docker-compose up -d
 ```
 
-## Notes
+## Configuration Management
 
-### Edit configuration
+### Initial Configuration
 
-You can edit configuration of LibreNMS by placing `*.php` files inside
-`/data/config` folder. Let's say you want to edit the [WebUI config](https://docs.librenms.org/Support/Configuration/#webui-settings).
-Create a file called for example `/data/config/webui.php` with this content:
+You can set the initial configuration of LibreNMS by placing `*.yaml` files inside `/data/config` folder. Let's say you want to edit the [WebUI config](https://docs.librenms.org/Support/Configuration/#webui-settings).
+Create a file called for example `/data/config/webui.yaml` with this content :
+
+```yaml
+page_refresh: 300
+webui.default_dashboard_id: 0
+```
+
+This configuration will be seeded into the LibreNMS database when it is first deployed 
+and will override the default values.
+
+### Live Configuration
+
+You can edit the running configuration via the LibreNMS web UI or `lnms config:set`
+
+```bash
+docker-compose exec librenms lnms config:set page_refresh 300
+```
+
+### Re-Apply YAML Config
+
+Set `REAPPLY_YAML_CONFIG=1` to overwrite any settings that are set during initial config
+or via user config back to their initial values every time the container is deployed.
+
+### Live Config
+
+Using this config method, configuration changes will be reflected live on the containers, BUT
+you will be unable to edit the configured settings from within the LibreNMS web UI or lnms config:set.
+
+The same example using PHP `/data/config/webui.php`
 
 ```php
 <?php
@@ -274,8 +305,7 @@ $config['page_refresh'] = "300";
 $config['webui']['default_dashboard_id'] = 0;
 ```
 
-This configuration will be included in LibreNMS and will override the default
-values.
+## Notes
 
 ### LNMS command
 
@@ -352,11 +382,10 @@ $ docker run -d --name librenms_syslog \
 > `librenms` must be a valid volume already attached to a LibreNMS container.
 
 You have to create a configuration file to enable syslog in LibreNMS too. Create
-a file called for example `/data/config/syslog.php` with this content:
+a file called for example `/data/config/syslog.yaml` with this content :
 
-```php
-<?php
-$config['enable_syslog'] = 1;
+```yaml
+enable_syslog: true
 ```
 
 ### Snmptrapd container
