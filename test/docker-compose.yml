@@ -1,40 +1,6 @@
 version: "3.5"
 
 services:
-  traefik:
-    image: traefik:2.5
-    container_name: traefik
-    command:
-      - "--global.checknewversion=false"
-      - "--global.sendanonymoususage=false"
-      - "--log=true"
-      - "--log.level=INFO"
-      - "--entrypoints.http=true"
-      - "--entrypoints.http.address=:80"
-      - "--entrypoints.http.http.redirections.entrypoint.to=https"
-      - "--entrypoints.http.http.redirections.entrypoint.scheme=https"
-      - "--entrypoints.https=true"
-      - "--entrypoints.https.address=:443"
-      - "--certificatesresolvers.letsencrypt"
-      - "--certificatesresolvers.letsencrypt.acme.storage=acme.json"
-      - "--certificatesresolvers.letsencrypt.acme.email=webmaster@example.com"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http"
-      - "--providers.docker"
-      - "--providers.docker.watch=true"
-      - "--providers.docker.exposedbydefault=false"
-    ports:
-      - target: 80
-        published: 80
-        protocol: tcp
-      - target: 443
-        published: 443
-        protocol: tcp
-    volumes:
-      - "./acme.json:/acme.json"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    restart: always
-
   db:
     image: mariadb:10.5
     container_name: librenms_db
@@ -45,7 +11,7 @@ services:
       - "--character-set-server=utf8mb4"
       - "--collation-server=utf8mb4_unicode_ci"
     volumes:
-      - "./db:/var/lib/mysql"
+      - "librenms-db:/var/lib/mysql"
     environment:
       - "TZ=${TZ}"
       - "MYSQL_ALLOW_EMPTY_PASSWORD=yes"
@@ -61,31 +27,22 @@ services:
       - "TZ=${TZ}"
     restart: always
 
-  msmtpd:
-    image: crazymax/msmtpd:latest
-    container_name: librenms_msmtpd
-    env_file:
-      - "./msmtpd.env"
-    restart: always
-
   librenms:
-    image: librenms/librenms:latest
-    container_name: librenms
+    image: ${LIBRENMS_IMAGE:-librenms/librenms:latest}
+    container_name: ${LIBRENMS_CONTAINER:-librenms}
     hostname: librenms
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    ports:
+      - target: 8000
+        published: 8000
+        protocol: tcp
     depends_on:
       - db
       - redis
-      - msmtpd
     volumes:
-      - "./librenms:/data"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.librenms.entrypoints=https"
-      - "traefik.http.routers.librenms.rule=Host(`librenms.example.com`)"
-      - "traefik.http.routers.librenms.tls=true"
-      - "traefik.http.routers.librenms.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.librenms.tls.domains[0].main=librenms.example.com"
-      - "traefik.http.services.librenms.loadbalancer.server.port=8000"
+      - "librenms-data:/data"
     env_file:
       - "./librenms.env"
     environment:
@@ -100,14 +57,17 @@ services:
     restart: always
 
   dispatcher:
-    image: librenms/librenms:latest
+    image: ${LIBRENMS_IMAGE:-librenms/librenms:latest}
     container_name: librenms_dispatcher
     hostname: librenms-dispatcher
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
     depends_on:
       - librenms
       - redis
     volumes:
-      - "./librenms:/data"
+      - "librenms-data:/data"
     env_file:
       - "./librenms.env"
     environment:
@@ -124,9 +84,12 @@ services:
     restart: always
 
   syslogng:
-    image: librenms/librenms:latest
-    container_name: librenms_syslog
+    image: ${LIBRENMS_IMAGE:-librenms/librenms:latest}
+    container_name: librenms_syslogng
     hostname: librenms-syslogng
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
     depends_on:
       - librenms
       - redis
@@ -138,7 +101,7 @@ services:
         published: 514
         protocol: udp
     volumes:
-      - "./librenms:/data"
+      - "librenms-data:/data"
     env_file:
       - "./librenms.env"
     environment:
@@ -154,9 +117,12 @@ services:
     restart: always
 
   snmptrapd:
-    image: librenms/librenms:latest
+    image: ${LIBRENMS_IMAGE:-librenms/librenms:latest}
     container_name: librenms_snmptrapd
     hostname: librenms-snmptrapd
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
     depends_on:
       - librenms
       - redis
@@ -168,7 +134,7 @@ services:
         published: 162
         protocol: udp
     volumes:
-      - "./librenms:/data"
+      - "librenms-data:/data"
     env_file:
       - "./librenms.env"
     environment:
@@ -182,3 +148,7 @@ services:
       - "DB_TIMEOUT=60"
       - "SIDECAR_SNMPTRAPD=1"
     restart: always
+
+volumes:
+  librenms-db:
+  librenms-data:

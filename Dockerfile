@@ -1,7 +1,7 @@
 ARG LIBRENMS_VERSION="22.6.0"
 
 FROM crazymax/yasu:latest AS yasu
-FROM crazymax/alpine-s6:3.15-2.2.0.3
+FROM crazymax/alpine-s6:3.16-2.2.0.3
 
 COPY --from=yasu / /
 RUN apk --update --no-cache add \
@@ -29,40 +29,41 @@ RUN apk --update --no-cache add \
     nmap \
     openssl \
     perl \
-    php7 \
-    php7-cli \
-    php7-ctype \
-    php7-curl \
-    php7-dom \
-    php7-fileinfo \
-    php7-fpm \
-    php7-gd \
-    php7-json \
-    php7-ldap \
-    php7-mbstring \
-    php7-mcrypt \
-    php7-memcached \
-    php7-mysqlnd \
-    php7-opcache \
-    php7-openssl \
-    php7-pdo \
-    php7-pdo_mysql \
-    php7-pear \
-    php7-phar \
-    php7-posix \
-    php7-session \
-    php7-simplexml \
-    php7-snmp \
-    php7-sockets \
-    php7-tokenizer \
-    php7-xml \
-    php7-zip \
+    php8 \
+    php8-cli \
+    php8-ctype \
+    php8-curl \
+    php8-dom \
+    php8-fileinfo \
+    php8-fpm \
+    php8-gd \
+    php8-gmp \
+    php8-json \
+    php8-ldap \
+    php8-mbstring \
+    php8-mysqlnd \
+    php8-opcache \
+    php8-openssl \
+    php8-pdo \
+    php8-pdo_mysql \
+    php8-pecl-mcrypt \
+    php8-pecl-memcached \
+    php8-pear \
+    php8-phar \
+    php8-posix \
+    php8-session \
+    php8-simplexml \
+    php8-snmp \
+    php8-sockets \
+    php8-tokenizer \
+    php8-xml \
+    php8-zip \
     python3 \
     py3-pip \
     rrdtool \
     runit \
     shadow \
-    syslog-ng=3.30.1-r4 \
+    syslog-ng=3.36.1-r0 \
     ttf-dejavu \
     tzdata \
     util-linux \
@@ -119,7 +120,7 @@ RUN apk --update --no-cache add -t build-dependencies \
   && echo "foreach (glob(\"/data/config/*.php\") as \$filename) include \$filename;" >> config.php \
   && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> config.php \
   && git clone https://github.com/librenms-plugins/Weathermap.git ./html/plugins/Weathermap \
-  && chown -R nobody.nogroup ${LIBRENMS_PATH} \
+  && chown -R nobody:nogroup ${LIBRENMS_PATH} \
   && apk del build-dependencies \
   && rm -rf .git \
     html/plugins/Test \

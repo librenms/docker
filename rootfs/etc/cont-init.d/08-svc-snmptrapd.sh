@@ -1,4 +1,6 @@
 #!/usr/bin/with-contenv sh
+# shellcheck shell=sh
+set -e
 
 SIDECAR_SNMPTRAPD=${SIDECAR_SNMPTRAPD:-0}
 LIBRENMS_SNMP_COMMUNITY=${LIBRENMS_SNMP_COMMUNITY:-librenmsdocker}
@@ -22,7 +24,7 @@ echo ">> Sidecar snmptrapd container detected"
 echo ">>"
 
 mkdir -p /run/snmptrapd
-chown -R librenms. /run/snmptrapd
+chown -R librenms:librenms /run/snmptrapd
 
 sed -ie "s/@LIBRENMS_SNMP_COMMUNITY@/${LIBRENMS_SNMP_COMMUNITY}/" /etc/snmp/snmptrapd.conf
 sed -ie "s/@SNMP_PROCESSING_TYPE@/${SNMP_PROCESSING_TYPE}/" /etc/snmp/snmptrapd.conf
@@ -37,7 +39,7 @@ sed -ie "s/@SNMP_DISABLE_AUTHORIZATION@/${SNMP_DISABLE_AUTHORIZATION}/" /etc/snm
 
 # Create service
 mkdir -p /etc/services.d/snmptrapd
-cat > /etc/services.d/snmptrapd/run <<EOL
+cat >/etc/services.d/snmptrapd/run <<EOL
 #!/usr/bin/execlineb -P
 with-contenv
 /usr/sbin/snmptrapd -f -m ALL -M /opt/librenms/mibs:/opt/librenms/mibs/cisco udp:162 tcp:162
