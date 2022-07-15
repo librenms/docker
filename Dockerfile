@@ -120,11 +120,11 @@ RUN apk --update --no-cache add -t build-dependencies \
   && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> config.php \
   && git clone https://github.com/librenms-plugins/Weathermap.git ./html/plugins/Weathermap \
   && chown -R nobody.nogroup ${LIBRENMS_PATH} \
-  && chown -R librenms:librenms ./html/plugins/Weathermap/configs ./html/plugins/Weathermap/output \
   && apk del build-dependencies \
   && rm -rf .git \
     html/plugins/Test \
     html/plugins/Weathermap/.git \
+    html/plugins/Weathermap/configs \
     doc/ \
     tests/ \
     /tmp/*
