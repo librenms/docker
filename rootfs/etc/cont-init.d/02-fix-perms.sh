@@ -9,6 +9,7 @@ chown librenms. \
   "${LIBRENMS_PATH}" \
   "${LIBRENMS_PATH}/.env"
 chown -R librenms. \
+  /data/weathermap \
   "${LIBRENMS_PATH}/html/plugins/Weathermap/output" \
   /home/librenms \
   /tpls \
