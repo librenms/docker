@@ -159,7 +159,7 @@ show_services: true
 nagios_plugins: /usr/lib/monitoring-plugins
 EOL
 
-# Config : RRDCached
+# Config : RRDCached, apply RRDCACHED_SERVER as php as it would be expected to change with the variable
 if [ -n "${RRDCACHED_SERVER}" ]; then
   cat >${LIBRENMS_PATH}/config.d/rrdcached.php <<EOL
 <?php
@@ -171,7 +171,6 @@ EOL
 fi
 
 # Config : Dispatcher
-<<<<<<< HEAD
 cat >${LIBRENMS_PATH}/database/seeders/config/dispatcher.yaml <<EOL
 service_update_enabled: false
 service_watchdog_enabled: false
