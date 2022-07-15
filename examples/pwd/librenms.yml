@@ -16,9 +16,10 @@ x-envlibrenms: &envlibrenms
   REAL_IP_FROM: "0.0.0.0/32"
   REAL_IP_HEADER: "X-Forwarded-For"
   LOG_IP_VAR: "remote_addr"
+  CACHE_DRIVER: "redis"
+  SESSION_DRIVER: "redis"
+  REDIS_HOST: "redis"
   LIBRENMS_SNMP_COMMUNITY: "librenmsdocker"
-  MEMCACHED_HOST: "memcached"
-  MEMCACHED_PORT: "11211"
   LIBRENMS_WEATHERMAP: "true"
   LIBRENMS_WEATHERMAP_SCHEDULE: "*/5 * * * *"
 
@@ -41,12 +42,6 @@ services:
       MYSQL_PASSWORD: *MYSQL_PASSWORD
     restart: always
 
-  memcached:
-    image: memcached:alpine
-    environment:
-      TZ: *TZ
-    restart: always
-
   redis:
     image: redis:5.0-alpine
     environment:
@@ -63,7 +58,7 @@ services:
       - "8000:8000"
     depends_on:
       - db
-      - memcached
+      - redis
     volumes:
       - "librenms:/data"
     environment:
@@ -76,9 +71,6 @@ services:
       DB_USER: *MYSQL_USER
       DB_PASSWORD: *MYSQL_PASSWORD
       DB_TIMEOUT: "60"
-      REDIS_HOST: "redis"
-      REDIS_PORT: "6379"
-      REDIS_DB: "0"
     restart: always
 
   dispatcher:
@@ -103,9 +95,6 @@ services:
       DB_PASSWORD: *MYSQL_PASSWORD
       DB_TIMEOUT: "60"
       DISPATCHER_NODE_ID: "dispatcher1234"
-      REDIS_HOST: "redis"
-      REDIS_PORT: "6379"
-      REDIS_DB: "0"
       SIDECAR_DISPATCHER: "1"
     restart: always
 
@@ -131,9 +120,6 @@ services:
       DB_PASSWORD: *MYSQL_PASSWORD
       DB_TIMEOUT: "60"
       DISPATCHER_NODE_ID: "dispatcher5678"
-      REDIS_HOST: "redis"
-      REDIS_PORT: "6379"
-      REDIS_DB: "0"
       SIDECAR_DISPATCHER: "1"
     restart: always
 
@@ -145,6 +131,7 @@ services:
       - NET_RAW
     depends_on:
       - librenms
+      - redis
     volumes:
       - "librenms:/data"
     environment:
@@ -157,9 +144,6 @@ services:
       DB_USER: *MYSQL_USER
       DB_PASSWORD: *MYSQL_PASSWORD
       DB_TIMEOUT: "60"
-      REDIS_HOST: "redis"
-      REDIS_PORT: "6379"
-      REDIS_DB: "0"
       SIDECAR_SYSLOGNG: "1"
     restart: always
 

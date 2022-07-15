@@ -56,17 +56,17 @@ echo "Setting PHP-FPM configuration..."
 sed -e "s/@MEMORY_LIMIT@/$MEMORY_LIMIT/g" \
   -e "s/@UPLOAD_MAX_SIZE@/$UPLOAD_MAX_SIZE/g" \
   -e "s/@CLEAR_ENV@/$CLEAR_ENV/g" \
-  /tpls/etc/php7/php-fpm.d/www.conf >/etc/php7/php-fpm.d/www.conf
+  /tpls/etc/php8/php-fpm.d/www.conf >/etc/php8/php-fpm.d/www.conf
 
 echo "Setting PHP INI configuration..."
-sed -i "s|memory_limit.*|memory_limit = ${MEMORY_LIMIT}|g" /etc/php7/php.ini
-sed -i "s|;date\.timezone.*|date\.timezone = ${TZ}|g" /etc/php7/php.ini
-sed -i "s|;max_input_vars.*|max_input_vars = ${MAX_INPUT_VARS}|g" /etc/php7/php.ini
+sed -i "s|memory_limit.*|memory_limit = ${MEMORY_LIMIT}|g" /etc/php8/php.ini
+sed -i "s|;date\.timezone.*|date\.timezone = ${TZ}|g" /etc/php8/php.ini
+sed -i "s|;max_input_vars.*|max_input_vars = ${MAX_INPUT_VARS}|g" /etc/php8/php.ini
 
 # OpCache
 echo "Setting OpCache configuration..."
 sed -e "s/@OPCACHE_MEM_SIZE@/$OPCACHE_MEM_SIZE/g" \
-  /tpls/etc/php7/conf.d/opcache.ini >/etc/php7/conf.d/opcache.ini
+  /tpls/etc/php8/conf.d/opcache.ini >/etc/php8/conf.d/opcache.ini
 
 # Nginx
 echo "Setting Nginx configuration..."
@@ -189,13 +189,13 @@ for plugin in ${plugins}; do
     rm -rf "${LIBRENMS_PATH}/html/plugins/${plugin}"
   fi
   ln -sf "/data/plugins/${plugin}" "${LIBRENMS_PATH}/html/plugins/${plugin}"
-  chown -h librenms. "${LIBRENMS_PATH}/html/plugins/${plugin}"
+  chown -h librenms:librenms "${LIBRENMS_PATH}/html/plugins/${plugin}"
 done
 
 # Fix perms
 echo "Fixing perms..."
-chown librenms. /data/config /data/monitoring-plugins /data/plugins /data/rrd /data/weathermap /data/alert-templates
-chown -R librenms. /data/logs ${LIBRENMS_PATH}/config.d ${LIBRENMS_PATH}/bootstrap ${LIBRENMS_PATH}/logs ${LIBRENMS_PATH}/storage
+chown librenms:librenms /data/config /data/monitoring-plugins /data/plugins /data/rrd /data/weathermap /data/alert-templates
+chown -R librenms:librenms /data/logs ${LIBRENMS_PATH}/config.d ${LIBRENMS_PATH}/bootstrap ${LIBRENMS_PATH}/logs ${LIBRENMS_PATH}/storage
 chmod ug+rw /data/logs /data/rrd ${LIBRENMS_PATH}/bootstrap/cache ${LIBRENMS_PATH}/storage ${LIBRENMS_PATH}/storage/framework/*
 
 # Check additional Monitoring plugins

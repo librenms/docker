@@ -24,6 +24,7 @@ ___
 * [Image](#image)
 * [Environment variables](#environment-variables)
   * [General](#general)
+  * [Redis](#redis)
   * [Dispatcher service](#dispatcher-service)
   * [Syslog-ng](#syslog-ng)
   * [Snmptrapd](#snmptrapd)
@@ -62,7 +63,7 @@ ___
 * OPCache enabled to store precompiled script bytecode in shared memory
 * [s6-overlay](https://github.com/just-containers/s6-overlay/) as process supervisor
 * [Traefik](https://github.com/containous/traefik-library-image) as reverse proxy and creation/renewal of Let's Encrypt certificates (see [this template](examples/traefik))
-* [Memcached](https://github.com/docker-library/memcached) image ready to use for better scalability
+* [Redis](https://github.com/docker-library/redis) image ready to use for better scalability
 * [RRDcached](https://github.com/crazy-max/docker-rrdcached) image ready to use for data caching and graphs
 * [msmtpd SMTP relay](https://github.com/crazy-max/docker-msmtpd) image to send emails
 * [MariaDB](https://github.com/docker-library/mariadb) image as database instance
@@ -118,6 +119,24 @@ Image: librenms/librenms:latest
 * `REAL_IP_FROM`: Trusted addresses that are known to send correct replacement addresses (default `0.0.0.0/32`)
 * `REAL_IP_HEADER`: Request header field whose value will be used to replace the client address (default `X-Forwarded-For`)
 * `LOG_IP_VAR`: Use another variable to retrieve the remote IP address for access [log_format](http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) on Nginx. (default `remote_addr`)
+* `SESSION_DRIVER`: [Driver to use for session storage](https://github.com/librenms/librenms/blob/master/config/session.php) (default `file`)
+* `CACHE_DRIVER`: [Driver to use for cache and locks](https://github.com/librenms/librenms/blob/master/config/cache.php) (default `database`)
+
+### Redis
+
+> **Note**
+>
+> Redis variables should be set on all containers and are required when running
+> more than one dispatcher.
+
+* `REDIS_HOST`: Redis host for poller synchronization
+* `REDIS_SENTINEL`: Redis Sentinel host for high availability Redis cluster
+* `REDIS_SENTINEL_SERVICE`: Redis Sentinel service name (default `librenms`)
+* `REDIS_SCHEME`: Redis scheme (default `tcp`)
+* `REDIS_PORT`: Redis port (default `6379`)
+* `REDIS_PASSWORD`: Redis password
+* `REDIS_DB`: Redis database (default `0`)
+* `REDIS_CACHE_DB`: Redis cache database (default `1`)
 
 ### Dispatcher service
 
@@ -128,13 +147,6 @@ Image: librenms/librenms:latest
 * `SIDECAR_DISPATCHER`: Set to `1` to enable sidecar dispatcher mode for this container (default `0`)
 * `DISPATCHER_NODE_ID`: Unique node ID for your dispatcher service
 * `DISPATCHER_ARGS`: Additional args to pass to the [dispatcher service](https://github.com/librenms/librenms/blob/master/librenms-service.py)
-* `REDIS_HOST`: Redis host for poller synchronization
-* `REDIS_SENTINEL`: Redis Sentinel host for high availability Redis cluster
-* `REDIS_SENTINEL_SERVICE`: Redis Sentinel service name (default `librenms`)
-* `REDIS_SCHEME`: Redis scheme (default `tcp`)
-* `REDIS_PORT`: Redis port (default `6379`)
-* `REDIS_PASSWORD`: Redis password
-* `REDIS_DB`: Redis database (default `0`)
 
 ### Syslog-ng
 
