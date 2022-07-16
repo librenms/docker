@@ -165,10 +165,10 @@ if [ -n "${RRDCACHED_SERVER}" ]; then
 <?php
 \$config['rrdcached'] = "${RRDCACHED_SERVER}";
 EOL
-    cat >${LIBRENMS_PATH}/database/seeders/config/rrdcached.yaml <<EOL
+fi
+cat >${LIBRENMS_PATH}/database/seeders/config/rrdtool.yaml <<EOL
 rrdtool_version: "1.7.2"
 EOL
-fi
 
 # Config : Dispatcher
 cat >${LIBRENMS_PATH}/database/seeders/config/dispatcher.yaml <<EOL
