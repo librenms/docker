@@ -1,5 +1,17 @@
 # Changelog
 
+## 22.7.0-r0 (2022/07/24)
+
+* LibreNMS 22.7.0 (#295)
+* Add workflow to test librenms master branch (#293)
+* Always set `rrdtool` version (#292)
+* Shallow clone to reduce build time (#291)
+* YAML based config (#225)
+* Move Redis env vars in `librenms.env` file (#290)
+* Remove memcached and use Redis fully (#286)
+* Verifying user and group in `lnms` script (#278)
+* Update to PHP 8 and Alpine Linux 3.16 (#289)
+
 ## 22.6.0-r1 (2022/07/14)
 
 * Add PHP GMP extension (#288)
