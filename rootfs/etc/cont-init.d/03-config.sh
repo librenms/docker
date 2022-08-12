@@ -103,6 +103,10 @@ if [ -L "/data/weathermap/weathermap" ]; then
   rm /data/weathermap/weathermap
 fi
 
+# FIXME: bring back when weathermap plugin compatible with PHP 8
+# https://github.com/librenms/docker/issues/296
+rm -rf ${LIBRENMS_PATH}/html/plugins/Weathermap
+
 touch /data/logs/librenms.log
 rm -rf ${LIBRENMS_PATH}/logs
 rm -f ${LIBRENMS_PATH}/config.d/*
