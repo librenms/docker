@@ -1,5 +1,11 @@
 # Changelog
 
+## 22.7.0-r1 (2022/08/13)
+
+* Remove Weathermap plugin while waiting for a fix upstream (#302)
+* Fix symlink and perms for weathermap plugin configs folder (#301)
+* Ensure `REDIS_SCHEME` is set with default value (#300)
+
 ## 22.7.0-r0 (2022/07/24)
 
 * LibreNMS 22.7.0 (#295)
