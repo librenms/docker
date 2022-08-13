@@ -16,6 +16,9 @@ if [ "$SIDECAR_DISPATCHER" = "1" ] || [ "$SIDECAR_SYSLOGNG" = "1" ] || [ "$SIDEC
   exit 0
 fi
 
+# FIXME: remove this line when weathermap plugin compatible with PHP 8
+LIBRENMS_WEATHERMAP=false
+
 # Init
 rm -rf ${CRONTAB_PATH}
 mkdir -m 0644 -p ${CRONTAB_PATH}
