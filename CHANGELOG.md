@@ -1,5 +1,9 @@
 # Changelog
 
+## 22.7.0-r2 (2022/08/14)
+
+* Fix container restart state with Weathermap (#304)
+
 ## 22.7.0-r1 (2022/08/13)
 
 * Remove Weathermap plugin while waiting for a fix upstream (#302)
