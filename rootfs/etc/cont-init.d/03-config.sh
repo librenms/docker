@@ -89,23 +89,25 @@ sed -i -e "s/RANDOMSTRINGGOESHERE/${LIBRENMS_SNMP_COMMUNITY}/" /etc/snmp/snmpd.c
 echo "Initializing LibreNMS files / folders..."
 mkdir -p /data/config /data/logs /data/monitoring-plugins /data/plugins /data/rrd /data/weathermap /data/alert-templates
 
-if [ -d "${LIBRENMS_PATH}/html/plugins/Weathermap/configs" ] && [ ! -L "${LIBRENMS_PATH}/html/plugins/Weathermap/configs" ]; then
-  rm -rf ${LIBRENMS_PATH}/html/plugins/Weathermap/configs
+if [ -d "${LIBRENMS_PATH}/html/plugins/Weathermap" ]; then
+  if [ -d "${LIBRENMS_PATH}/html/plugins/Weathermap/configs" ] && [ ! -L "${LIBRENMS_PATH}/html/plugins/Weathermap/configs" ]; then
+    rm -rf ${LIBRENMS_PATH}/html/plugins/Weathermap/configs
+  fi
+  if [ ! -L "${LIBRENMS_PATH}/html/plugins/Weathermap/configs" ]; then
+    ln -sf /data/weathermap ${LIBRENMS_PATH}/html/plugins/Weathermap/configs
+  fi
+  chown -h librenms:librenms ${LIBRENMS_PATH}/html/plugins/Weathermap/configs
+  chown -R librenms:librenms /data/weathermap ${LIBRENMS_PATH}/html/plugins/Weathermap/output
+
+  # FIXME: bring back when weathermap plugin compatible with PHP 8
+  # https://github.com/librenms/docker/issues/296
+  rm -rf ${LIBRENMS_PATH}/html/plugins/Weathermap
 fi
-if [ ! -L "${LIBRENMS_PATH}/html/plugins/Weathermap/configs" ]; then
-  ln -sf /data/weathermap ${LIBRENMS_PATH}/html/plugins/Weathermap/configs
-fi
-chown -h librenms:librenms ${LIBRENMS_PATH}/html/plugins/Weathermap/configs
-chown -R librenms:librenms /data/weathermap
 
 # cleanup bad symlink: https://github.com/librenms/docker/issues/294#issuecomment-1190389960
 if [ -L "/data/weathermap/weathermap" ]; then
   rm /data/weathermap/weathermap
 fi
-
-# FIXME: bring back when weathermap plugin compatible with PHP 8
-# https://github.com/librenms/docker/issues/296
-rm -rf ${LIBRENMS_PATH}/html/plugins/Weathermap
 
 touch /data/logs/librenms.log
 rm -rf ${LIBRENMS_PATH}/logs

@@ -11,7 +11,6 @@ chown librenms:librenms \
   "${LIBRENMS_PATH}" \
   "${LIBRENMS_PATH}/.env"
 chown -R librenms:librenms \
-  "${LIBRENMS_PATH}/html/plugins/Weathermap/output" \
   /home/librenms \
   /tpls \
   /var/lib/nginx \
