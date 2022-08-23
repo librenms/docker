@@ -1,8 +1,11 @@
+# syntax=docker/dockerfile:1
+
 ARG LIBRENMS_VERSION="22.8.0"
+ARG WEATHERMAP_PLUGIN_COMMIT="697ac3cdb517aedc81d3b0b2e9ae5582234dca54"
+ARG ALPINE_VERSION="3.16"
 
 FROM crazymax/yasu:latest AS yasu
-FROM crazymax/alpine-s6:3.16-2.2.0.3
-
+FROM crazymax/alpine-s6:${ALPINE_VERSION}-2.2.0.3
 COPY --from=yasu / /
 RUN apk --update --no-cache add \
     busybox-extras \
@@ -105,6 +108,7 @@ RUN addgroup -g ${PGID} librenms \
 
 WORKDIR ${LIBRENMS_PATH}
 ARG LIBRENMS_VERSION
+ARG WEATHERMAP_PLUGIN_COMMIT
 RUN apk --update --no-cache add -t build-dependencies \
     build-base \
     linux-headers \
@@ -119,7 +123,11 @@ RUN apk --update --no-cache add -t build-dependencies \
   && sed -i '/runningUser/d' lnms \
   && echo "foreach (glob(\"/data/config/*.php\") as \$filename) include \$filename;" >> config.php \
   && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> config.php \
-  && git clone --depth=1 https://github.com/librenms-plugins/Weathermap.git ./html/plugins/Weathermap \
+  && ( \
+    git clone --depth=1 https://github.com/librenms-plugins/Weathermap.git ./html/plugins/Weathermap \
+    && cd ./html/plugins/Weathermap \
+    && git reset --hard $WEATHERMAP_PLUGIN_COMMIT \
+  ) \
   && chown -R nobody:nogroup ${LIBRENMS_PATH} \
   && apk del build-dependencies \
   && rm -rf .git \
