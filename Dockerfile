@@ -119,7 +119,7 @@ RUN apk --update --no-cache add -t build-dependencies \
   && sed -i '/runningUser/d' lnms \
   && echo "foreach (glob(\"/data/config/*.php\") as \$filename) include \$filename;" >> config.php \
   && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> config.php \
-  && git clone --depth=1 https://github.com/librenms-plugins/Weathermap.git ./html/plugins/Weathermap \
+  && git clone --depth=1 https://github.com/LoveSkylark/LibreNMS-Weathermap.git ./html/plugins/Weathermap \
   && chown -R nobody:nogroup ${LIBRENMS_PATH} \
   && apk del build-dependencies \
   && rm -rf .git \
