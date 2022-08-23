@@ -98,10 +98,6 @@ if [ -d "${LIBRENMS_PATH}/html/plugins/Weathermap" ]; then
   fi
   chown -h librenms:librenms ${LIBRENMS_PATH}/html/plugins/Weathermap/configs
   chown -R librenms:librenms /data/weathermap ${LIBRENMS_PATH}/html/plugins/Weathermap/output
-
-  # FIXME: bring back when weathermap plugin compatible with PHP 8
-  # https://github.com/librenms/docker/issues/296
-  rm -rf ${LIBRENMS_PATH}/html/plugins/Weathermap
 fi
 
 # cleanup bad symlink: https://github.com/librenms/docker/issues/294#issuecomment-1190389960
