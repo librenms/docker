@@ -1,5 +1,9 @@
 # Changelog
 
+## 22.8.0-r0 (2022/08/23)
+
+* LibreNMS 22.8.0 (#306)
+
 ## 22.7.0-r2 (2022/08/14)
 
 * Fix container restart state with Weathermap (#304)

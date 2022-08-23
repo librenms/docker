@@ -72,6 +72,11 @@ ___
 * [msmtpd SMTP relay](https://github.com/crazy-max/docker-msmtpd) image to send emails
 * [MariaDB](https://github.com/docker-library/mariadb) image as database instance
 
+> **Note**
+>
+> Weathermap plugin is not compatible since LibreNMS 22.7.0 Docker image and
+> has been temporarily removed. More info: https://github.com/librenms/docker/issues/296
+
 ## Demo
 
 [![Try in PWD](https://raw.githubusercontent.com/play-with-docker/stacks/master/assets/images/button.png)](https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/librenms/docker/master/examples/pwd/librenms.yml)
