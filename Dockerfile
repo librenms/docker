@@ -31,6 +31,7 @@ RUN apk --update --no-cache add \
     nginx \
     nmap \
     openssl \
+    openssh-client \
     perl \
     php8 \
     php8-cli \
