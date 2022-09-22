@@ -1,5 +1,9 @@
 # Changelog
 
+## 22.9.0-r0 (2022/09/22)
+
+* LibreNMS 22.9.0 (#314)
+
 ## 22.8.0-r1 (2022/08/23)
 
 * Update weathermap plugin to `697ac3c` (#309)
