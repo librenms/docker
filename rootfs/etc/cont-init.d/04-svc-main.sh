@@ -109,3 +109,14 @@ with-contenv
 /usr/sbin/snmpd -f -c /etc/snmp/snmpd.conf
 EOL
 chmod +x /etc/services.d/snmpd/run
+
+mkdir -p /etc/services.d/ircbot
+cat >/etc/services.d/ircbot/run <<EOL
+#!/usr/bin/with-contenv sh
+if [ $(lnms config:get irc_alert) == "true" ]; then
+  s6-setuidgid 1000:992
+  /opt/librenms/irc.php
+fi
+sleep 60
+EOL
+chmod +x /etc/services.d/ircbot/run
