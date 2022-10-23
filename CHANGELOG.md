@@ -2,7 +2,7 @@
 
 ## 22.10.0-r0 (2022/10/22)
 
-* LibreNMS 22.10.0 (#314)
+* LibreNMS 22.10.0 (#318)
 * Enable the First Run Wizard (#280)
 * Add `openssh-client` package for the `check_by_ssh` plugin (#312)
 
