@@ -113,10 +113,9 @@ chmod +x /etc/services.d/snmpd/run
 mkdir -p /etc/services.d/ircbot
 cat >/etc/services.d/ircbot/run <<EOL
 #!/usr/bin/with-contenv sh
-if [ $(lnms config:get irc_alert) == "true" ]; then
-  s6-setuidgid 1000:992
-  /opt/librenms/irc.php
+if [ ${LIBRENMS_IRC_SERVICE:-0} == "1" ]; then
+  s6-setuidgid ${PUID}:${PGID} /opt/librenms/irc.php
 fi
-sleep 60
+sleep 10
 EOL
 chmod +x /etc/services.d/ircbot/run
