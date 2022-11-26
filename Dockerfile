@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG LIBRENMS_VERSION="22.10.0"
+ARG LIBRENMS_VERSION="22.11.0"
 ARG WEATHERMAP_PLUGIN_COMMIT="697ac3cdb517aedc81d3b0b2e9ae5582234dca54"
 ARG ALPINE_VERSION="3.16"
 
@@ -33,35 +33,34 @@ RUN apk --update --no-cache add \
     openssl \
     openssh-client \
     perl \
-    php8 \
-    php8-cli \
-    php8-ctype \
-    php8-curl \
-    php8-dom \
-    php8-fileinfo \
-    php8-fpm \
-    php8-gd \
-    php8-gmp \
-    php8-json \
-    php8-ldap \
-    php8-mbstring \
-    php8-mysqlnd \
-    php8-opcache \
-    php8-openssl \
-    php8-pdo \
-    php8-pdo_mysql \
-    php8-pecl-mcrypt \
-    php8-pecl-memcached \
-    php8-pear \
-    php8-phar \
-    php8-posix \
-    php8-session \
-    php8-simplexml \
-    php8-snmp \
-    php8-sockets \
-    php8-tokenizer \
-    php8-xml \
-    php8-zip \
+    php81 \
+    php81-cli \
+    php81-ctype \
+    php81-curl \
+    php81-dom \
+    php81-fileinfo \
+    php81-fpm \
+    php81-gd \
+    php81-gmp \
+    php81-json \
+    php81-ldap \
+    php81-mbstring \
+    php81-mysqlnd \
+    php81-opcache \
+    php81-openssl \
+    php81-pdo \
+    php81-pdo_mysql \
+    php81-pecl-memcached \
+    php81-pear \
+    php81-phar \
+    php81-posix \
+    php81-session \
+    php81-simplexml \
+    php81-snmp \
+    php81-sockets \
+    php81-tokenizer \
+    php81-xml \
+    php81-zip \
     python3 \
     py3-pip \
     rrdtool \
@@ -72,6 +71,7 @@ RUN apk --update --no-cache add \
     tzdata \
     util-linux \
     whois \
+  && ln -s /usr/bin/php81 /usr/bin/php \
   && apk --update --no-cache add -t build-dependencies \
     build-base \
     make \

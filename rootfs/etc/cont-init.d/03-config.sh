@@ -64,17 +64,17 @@ sed -e "s/@MEMORY_LIMIT@/$MEMORY_LIMIT/g" \
   -e "s/@FPM_PM_START_SERVERS@/$FPM_PM_START_SERVERS/g" \
   -e "s/@FPM_PM_MIN_SPARE_SERVERS@/$FPM_PM_MIN_SPARE_SERVERS/g" \
   -e "s/@FPM_PM_MAX_SPARE_SERVERS@/$FPM_PM_MAX_SPARE_SERVERS/g" \
-  /tpls/etc/php8/php-fpm.d/www.conf >/etc/php8/php-fpm.d/www.conf
+  /tpls/etc/php81/php-fpm.d/www.conf >/etc/php81/php-fpm.d/www.conf
 
 echo "Setting PHP INI configuration..."
-sed -i "s|memory_limit.*|memory_limit = ${MEMORY_LIMIT}|g" /etc/php8/php.ini
-sed -i "s|;date\.timezone.*|date\.timezone = ${TZ}|g" /etc/php8/php.ini
-sed -i "s|;max_input_vars.*|max_input_vars = ${MAX_INPUT_VARS}|g" /etc/php8/php.ini
+sed -i "s|memory_limit.*|memory_limit = ${MEMORY_LIMIT}|g" /etc/php81/php.ini
+sed -i "s|;date\.timezone.*|date\.timezone = ${TZ}|g" /etc/php81/php.ini
+sed -i "s|;max_input_vars.*|max_input_vars = ${MAX_INPUT_VARS}|g" /etc/php81/php.ini
 
 # OpCache
 echo "Setting OpCache configuration..."
 sed -e "s/@OPCACHE_MEM_SIZE@/$OPCACHE_MEM_SIZE/g" \
-  /tpls/etc/php8/conf.d/opcache.ini >/etc/php8/conf.d/opcache.ini
+  /tpls/etc/php81/conf.d/opcache.ini >/etc/php81/conf.d/opcache.ini
 
 # Nginx
 echo "Setting Nginx configuration..."
