@@ -1,5 +1,11 @@
 # Changelog
 
+## 22.11.0-r0 (2022/11/26)
+
+* LibreNMS 22.11.0 (#324)
+* Update to PHP 8.1 (#324)
+* Add ability to configure php-fpm (#320)
+
 ## 22.10.0-r0 (2022/10/22)
 
 * LibreNMS 22.10.0 (#318)
