@@ -2,7 +2,7 @@
 
 ARG LIBRENMS_VERSION="22.11.0"
 ARG WEATHERMAP_PLUGIN_COMMIT="697ac3cdb517aedc81d3b0b2e9ae5582234dca54"
-ARG ALPINE_VERSION="3.16"
+ARG ALPINE_VERSION="3.17"
 
 FROM crazymax/yasu:latest AS yasu
 FROM crazymax/alpine-s6:${ALPINE_VERSION}-2.2.0.3
@@ -23,6 +23,7 @@ RUN apk --update --no-cache add \
     imagemagick \
     ipmitool \
     iputils \
+    libcap-utils \
     mariadb-client \
     monitoring-plugins \
     mtr \
@@ -66,12 +67,11 @@ RUN apk --update --no-cache add \
     rrdtool \
     runit \
     shadow \
-    syslog-ng=3.36.1-r0 \
+    syslog-ng=3.38.1-r0 \
     ttf-dejavu \
     tzdata \
     util-linux \
     whois \
-  && ln -s /usr/bin/php81 /usr/bin/php \
   && apk --update --no-cache add -t build-dependencies \
     build-base \
     make \
