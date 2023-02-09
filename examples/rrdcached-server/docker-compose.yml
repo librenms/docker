@@ -1,7 +1,7 @@
 services:
   db:
     image: mariadb:10.5
-    container_name: "$(COMPOSE_PROJECT_NAME}_db"
+    container_name: "${COMPOSE_PROJECT_NAME}_db"
     command:
       - "mysqld"
       - "--innodb-file-per-table=1"
@@ -20,14 +20,14 @@ services:
 
   redis:
     image: redis:5.0-alpine
-    container_name: "$(COMPOSE_PROJECT_NAME}_redis"
+    container_name: "${COMPOSE_PROJECT_NAME}_redis"
     environment:
       - "TZ=${TZ}"
     restart: always
 
   rrdcached:
     image: crazymax/rrdcached
-    container_name: "$(COMPOSE_PROJECT_NAME}_rrdcached"
+    container_name: "${COMPOSE_PROJECT_NAME}_rrdcached"
     volumes:
       - "./rrd/db:/data/db"
       - "./rrd/journal:/data/journal"
@@ -44,14 +44,14 @@ services:
 
   msmtpd:
     image: crazymax/msmtpd:latest
-    container_name: "$(COMPOSE_PROJECT_NAME}_msmtpd"
+    container_name: "${COMPOSE_PROJECT_NAME}_msmtpd"
     env_file:
       - "./msmtpd.env"
     restart: always
 
   librenms:
     image: librenms/librenms:latest
-    container_name: "$(COMPOSE_PROJECT_NAME}"
+    container_name: "${COMPOSE_PROJECT_NAME}"
     hostname: librenms
     cap_add:
       - NET_ADMIN
@@ -82,7 +82,7 @@ services:
 
   dispatcher:
     image: librenms/librenms:latest
-    container_name: "$(COMPOSE_PROJECT_NAME}_dispatcher"
+    container_name: "${COMPOSE_PROJECT_NAME}_dispatcher"
     hostname: librenms-dispatcher
     cap_add:
       - NET_ADMIN
@@ -109,7 +109,7 @@ services:
 
   syslogng:
     image: librenms/librenms:latest
-    container_name: "$(COMPOSE_PROJECT_NAME}_syslogng
+    container_name: "${COMPOSE_PROJECT_NAME}_syslogng
     hostname: librenms-syslogng
     cap_add:
       - NET_ADMIN
@@ -142,7 +142,7 @@ services:
 
   snmptrapd:
     image: librenms/librenms:latest
-    container_name: "$(COMPOSE_PROJECT_NAME}_snmptrapd"
+    container_name: "${COMPOSE_PROJECT_NAME}_snmptrapd"
     hostname: librenms-snmptrapd
     cap_add:
       - NET_ADMIN
