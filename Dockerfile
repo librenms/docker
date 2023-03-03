@@ -23,6 +23,7 @@ RUN apk --update --no-cache add \
     imagemagick \
     ipmitool \
     iputils \
+    logrotate \
     libcap-utils \
     mariadb-client \
     monitoring-plugins \

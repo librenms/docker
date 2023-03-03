@@ -1,5 +1,10 @@
 # Changelog
 
+## 23.1.1-r1 (2023/03/03)
+
+* Add `logrotate` package
+* Add env variables for `logrotate`
+
 ## 23.1.1-r0 (2023/02/09)
 
 * LibreNMS 23.1.1 (#335)
