@@ -167,7 +167,7 @@ Image: librenms/librenms:latest
 
 > **Warning**
 >
-> When activated, logs exceeding the specified retention period `LOGROTATE_RETENTION` will be deleted
+> When activated, logs exceeding the specified retention period `LOGROTATE_RETENTION` will be deleted.
 
 * `LOGROTATE_ENABLED`: Set to `true` to enable logrotate for this container (default `false`)
 * `LOGROTATE_INTERVAL`: Set to `daily`, `weekly`, `monthly`, or `yearly` (default `weekly`)
