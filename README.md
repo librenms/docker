@@ -229,8 +229,8 @@ for example. Edit the compose and env files with your preferences and run the
 following commands:
 
 ```console
-$ docker-compose up -d
-$ docker-compose logs -f
+$ docker compose up -d
+$ docker compose logs -f
 ```
 
 ### Command line
