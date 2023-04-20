@@ -82,7 +82,7 @@ lnms migrate --force --no-ansi --no-interaction
 artisan db:seed --force --no-ansi --no-interaction
 
 echo "Clear cache"
-artisan cache:clear --no-interaction
+artisan cache:clear --no-interaction || true
 artisan config:cache --no-interaction
 
 mkdir -p /etc/services.d/nginx
