@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 ARG LIBRENMS_VERSION="23.4.1"
-ARG WEATHERMAP_PLUGIN_COMMIT="4ce6ad1aa1b6fadda25b42042a9603212a27c386"
+ARG WEATHERMAP_PLUGIN_COMMIT="0b2ff643b65ee4948e4f74bb5cad5babdaddef27"
 ARG ALPINE_VERSION="3.17"
 
 FROM crazymax/yasu:latest AS yasu
