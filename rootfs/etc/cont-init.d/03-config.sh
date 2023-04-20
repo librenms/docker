@@ -221,7 +221,9 @@ done
 # Fix perms
 echo "Fixing perms..."
 chown librenms:librenms /data/config /data/monitoring-plugins /data/plugins /data/rrd /data/weathermap /data/alert-templates
-chown -R librenms:librenms /data/logs ${LIBRENMS_PATH}/config.d ${LIBRENMS_PATH}/bootstrap ${LIBRENMS_PATH}/logs ${LIBRENMS_PATH}/storage
+for FOLDER in /data/logs ${LIBRENMS_PATH}/config.d ${LIBRENMS_PATH}/bootstrap ${LIBRENMS_PATH}/logs ${LIBRENMS_PATH}/storage; do
+  [ -w ${FOLDER} ] && chown -R librenms:librenms ${FOLDER}
+done
 chmod ug+rw /data/logs /data/rrd ${LIBRENMS_PATH}/bootstrap/cache ${LIBRENMS_PATH}/storage ${LIBRENMS_PATH}/storage/framework/*
 
 # Check additional Monitoring plugins
