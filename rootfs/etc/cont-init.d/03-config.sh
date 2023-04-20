@@ -115,7 +115,7 @@ fi
 
 touch /data/logs/librenms.log
 rm -rf ${LIBRENMS_PATH}/logs
-rm -f ${LIBRENMS_PATH}/config.d/*
+rm -f ${LIBRENMS_PATH}/config.d/* || true
 mkdir -p /etc/logrotate.d
 touch /etc/logrotate.d/librenms
 
