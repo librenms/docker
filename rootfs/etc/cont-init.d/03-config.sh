@@ -172,7 +172,7 @@ ipmitool: /usr/sbin/ipmitool
 EOL
 
 # Config : Disable autoupdate (set in config.php so it cannot be overridden in the webui)
-cat >${LIBRENMS_PATH}/config.d/autoupdate.php <<EOL
+(cat >${LIBRENMS_PATH}/config.d/autoupdate.php <<EOL) || true
 <?php
 \$config['update'] = 0;
 EOL
