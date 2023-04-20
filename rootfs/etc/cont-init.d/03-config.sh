@@ -172,10 +172,12 @@ ipmitool: /usr/sbin/ipmitool
 EOL
 
 # Config : Disable autoupdate (set in config.php so it cannot be overridden in the webui)
-(cat >${LIBRENMS_PATH}/config.d/autoupdate.php <<EOL) || true
+if [ -w ${LIBRENMS_PATH}/config.d ]; then
+  cat >${LIBRENMS_PATH}/config.d/autoupdate.php <<EOL
 <?php
 \$config['update'] = 0;
 EOL
+fi
 
 # Config : Services
 cat >${LIBRENMS_PATH}/database/seeders/config/services.yaml <<EOL
@@ -184,7 +186,7 @@ nagios_plugins: /usr/lib/monitoring-plugins
 EOL
 
 # Config : RRDCached, apply RRDCACHED_SERVER as php as it would be expected to change with the variable
-if [ -n "${RRDCACHED_SERVER}" ]; then
+if [ -n "${RRDCACHED_SERVER}" ] && [ -w ${LIBRENMS_PATH}/config.d ]; then
   cat >${LIBRENMS_PATH}/config.d/rrdcached.php <<EOL
 <?php
 \$config['rrdcached'] = "${RRDCACHED_SERVER}";
