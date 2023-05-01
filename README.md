@@ -163,19 +163,13 @@ Image: librenms/librenms:latest
 
 > **Note**
 >
-> Logrotate variables could be set on all containers to avoid large log files.
+> Logrotate could be enabled to avoid large log files.
 
 > **Warning**
 >
-> When activated, logs exceeding the specified retention period `LOGROTATE_RETENTION` will be deleted.
+> When activated, logs exceeding the specified retention period will be deleted.
 
 * `LOGROTATE_ENABLED`: Set to `true` to enable logrotate for this container (default `false`)
-* `LOGROTATE_INTERVAL`: Set to `daily`, `weekly`, `monthly`, or `yearly` (default `weekly`)
-* `LOGROTATE_RETENTION`: Lifetime of the log file (default `6`)
-* `LOGROTATE_COMPRESSION_ENABLED`: Set to `true` to enable logrotate `compress` option (default `true`)
-* `LOGROTATE_DELAYCOMPRESSION_ENABLED`: Set to `true` to enable logrotate `delaycompress` option (default `true`)
-* `LOGROTATE_MISSINGOK_ENABLED`: Set to `true` to enable logrotate `missingok` option (default `true`)
-* `LOGROTATE_NOTIFEMPTY_ENABLED`: Set to `true` to enable logrotate `notifempty` option (default `true`)
 
 ### Syslog-ng
 
