@@ -132,7 +132,6 @@ Image: librenms/librenms:latest
 * `LOG_IP_VAR`: Use another variable to retrieve the remote IP address for access [log_format](http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) on Nginx. (default `remote_addr`)
 * `SESSION_DRIVER`: [Driver to use for session storage](https://github.com/librenms/librenms/blob/master/config/session.php) (default `file`)
 * `CACHE_DRIVER`: [Driver to use for cache and locks](https://github.com/librenms/librenms/blob/master/config/cache.php) (default `database`)
-* `SNMP_EXTRA_MIB_DIRS`: [Additional directories where MIB files are for SNMP Traps](https://docs.librenms.org/Extensions/SNMP-Trap-Handler/#option-2) (example `:/opt/librenms/mibs/veeam`)
 
 ### Redis
 
@@ -184,6 +183,7 @@ Image: librenms/librenms:latest
 * `SNMP_SECURITY_LEVEL`: Sets what security level (`noauth`|`priv`) to use (default `priv`)
 * `SNMP_ENGINEID`: Defines what SNMP EngineID to use (default `1234567890`)
 * `SNMP_DISABLE_AUTHORIZATION`: Will disable the above access control checks, and revert to the previous behaviour of accepting all incoming notifications. (default `yes`)
+* `SNMP_EXTRA_MIB_DIRS`: [Additional directories where MIB files are for SNMP Traps](https://docs.librenms.org/Extensions/SNMP-Trap-Handler/#option-2) (example `/opt/librenms/mibs/veeam`)
 
 ### Database
 
