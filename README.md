@@ -183,6 +183,7 @@ Image: librenms/librenms:latest
 * `SNMP_SECURITY_LEVEL`: Sets what security level (`noauth`|`priv`) to use (default `priv`)
 * `SNMP_ENGINEID`: Defines what SNMP EngineID to use (default `1234567890`)
 * `SNMP_DISABLE_AUTHORIZATION`: Will disable the above access control checks, and revert to the previous behaviour of accepting all incoming notifications. (default `yes`)
+* `SNMP_EXTRA_MIB_DIRS`: [Additional directories where MIB files are for SNMP Traps](https://docs.librenms.org/Extensions/SNMP-Trap-Handler/#option-2) (example `/opt/librenms/mibs/veeam`)
 
 ### Database
 
