@@ -8,6 +8,7 @@ CRON_HOOK_PATH="/data/cron-pre-hook"
 LIBRENMS_WEATHERMAP=${LIBRENMS_WEATHERMAP:-false}
 LIBRENMS_WEATHERMAP_SCHEDULE=${LIBRENMS_WEATHERMAP_SCHEDULE:-*/5 * * * *}
 LIBRENMS_DAILY_SCHEDULE="15 0 * * *"
+LIBRENMS_SCHEDULER_SCHEDULE="* * * * *"
 
 SIDECAR_DISPATCHER=${SIDECAR_DISPATCHER:-0}
 SIDECAR_SYSLOGNG=${SIDECAR_SYSLOGNG:-0}
@@ -29,6 +30,9 @@ touch ${CRONTAB_PATH}/librenms
 # Cron
 echo "Creating LibreNMS daily.sh cron task with the following period fields: $LIBRENMS_DAILY_SCHEDULE"
 echo "${LIBRENMS_DAILY_SCHEDULE} [ -e \"${CRON_HOOK_PATH}\" ] && source \"${CRON_HOOK_PATH}\" ; cd /opt/librenms && bash daily.sh" >>${CRONTAB_PATH}/librenms
+
+echo "Creating LibreNMS scheduler cron task as we are running in a container"
+echo "${LIBRENMS_SCHEDULER_SCHEDULE} [ -e \"${CRON_HOOK_PATH}\" ] && source \"${CRON_HOOK_PATH}\" ; cd /opt/librenms && php artisan schedule:run" >>${CRONTAB_PATH}/librenms
 
 if [ "$LIBRENMS_WEATHERMAP" = "true" ] && [ -n "$LIBRENMS_WEATHERMAP_SCHEDULE" ]; then
   echo "Creating LibreNMS Weathermap cron task with the following period fields: $LIBRENMS_WEATHERMAP_SCHEDULE"
