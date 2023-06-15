@@ -1,5 +1,10 @@
 # Changelog
 
+## 23.5.0-r0 (2023/06/15)
+
+* LibreNMS 23.5.0 (#357)
+* Add extra SNMP Trap MIB dirs via env var (#355)
+
 ## 23.2.0-r0 (2023/03/24)
 
 * LibreNMS 23.2.0 (#340)
