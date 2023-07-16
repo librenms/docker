@@ -3,6 +3,7 @@
 ARG LIBRENMS_VERSION="24.2.0"
 ARG WEATHERMAP_PLUGIN_COMMIT="0b2ff643b65ee4948e4f74bb5cad5babdaddef27"
 ARG ALPINE_VERSION="3.19"
+ARG SYSLOGNG_VERSION="4.5.0-r0"
 
 FROM crazymax/yasu:latest AS yasu
 FROM crazymax/alpine-s6:${ALPINE_VERSION}-2.2.0.3
@@ -68,7 +69,6 @@ RUN apk --update --no-cache add \
     runit \
     sed \
     shadow \
-    syslog-ng=3.38.1-r0 \
     ttf-dejavu \
     tzdata \
     util-linux \
@@ -95,6 +95,9 @@ RUN apk --update --no-cache add \
   && setcap cap_net_raw+ep /usr/sbin/fping6 \
   && setcap cap_net_raw+ep /usr/lib/monitoring-plugins/check_icmp \
   && setcap cap_net_raw+ep /usr/lib/monitoring-plugins/check_ping
+
+ARG SYSLOGNG_VERSION
+RUN apk --update --no-cache add syslog-ng=${SYSLOGNG_VERSION}
 
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS="2" \
   LIBRENMS_PATH="/opt/librenms" \
