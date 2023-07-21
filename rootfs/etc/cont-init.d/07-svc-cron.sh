@@ -30,6 +30,9 @@ if [ "$LIBRENMS_WEATHERMAP" = "true" ] && [ -n "$LIBRENMS_WEATHERMAP_SCHEDULE" ]
   echo "${LIBRENMS_WEATHERMAP_SCHEDULE} php -f /opt/librenms/html/plugins/Weathermap/map-poller.php" >>${CRONTAB_PATH}/librenms
 fi
 
+echo "Creating LibreNMS cron artisan schedule:run"
+echo "* * * * * php /opt/librenms/artisan schedule:run --no-ansi --no-interaction > /dev/null 2>&1" >>${CRONTAB_PATH}/librenms
+
 # Fix perms
 echo "Fixing crontabs permissions..."
 chmod -R 0644 ${CRONTAB_PATH}
