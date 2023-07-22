@@ -407,10 +407,10 @@
 > :warning: **UPGRADE NOTES**
 > As the Docker container now runs as a non-root user, you have to first stop the container and change permissions to `data` volume:
 > ```
-> docker-compose stop
+> docker compose stop
 > chown -R ${PUID}:${PGID} data/
-> docker-compose pull
-> docker-compose up -d
+> docker compose pull
+> docker compose up -d
 > ```
 
 ## 1.57-RC1 (2019/10/30)
@@ -470,7 +470,7 @@
 
 > :warning: **UPGRADE NOTES**
 > Sidecar cron and syslog-ng are now respectively handled with `SIDECAR_CRON` and `SIDECAR_SYSLOGNG` env vars
-> See docker-compose example and README for more info.
+> See compose example and README for more info.
 
 ## 1.51-RC1 (2019/05/01)
 
