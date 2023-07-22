@@ -132,6 +132,7 @@ Image: librenms/librenms:latest
 * `LOG_IP_VAR`: Use another variable to retrieve the remote IP address for access [log_format](http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) on Nginx. (default `remote_addr`)
 * `SESSION_DRIVER`: [Driver to use for session storage](https://github.com/librenms/librenms/blob/master/config/session.php) (default `file`)
 * `CACHE_DRIVER`: [Driver to use for cache and locks](https://github.com/librenms/librenms/blob/master/config/cache.php) (default `database`)
+* `IGNORE_ERRORS`: If set to `1`, startup scripts won't exit if any failure is found. (default not defined).
 
 ### Redis
 
