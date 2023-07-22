@@ -1,6 +1,8 @@
 #!/usr/bin/with-contenv bash
 # shellcheck shell=bash
+if [ -z "${IGNORE_ERRORS}" ]; then
 set -e
+fi
 
 # From https://github.com/docker-library/mariadb/blob/master/docker-entrypoint.sh#L21-L41
 # usage: file_env VAR [DEFAULT]
@@ -82,7 +84,7 @@ lnms migrate --force --no-ansi --no-interaction
 artisan db:seed --force --no-ansi --no-interaction
 
 echo "Clear cache"
-artisan cache:clear --no-interaction || true
+artisan cache:clear --no-interaction
 artisan config:cache --no-interaction
 
 mkdir -p /etc/services.d/nginx
