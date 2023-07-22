@@ -2,9 +2,16 @@ variable "DEFAULT_TAG" {
   default = "librenms:local"
 }
 
+variable "LIBRENMS_VERSION" {
+  default = null
+}
+
 // Special target: https://github.com/docker/metadata-action#bake-definition
 target "docker-metadata-action" {
   tags = ["${DEFAULT_TAG}"]
+  args = {
+    LIBRENMS_VERSION = LIBRENMS_VERSION
+  }
 }
 
 // Default target if none specified

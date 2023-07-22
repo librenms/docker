@@ -263,9 +263,9 @@ To upgrade to the latest version of LibreNMS, pull the newer image and launch
 the container. LibreNMS will upgrade automatically:
 
 ```console
-$ docker-compose down
-$ docker-compose pull
-$ docker-compose up -d
+$ docker compose down
+$ docker compose pull
+$ docker compose up -d
 ```
 
 ## Configuration Management
@@ -288,7 +288,7 @@ and will override the default values.
 You can edit the running configuration via the LibreNMS web UI or `lnms config:set`
 
 ```bash
-docker-compose exec librenms lnms config:set page_refresh 300
+docker compose exec librenms lnms config:set page_refresh 300
 ```
 
 ### Re-Apply YAML Config
@@ -317,7 +317,7 @@ If you want to use the `lnms` command to perform common server operations like
 manage users, database migration, and more, type:
 
 ```console
-$ docker-compose exec librenms lnms
+$ docker compose exec librenms lnms
 ```
 
 ### Validate
@@ -326,7 +326,7 @@ If you want to validate your installation from the CLI, type the following
 command:
 
 ```console
-$ docker-compose exec --user librenms librenms php validate.php
+$ docker compose exec --user librenms librenms php validate.php
 ====================================
 Component | Version
 --------- | -------
@@ -350,8 +350,8 @@ SNMP      | NET-SNMP 5.8
 
 If you want to enable the new [Dispatcher service](https://docs.librenms.org/Extensions/Dispatcher-Service/),
 you have to run a "sidecar" container (see dispatcher service in
-[docker-compose.yml](examples/compose/docker-compose.yml) example) or run a
-simple container like this:
+[compose.yml](examples/compose/compose.yml) example) or run a simple container
+like this:
 
 ```console
 $ docker run -d --name librenms_dispatcher \
@@ -369,8 +369,8 @@ $ docker run -d --name librenms_dispatcher \
 ### Syslog-ng container
 
 If you want to enable syslog-ng, you have to run a "sidecar" container (see
-syslog-ng service in [docker-compose.yml](examples/compose/docker-compose.yml)
-example) or run a simple container like this:
+syslog-ng service in [compose.yml](examples/compose/compose.yml) example) or
+run a simple container like this:
 
 ```console
 $ docker run -d --name librenms_syslog \
@@ -395,8 +395,8 @@ enable_syslog: true
 ### Snmptrapd container
 
 If you want to enable snmptrapd, you have to run a "sidecar" container (see
-snmptrapd service in [docker-compose.yml](examples/compose/docker-compose.yml)
-example) or run a simple container like this:
+snmptrapd service in [compose.yml](examples/compose/compose.yml) example) or
+run a simple container like this:
 
 ```console
 $ docker run -d --name librenms_snmptrapd \
