@@ -23,7 +23,19 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.version == 'master' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - ''
+          - master
     steps:
+      -
+        name: Prepare
+        if: matrix.version != ''
+        run: |
+          echo "LIBRENMS_VERSION=${{ matrix.version }}" >> $GITHUB_ENV
       -
         name: Checkout
         uses: actions/checkout@v3
