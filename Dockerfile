@@ -72,6 +72,7 @@ RUN apk --update --no-cache add \
     tzdata \
     util-linux \
     whois \
+    sed \
   && apk --update --no-cache add -t build-dependencies \
     build-base \
     make \
