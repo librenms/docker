@@ -66,13 +66,13 @@ RUN apk --update --no-cache add \
     py3-pip \
     rrdtool \
     runit \
+    sed \
     shadow \
     syslog-ng=3.38.1-r0 \
     ttf-dejavu \
     tzdata \
     util-linux \
     whois \
-    sed \
   && apk --update --no-cache add -t build-dependencies \
     build-base \
     make \
