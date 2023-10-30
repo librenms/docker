@@ -169,7 +169,7 @@ Image: librenms/librenms:latest
 >
 > When activated, logs exceeding the specified retention period will be deleted.
 
-* `LOGROTATE_ENABLED`: Set to `true` to enable logrotate for this container (default `false`)
+* `LOGROTATE_ENABLED`: Set to `true` to enable logrotate for LibreNMS logs (default `false`)
 
 ### Syslog-ng
 
