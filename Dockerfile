@@ -132,7 +132,6 @@ RUN apk --update --no-cache add -t build-dependencies \
     && git reset --hard $WEATHERMAP_PLUGIN_COMMIT \
   ) \
   && chown -R nobody:nogroup ${LIBRENMS_PATH} \
-  && chown -R librenms:librenms ${LIBRENMS_PATH}/cache \
   && apk del build-dependencies \
   && rm -rf .git \
     html/plugins/Test \
