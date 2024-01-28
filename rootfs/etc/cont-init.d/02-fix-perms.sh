@@ -9,7 +9,8 @@ mkdir -p /data \
 chown librenms:librenms \
   /data \
   "${LIBRENMS_PATH}" \
-  "${LIBRENMS_PATH}/.env"
+  "${LIBRENMS_PATH}/.env" \
+  "${LIBRENMS_PATH}/cache"
 chown -R librenms:librenms \
   /home/librenms \
   /tpls \
