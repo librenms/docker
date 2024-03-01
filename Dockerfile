@@ -2,7 +2,7 @@
 
 ARG LIBRENMS_VERSION="24.2.0"
 ARG WEATHERMAP_PLUGIN_COMMIT="0b2ff643b65ee4948e4f74bb5cad5babdaddef27"
-ARG ALPINE_VERSION="3.17"
+ARG ALPINE_VERSION="3.19"
 
 FROM crazymax/yasu:latest AS yasu
 FROM crazymax/alpine-s6:${ALPINE_VERSION}-2.2.0.3
@@ -79,8 +79,8 @@ RUN apk --update --no-cache add \
     mariadb-dev \
     musl-dev \
     python3-dev \
-  && pip3 install --upgrade pip \
-  && pip3 install python-memcached mysqlclient --upgrade \
+  && pip3 install --upgrade --break-system-packages pip \
+  && pip3 install python-memcached mysqlclient --upgrade --break-system-packages \
   && curl -sSL https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
   && apk del build-dependencies \
   && rm -rf /var/www/* /tmp/* \
@@ -118,7 +118,7 @@ RUN apk --update --no-cache add -t build-dependencies \
     python3-dev \
   && echo "Installing LibreNMS https://github.com/librenms/librenms.git#${LIBRENMS_VERSION}..." \
   && git clone --depth=1 --branch ${LIBRENMS_VERSION} https://github.com/librenms/librenms.git . \
-  && pip3 install --ignore-installed -r requirements.txt --upgrade \
+  && pip3 install --ignore-installed -r requirements.txt --upgrade --break-system-packages \
   && COMPOSER_CACHE_DIR="/tmp" composer install --no-dev --no-interaction --no-ansi \
   && mkdir config.d \
   && cp config.php.default config.php \
