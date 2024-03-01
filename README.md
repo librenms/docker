@@ -47,6 +47,7 @@ ___
   * [Live Config](#live-config)
 * [Notes](#notes)
   * [LNMS command](#lnms-command)
+  * [Additional env configuration](#additional-env-configuration)
   * [Validate](#validate)
   * [Dispatcher service container](#dispatcher-service-container)
   * [Syslog-ng container](#syslog-ng-container)
@@ -317,6 +318,33 @@ manage users, database migration, and more, type:
 
 ```console
 $ docker compose exec librenms lnms
+```
+
+### Additional env configuration
+
+After the first launch, `/data/.env` file is created and contains the following
+environment variables:
+
+```
+APP_KEY=base64:...
+NODE_ID=...
+```
+
+You can add additional environment variables in this file. For example, if you
+want to set VAPID keys for Web push notifications (required for browser
+authentication), you can do:
+
+```console
+$ docker compose exec librenms sh -c "lnms webpush:vapid --show >> /data/.env"
+```
+
+Content of `/data/.env` file will look like this:
+
+```
+APP_KEY=base64:...
+NODE_ID=...
+VAPID_PUBLIC_KEY=...
+VAPID_PRIVATE_KEY=...
 ```
 
 ### Validate
