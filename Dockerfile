@@ -35,34 +35,34 @@ RUN apk --update --no-cache add \
     openssl \
     openssh-client \
     perl \
-    php81 \
-    php81-cli \
-    php81-ctype \
-    php81-curl \
-    php81-dom \
-    php81-fileinfo \
-    php81-fpm \
-    php81-gd \
-    php81-gmp \
-    php81-json \
-    php81-ldap \
-    php81-mbstring \
-    php81-mysqlnd \
-    php81-opcache \
-    php81-openssl \
-    php81-pdo \
-    php81-pdo_mysql \
-    php81-pecl-memcached \
-    php81-pear \
-    php81-phar \
-    php81-posix \
-    php81-session \
-    php81-simplexml \
-    php81-snmp \
-    php81-sockets \
-    php81-tokenizer \
-    php81-xml \
-    php81-zip \
+    php82 \
+    php82-cli \
+    php82-ctype \
+    php82-curl \
+    php82-dom \
+    php82-fileinfo \
+    php82-fpm \
+    php82-gd \
+    php82-gmp \
+    php82-json \
+    php82-ldap \
+    php82-mbstring \
+    php82-mysqlnd \
+    php82-opcache \
+    php82-openssl \
+    php82-pdo \
+    php82-pdo_mysql \
+    php82-pecl-memcached \
+    php82-pear \
+    php82-phar \
+    php82-posix \
+    php82-session \
+    php82-simplexml \
+    php82-snmp \
+    php82-sockets \
+    php82-tokenizer \
+    php82-xml \
+    php82-zip \
     python3 \
     py3-pip \
     rrdtool \
