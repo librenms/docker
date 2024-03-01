@@ -143,6 +143,8 @@ RUN apk --update --no-cache add -t build-dependencies \
     doc/ \
     tests/ \
     /tmp/*
+    
+RUN ln -s /data/menu/ /opt/librenms/resources/views/
 
 COPY rootfs /
 
