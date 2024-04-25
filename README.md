@@ -219,6 +219,22 @@ Image: librenms/librenms:latest
 * `514 514/udp`: Syslog ports (only used if you enable and run a [sidecar syslog-ng container](#syslog-ng-container))
 * `162 162/udp`: Snmptrapd ports (only used if you enable and run a [sidecar snmptrapd container](#snmptrapd-container))
 
+## Active Directory
+
+* `AUTH_MECHANISM`: Defines authentication mechanism (default `mysql`).
+* `AUTH_AD_URL`: Defines AD URL (default `ldaps://example.com`).
+* `AUTH_AD_DOMAIN`: Defines AD domain (default `example.com`).
+* `AUTH_AD_BASE_DN`: Defines AD base DN (default `dc=example,dc=com`).
+* `AUTH_AD_CHECK_CERTIFICATES`: Defins wether to check for certificates or not (default `true`).
+* `AUTH_AD_BINDUSER`: Defines the username of the bind user (default `librenms-bind`).
+* `AUTH_AD_BINDPASSWORD`: Defines the password of the bind user.
+* `AUTH_AD_TIMEOUT`: Defines the AD timeout (default `5`).
+* `AUTH_AD_DEBUG`: Default `true`.
+* `AUTH_AD_REQUIRE_GROUPMEMBERSHIP`: Default `true`
+* `AUTH_AD_GROUP_AD_ADMINGROUP`: Defines the group for instance admins (default `Domain admins`).
+* `AUTH_AD_GROUP_AD_USERGROUP`: Defines users (default `Domain users`).
+* `ACTIVE_DIRECTORY_USERS_PURGE`: Default `30`.
+
 ## Usage
 
 ### Docker Compose
