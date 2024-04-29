@@ -14,8 +14,7 @@
 Docker image for [LibreNMS](https://www.librenms.org/), a fully featured network
 monitoring system that provides a wealth of features and device support.
 
-> **Note**
-> 
+> [!TIP]
 > Want to be notified of new releases? Check out 🔔 [Diun (Docker Image Update Notifier)](https://github.com/crazy-max/diun)
 > project!
 
@@ -134,8 +133,7 @@ Image: librenms/librenms:latest
 
 ### Redis
 
-> **Note**
->
+> [!NOTE]
 > Redis variables should be set on all containers and are required when running
 > more than one dispatcher.
 
@@ -252,8 +250,7 @@ $ docker run -d -p 8000:8000 --name librenms \
 
 When you first access the webui, you will be prompted to create an admin user.
 
-> **Note**
->
+> [!NOTE]
 > If you lose access, you can create another one using the [`lnms` command](#lnms-command).
 
 ## Upgrade
