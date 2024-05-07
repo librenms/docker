@@ -10,7 +10,8 @@ chown librenms:librenms \
   /data \
   "${LIBRENMS_PATH}" \
   "${LIBRENMS_PATH}/.env" \
-  "${LIBRENMS_PATH}/cache"
+  "${LIBRENMS_PATH}/cache" \
+  "${LIBRENMS_PATH}/rrd"
 chown -R librenms:librenms \
   /home/librenms \
   /tpls \

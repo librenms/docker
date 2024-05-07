@@ -14,8 +14,7 @@
 Docker image for [LibreNMS](https://www.librenms.org/), a fully featured network
 monitoring system that provides a wealth of features and device support.
 
-> **Note**
-> 
+> [!TIP]
 > Want to be notified of new releases? Check out 🔔 [Diun (Docker Image Update Notifier)](https://github.com/crazy-max/diun)
 > project!
 
@@ -134,8 +133,7 @@ Image: librenms/librenms:latest
 
 ### Redis
 
-> **Note**
->
+> [!NOTE]
 > Redis variables should be set on all containers and are required when running
 > more than one dispatcher.
 
@@ -150,8 +148,7 @@ Image: librenms/librenms:latest
 
 ### Dispatcher service
 
-> **Warning**
->
+> [!WARNING]
 > Only used if you enable and run a [sidecar dispatcher container](#dispatcher-service-container).
 
 * `SIDECAR_DISPATCHER`: Set to `1` to enable sidecar dispatcher mode for this container (default `0`)
@@ -160,16 +157,14 @@ Image: librenms/librenms:latest
 
 ### Syslog-ng
 
-> **Warning**
->
+> [!WARNING]
 > Only used if you enable and run a [sidecar syslog-ng container](#syslog-ng-container).
 
 * `SIDECAR_SYSLOGNG`: Set to `1` to enable sidecar syslog-ng mode for this container (default `0`)
 
 ### Snmptrapd
 
-> **Warning**
->
+> [!WARNING]
 > Only used if you enable and run a [sidecar snmptrapd container](#snmptrapd-container).
 
 * `SIDECAR_SNMPTRAPD`: Set to `1` to enable sidecar snmptrapd mode for this container (default `0`)
@@ -207,8 +202,7 @@ Image: librenms/librenms:latest
 
 * `/data`: Contains configuration, plugins, rrd database, logs, additional Monitoring plugins, additional syslog-ng config files
 
-> **Warning**
->
+> [!WARNING]
 > Note that the volume should be owned by the user/group with the specified
 > `PUID` and `PGID`. If you don't give the volume correct permissions, the
 > container may not start.
@@ -260,16 +254,14 @@ $ docker run -d -p 8000:8000 --name librenms \
   librenms/librenms:latest
 ```
 
-> **Warning**
->
+> [!WARNING]
 > `db` must be a running MySQL instance.
 
 ### First launch
 
 When you first access the webui, you will be prompted to create an admin user.
 
-> **Note**
->
+> [!NOTE]
 > If you lose access, you can create another one using the [`lnms` command](#lnms-command).
 
 ## Upgrade
@@ -377,8 +369,7 @@ $ docker run -d --name librenms_dispatcher \
   librenms/librenms:latest
 ```
 
-> **Warning**
->
+> [!WARNING]
 > `librenms` must be a valid volume already attached to a LibreNMS container.
 
 ### Syslog-ng container
@@ -396,8 +387,7 @@ $ docker run -d --name librenms_syslog \
   librenms/librenms:latest
 ```
 
-> **Warning**
->
+> [!WARNING]
 > `librenms` must be a valid volume already attached to a LibreNMS container.
 
 You have to create a configuration file to enable syslog in LibreNMS too. Create
@@ -422,8 +412,7 @@ $ docker run -d --name librenms_snmptrapd \
   librenms/librenms:latest
 ```
 
-> **Warning**
->
+> [!WARNING]
 > `librenms` must be a valid volume already attached to a LibreNMS container.
 
 ### Add a LibreNMS plugin
@@ -432,8 +421,7 @@ You can add [plugins for LibreNMS](https://docs.librenms.org/Extensions/Plugin-S
 in `/data/plugins/`. If you add a plugin that already exists in LibreNMS, it
 will be removed and yours will be used (except for Weathermap).
 
-> **Warning**
->
+> [!WARNING]
 > Container has to be restarted to propagate changes.
 
 ### Additional Monitoring plugins
@@ -443,8 +431,7 @@ You can add a custom Monitoring plugin in `/data/monitoring-plugins/`.
 Some plugins can be found in the [Monitoring Plugins](https://github.com/monitoring-plugins/monitoring-plugins#readme)
 repo, or in the [unofficial fork for Nagios](https://github.com/nagios-plugins/nagios-plugins#readme).
 
-> **Warning**
->
+> [!WARNING]
 > Container has to be restarted to propagate changes.
 
 ### Custom alert templates
@@ -452,8 +439,7 @@ repo, or in the [unofficial fork for Nagios](https://github.com/nagios-plugins/n
 You can add [Laravel alert templates](https://docs.librenms.org/Alerting/Templates/#base-templates)
 in `/data/alert-templates/`.
 
-> **Warning**
->
+> [!WARNING]
 > Container has to be restarted to propagate changes.
 
 ## Contributing
