@@ -2,7 +2,7 @@ name: librenms
 
 services:
   db:
-    image: mariadb:10.5
+    image: mariadb:10
     container_name: librenms_db
     command:
       - "mysqld"
@@ -21,7 +21,7 @@ services:
     restart: always
 
   redis:
-    image: redis:5.0-alpine
+    image: redis:7.2-alpine
     container_name: librenms_redis
     environment:
       - "TZ=${TZ}"

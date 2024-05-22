@@ -25,7 +25,7 @@ x-envlibrenms: &envlibrenms
 
 services:
   db:
-    image: mariadb:10.5
+    image: mariadb:10.11
     command:
       - "mysqld"
       - "--innodb-file-per-table=1"
@@ -43,7 +43,7 @@ services:
     restart: always
 
   redis:
-    image: redis:5.0-alpine
+    image: redis:7.2-alpine
     environment:
       TZ: *TZ
     restart: always
