@@ -48,7 +48,7 @@ services:
       - "./db:/var/lib/mysql"
     environment:
       - "TZ=${TZ}"
-      - "MYSQL_ALLOW_EMPTY_PASSWORD=yes"
+      - "MARIADB_RANDOM_ROOT_PASSWORD=yes"
       - "MYSQL_DATABASE=${MYSQL_DATABASE}"
       - "MYSQL_USER=${MYSQL_USER}"
       - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
