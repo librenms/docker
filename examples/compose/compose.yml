@@ -1,5 +1,4 @@
-name: librenms
-
+version: '3.8'  
 services:
   db:
     image: mariadb:10
@@ -155,4 +154,4 @@ services:
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
       - "SIDECAR_SNMPTRAPD=1"
-    restart: always
+    restart: always
