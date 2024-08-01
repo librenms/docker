@@ -62,6 +62,7 @@ RUN apk --update --no-cache add \
     php82-sockets \
     php82-tokenizer \
     php82-xml \
+    php82-xmlwriter \
     php82-zip \
     python3 \
     py3-pip \
