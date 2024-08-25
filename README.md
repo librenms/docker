@@ -149,7 +149,7 @@ Image: librenms/librenms:latest
 ### Dispatcher service
 
 > [!WARNING]
-> Only used if you enable and run a [sidecar dispatcher container](#dispatcher-service-container).
+> You need at least one dispatcher sidecar, otherwise poller will not run [sidecar dispatcher container](#dispatcher-service-container).
 
 * `SIDECAR_DISPATCHER`: Set to `1` to enable sidecar dispatcher mode for this container (default `0`)
 * `DISPATCHER_NODE_ID`: Unique node ID for your dispatcher service
