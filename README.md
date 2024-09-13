@@ -195,9 +195,6 @@ Image: librenms/librenms:latest
 > in your LibreNMS container. It's particularly useful for enabling SAML authentication. 
 > The value should be a space-separated list of plugin names.
 
-
-* `DB_HOST`: MySQL database hostname / IP address
-
 ### Misc
 
 * `LIBRENMS_BASE_URL`: URL of your LibreNMS instance (default `/`)
