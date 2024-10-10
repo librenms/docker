@@ -1,6 +1,8 @@
 #!/usr/bin/with-contenv bash
 # shellcheck shell=bash
+if [ -z "${IGNORE_ERRORS}" ]; then
 set -e
+fi
 
 # From https://github.com/docker-library/mariadb/blob/master/docker-entrypoint.sh#L21-L41
 # usage: file_env VAR [DEFAULT]
@@ -115,7 +117,7 @@ fi
 
 touch /data/logs/librenms.log
 rm -rf ${LIBRENMS_PATH}/logs
-rm -f ${LIBRENMS_PATH}/config.d/*
+rm -f ${LIBRENMS_PATH}/config.d/* || true
 mkdir -p /etc/logrotate.d
 touch /etc/logrotate.d/librenms
 
@@ -172,10 +174,12 @@ ipmitool: /usr/sbin/ipmitool
 EOL
 
 # Config : Disable autoupdate (set in config.php so it cannot be overridden in the webui)
-cat >${LIBRENMS_PATH}/config.d/autoupdate.php <<EOL
+if [ -w ${LIBRENMS_PATH}/config.d ]; then
+  cat >${LIBRENMS_PATH}/config.d/autoupdate.php <<EOL
 <?php
 \$config['update'] = 0;
 EOL
+fi
 
 # Config : Services
 cat >${LIBRENMS_PATH}/database/seeders/config/services.yaml <<EOL
@@ -184,7 +188,7 @@ nagios_plugins: /usr/lib/monitoring-plugins
 EOL
 
 # Config : RRDCached, apply RRDCACHED_SERVER as php as it would be expected to change with the variable
-if [ -n "${RRDCACHED_SERVER}" ]; then
+if [ -n "${RRDCACHED_SERVER}" ] && [ -w ${LIBRENMS_PATH}/config.d ]; then
   cat >${LIBRENMS_PATH}/config.d/rrdcached.php <<EOL
 <?php
 \$config['rrdcached'] = "${RRDCACHED_SERVER}";
@@ -219,7 +223,9 @@ done
 # Fix perms
 echo "Fixing perms..."
 chown librenms:librenms /data/config /data/monitoring-plugins /data/plugins /data/rrd /data/weathermap /data/alert-templates
-chown -R librenms:librenms /data/logs ${LIBRENMS_PATH}/config.d ${LIBRENMS_PATH}/bootstrap ${LIBRENMS_PATH}/logs ${LIBRENMS_PATH}/storage
+for FOLDER in /data/logs ${LIBRENMS_PATH}/config.d ${LIBRENMS_PATH}/bootstrap ${LIBRENMS_PATH}/logs ${LIBRENMS_PATH}/storage; do
+  [ -w ${FOLDER} ] && chown -R librenms:librenms ${FOLDER}
+done
 chmod ug+rw /data/logs /data/rrd ${LIBRENMS_PATH}/bootstrap/cache ${LIBRENMS_PATH}/storage ${LIBRENMS_PATH}/storage/framework/*
 
 # Check additional Monitoring plugins
