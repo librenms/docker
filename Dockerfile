@@ -3,8 +3,8 @@
 # renovate: datasource=github-releases packageName=librenms/librenms versioning=semver
 ARG LIBRENMS_VERSION="24.12.0"
 ARG WEATHERMAP_PLUGIN_COMMIT="0b2ff643b65ee4948e4f74bb5cad5babdaddef27"
-ARG ALPINE_VERSION="3.19"
-ARG SYSLOGNG_VERSION="4.5.0-r0"
+ARG ALPINE_VERSION="3.21"
+ARG SYSLOGNG_VERSION="4.8.1-r1"
 
 FROM crazymax/yasu:latest AS yasu
 FROM crazymax/alpine-s6:${ALPINE_VERSION}-2.2.0.3
@@ -74,7 +74,6 @@ RUN apk --update --no-cache add \
     tzdata \
     util-linux \
     whois \
-  && ln -s /usr/bin/php83 /usr/bin/php \
   && apk --update --no-cache add -t build-dependencies \
     build-base \
     make \

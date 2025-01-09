@@ -56,7 +56,7 @@ if [ -z "$DB_PASSWORD" ]; then
   exit 1
 fi
 
-dbcmd="mysql -h ${DB_HOST} -P ${DB_PORT} -u "${DB_USER}" "-p${DB_PASSWORD}""
+dbcmd="mariadb -h ${DB_HOST} -P ${DB_PORT} -u "${DB_USER}" "-p${DB_PASSWORD}""
 unset DB_PASSWORD
 
 echo "Waiting ${DB_TIMEOUT}s for database to be ready..."
