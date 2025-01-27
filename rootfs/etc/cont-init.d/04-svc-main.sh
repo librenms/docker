@@ -74,7 +74,7 @@ echo "Database ready!"
 counttables=$(echo 'SHOW TABLES' | ${dbcmd} "$DB_NAME" | wc -l)
 if [ "${counttables}" -eq "0" ]; then
   echo "Enabling First Run Wizard..."
-  echo "INSTALL=user,finish">> ${LIBRENMS_PATH}/.env
+  echo "INSTALL=user,finish" >>${LIBRENMS_PATH}/.env
 fi
 
 echo "Updating database schema..."
@@ -99,7 +99,7 @@ cat >/etc/services.d/php-fpm/run <<EOL
 #!/usr/bin/execlineb -P
 with-contenv
 s6-setuidgid ${PUID}:${PGID}
-php-fpm82 -F
+php-fpm83 -F
 EOL
 chmod +x /etc/services.d/php-fpm/run
 

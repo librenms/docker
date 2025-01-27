@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG LIBRENMS_VERSION="24.8.1"
+ARG LIBRENMS_VERSION="24.9.1"
 ARG WEATHERMAP_PLUGIN_COMMIT="0b2ff643b65ee4948e4f74bb5cad5babdaddef27"
 ARG ALPINE_VERSION="3.19"
 ARG SYSLOGNG_VERSION="4.5.0-r0"
@@ -35,35 +35,35 @@ RUN apk --update --no-cache add \
     openssl \
     openssh-client \
     perl \
-    php82 \
-    php82-cli \
-    php82-ctype \
-    php82-curl \
-    php82-dom \
-    php82-fileinfo \
-    php82-fpm \
-    php82-gd \
-    php82-gmp \
-    php82-json \
-    php82-ldap \
-    php82-mbstring \
-    php82-mysqlnd \
-    php82-opcache \
-    php82-openssl \
-    php82-pdo \
-    php82-pdo_mysql \
-    php82-pecl-memcached \
-    php82-pear \
-    php82-phar \
-    php82-posix \
-    php82-session \
-    php82-simplexml \
-    php82-snmp \
-    php82-sockets \
-    php82-tokenizer \
-    php82-xml \
-    php82-xmlwriter \
-    php82-zip \
+    php83 \
+    php83-cli \
+    php83-ctype \
+    php83-curl \
+    php83-dom \
+    php83-fileinfo \
+    php83-fpm \
+    php83-gd \
+    php83-gmp \
+    php83-json \
+    php83-ldap \
+    php83-mbstring \
+    php83-mysqlnd \
+    php83-opcache \
+    php83-openssl \
+    php83-pdo \
+    php83-pdo_mysql \
+    php83-pecl-memcached \
+    php83-pear \
+    php83-phar \
+    php83-posix \
+    php83-session \
+    php83-simplexml \
+    php83-snmp \
+    php83-sockets \
+    php83-tokenizer \
+    php83-xml \
+    php83-xmlwriter \
+    php83-zip \
     python3 \
     py3-pip \
     rrdtool \
@@ -74,6 +74,7 @@ RUN apk --update --no-cache add \
     tzdata \
     util-linux \
     whois \
+  && ln -s /usr/bin/php83 /usr/bin/php \
   && apk --update --no-cache add -t build-dependencies \
     build-base \
     make \
