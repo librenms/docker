@@ -33,10 +33,6 @@ fi
 echo "Creating LibreNMS cron artisan schedule:run"
 echo "* * * * * php /opt/librenms/artisan schedule:run --no-ansi --no-interaction > /dev/null 2>&1" >>${CRONTAB_PATH}/librenms
 
-# Fix perms
-echo "Fixing crontabs permissions..."
-chmod -R 0644 ${CRONTAB_PATH}
-
 # Create service
 mkdir -p /etc/services.d/cron
 cat >/etc/services.d/cron/run <<EOL
