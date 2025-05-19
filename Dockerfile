@@ -136,7 +136,7 @@ RUN apk --update --no-cache add -t build-dependencies \
     && cd ./html/plugins/Weathermap \
     && git reset --hard $WEATHERMAP_PLUGIN_COMMIT \
   ) \
-  && chown -R ${PUID}:${PGID} ${LIBRENMS_PATH} \
+  && chown -R nobody:nogroup ${LIBRENMS_PATH} \
   && apk del build-dependencies \
   && rm -rf .git \
     html/plugins/Test \
