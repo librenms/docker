@@ -63,7 +63,6 @@ ___
 * [Dispatcher service](#dispatcher-service) as "sidecar" container
 * Syslog-ng support through a ["sidecar" container](#syslog-ng)
 * Snmp-trap support through a ["sidecar" container](#snmptrapd)
-* Built-in LibreNMS [Weathermap plugin](https://docs.librenms.org/Extensions/Weathermap/)
 * Ability to add custom Monitoring plugins
 * Ability to add custom alert templates
 * OPCache enabled to store precompiled script bytecode in shared memory
@@ -191,8 +190,6 @@ linux/s390x
 
 * `LIBRENMS_BASE_URL`: URL of your LibreNMS instance (default `/`)
 * `LIBRENMS_SNMP_COMMUNITY`: This container's SNMP v2c community string (default `librenmsdocker`)
-* `LIBRENMS_WEATHERMAP`: Enable LibreNMS [Weathermap plugin](https://docs.librenms.org/Extensions/Weathermap/) (default `false`)
-* `LIBRENMS_WEATHERMAP_SCHEDULE`: CRON expression format (default `*/5 * * * *`)
 * `MEMCACHED_HOST`: Hostname / IP address of a Memcached server
 * `MEMCACHED_PORT`: Port of the Memcached server (default `11211`)
 * `RRDCACHED_SERVER`: RRDcached server (eg. `rrdcached:42217`)
@@ -402,7 +399,7 @@ $ docker run -d --name librenms_snmptrapd \
 
 You can add [plugins for LibreNMS](https://docs.librenms.org/Extensions/Plugin-System/)
 in `/data/plugins/`. If you add a plugin that already exists in LibreNMS, it
-will be removed and yours will be used (except for Weathermap).
+will be removed and yours will be used.
 
 > [!WARNING]
 > Container has to be restarted to propagate changes.
