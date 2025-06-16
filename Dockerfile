@@ -45,6 +45,7 @@ RUN apk --update --no-cache add \
     php83-fpm \
     php83-gd \
     php83-gmp \
+    php83-iconv \
     php83-json \
     php83-ldap \
     php83-mbstring \
