@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # renovate: datasource=github-releases packageName=librenms/librenms versioning=semver
-ARG LIBRENMS_VERSION="25.5.0"
+ARG LIBRENMS_VERSION="25.6.0"
 ARG WEATHERMAP_PLUGIN_COMMIT="0b2ff643b65ee4948e4f74bb5cad5babdaddef27"
 ARG ALPINE_VERSION="3.21"
 ARG SYSLOGNG_VERSION="4.8.3-r1"
@@ -45,6 +45,7 @@ RUN apk --update --no-cache add \
     php83-fpm \
     php83-gd \
     php83-gmp \
+    php83-iconv \
     php83-json \
     php83-ldap \
     php83-mbstring \
