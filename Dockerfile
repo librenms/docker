@@ -2,7 +2,6 @@
 
 # renovate: datasource=github-releases packageName=librenms/librenms versioning=semver
 ARG LIBRENMS_VERSION="25.6.0"
-ARG WEATHERMAP_PLUGIN_COMMIT="0b2ff643b65ee4948e4f74bb5cad5babdaddef27"
 ARG ALPINE_VERSION="3.21"
 ARG SYSLOGNG_VERSION="4.8.3-r1"
 
@@ -131,17 +130,10 @@ RUN apk --update --no-cache add -t build-dependencies \
   && sed -i '/runningUser/d' lnms \
   && echo "foreach (glob(\"/data/config/*.php\") as \$filename) include \$filename;" >> config.php \
   && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> config.php \
-  && ( \
-    git clone https://github.com/librenms-plugins/Weathermap.git ./html/plugins/Weathermap \
-    && cd ./html/plugins/Weathermap \
-    && git reset --hard $WEATHERMAP_PLUGIN_COMMIT \
-  ) \
   && chown -R nobody:nogroup ${LIBRENMS_PATH} \
   && apk del build-dependencies \
   && rm -rf .git \
     html/plugins/Test \
-    html/plugins/Weathermap/.git \
-    html/plugins/Weathermap/configs \
     doc/ \
     tests/ \
     /tmp/*
