@@ -63,6 +63,7 @@ RUN apk --update --no-cache add \
     php83-sockets \
     php83-tokenizer \
     php83-xml \
+    php83-xmlwriter \
     php83-zip \
     python3 \
     py3-pip \
