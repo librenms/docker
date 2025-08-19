@@ -70,6 +70,10 @@ echo "Setting PHP INI configuration..."
 sed -i "s|memory_limit.*|memory_limit = ${MEMORY_LIMIT}|g" /etc/php83/php.ini
 sed -i "s|;date\.timezone.*|date\.timezone = ${TZ}|g" /etc/php83/php.ini
 sed -i "s|;max_input_vars.*|max_input_vars = ${MAX_INPUT_VARS}|g" /etc/php83/php.ini
+if [ -n "${CURL_CA_BUNDLE}" ]; then
+  echo "Setting PHP CA bundle path override..."
+  sed -i "s|;openssl\.cafile.*|openssl.cafile = ${CURL_CA_BUNDLE}|g" /etc/php83/php.ini
+fi
 
 # OpCache
 echo "Setting OpCache configuration..."
