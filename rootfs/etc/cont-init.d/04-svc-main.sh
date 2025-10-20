@@ -77,6 +77,9 @@ if [ "${counttables}" -eq "0" ]; then
   echo "INSTALL=user,finish" >>${LIBRENMS_PATH}/.env
 fi
 
+echo "Print env file"
+cat "${LIBRENMS_PATH}/.env"
+
 echo "Updating database schema..."
 lnms migrate --force --no-ansi --no-interaction
 artisan db:seed --force --no-ansi --no-interaction
