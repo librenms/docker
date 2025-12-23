@@ -257,3 +257,22 @@ for template in ${templates}; do
   echo "  Adding ${template} alert template"
   ln -sf /data/alert-templates/${template} ${LIBRENMS_PATH}/resources/views/alerts/templates/${template}
 done
+
+# Configure logrotate if enabled except for syslogng and snmptrapd sidecars
+if [ ${LOGROTATE_ENABLED:-false} = true ] && [ "$SIDECAR_SYSLOGNG" != "1" ] && [ "$SIDECAR_SNMPTRAPD" != "1" ];
+then
+  cat <<'EOF' > /etc/logrotate.d/librenms
+  ${LIBRENMS_PATH}/logs/*.log {
+    su librenms librenms
+    create 664 librenms librenms
+    weekly
+    rotate 6
+    compress
+    delaycompress
+    missingok
+    notifempty
+    copytruncate
+  }
+EOF
+
+fi

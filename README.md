@@ -153,6 +153,18 @@ linux/s390x
 * `DISPATCHER_NODE_ID`: Unique node ID for your dispatcher service
 * `DISPATCHER_ARGS`: Additional args to pass to the [dispatcher service](https://github.com/librenms/librenms/blob/master/librenms-service.py)
 
+### Logrotate
+
+> **Note**
+>
+> Logrotate could be enabled to avoid large log files.
+
+> **Warning**
+>
+> When activated, logs exceeding the specified retention period will be deleted.
+
+* `LOGROTATE_ENABLED`: Set to `true` to enable logrotate for LibreNMS logs (default `false`)
+
 ### Syslog-ng
 
 > [!WARNING]
