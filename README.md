@@ -186,6 +186,13 @@ linux/s390x
 * `DB_PASSWORD`: MySQL password (default `librenms`)
 * `DB_TIMEOUT`: Time in seconds after which we stop trying to reach the MySQL server (useful for clusters, default `60`)
 
+### Plugins
+* `INSTALL_PLUGINS`: Space-separated list of plugins to install
+
+> This environment variable allows you to specify which plugins should be installed
+> in your LibreNMS container. It's particularly useful for enabling SAML authentication. 
+> The value should be a space-separated list of plugin names.
+
 ### Misc
 
 * `LIBRENMS_BASE_URL`: URL of your LibreNMS instance (default `/`)
