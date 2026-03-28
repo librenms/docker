@@ -5,9 +5,10 @@ ARG LIBRENMS_VERSION="26.3.1"
 ARG ALPINE_VERSION="3.22"
 ARG SYSLOGNG_VERSION="4.8.3-r1"
 
-FROM crazymax/yasu:latest AS yasu
+FROM tianon/gosu:latest AS gosu
+
 FROM crazymax/alpine-s6:${ALPINE_VERSION}-2.2.0.3
-COPY --from=yasu / /
+COPY --from=gosu /gosu /usr/local/bin/
 RUN apk --update --no-cache add \
     busybox-extras \
     acl \
