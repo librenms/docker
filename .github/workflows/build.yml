@@ -11,17 +11,55 @@ permissions:
 on:
   push:
     branches:
-      - 'master'
+      - "master"
     tags:
-      - '*'
+      - "*"
     paths-ignore:
-      - '**.md'
+      - "**.md"
   pull_request:
     paths-ignore:
-      - '**.md'
+      - "**.md"
+  workflow_call:
+    inputs:
+      version:
+        description: "Upstream version without revision. When empty, tags are derived from the git ref (edge / pr-N / match)."
+        type: string
+        required: false
+        default: ""
 
 jobs:
+  meta:
+    runs-on: ubuntu-latest
+    outputs:
+      tags: ${{ steps.compute.outputs.tags }}
+      flavor: ${{ steps.compute.outputs.flavor }}
+    steps:
+      - name: Compute metadata inputs
+        id: compute
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          if [ -n "$VERSION" ]; then
+            {
+              echo "tags<<EOF"
+              echo "type=raw,value=${VERSION}"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+            echo "flavor=latest=true" >> "$GITHUB_OUTPUT"
+          else
+            # derive tags from the git ref.
+            {
+              echo "tags<<EOF"
+              echo "type=match,pattern=(.*)-r,group=1"
+              echo "type=ref,event=pr"
+              echo "type=edge"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+            echo "flavor=latest=auto" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
+    needs: meta
     uses: docker/github-builder/.github/workflows/bake.yml@v1
     permissions:
       contents: read # same as global permissions
@@ -36,10 +74,8 @@ jobs:
       set-meta-labels: true
       meta-images: |
         librenms/librenms
-      meta-tags: |
-        type=match,pattern=(.*)-r,group=1
-        type=ref,event=pr
-        type=edge
+      meta-tags: ${{ needs.meta.outputs.tags }}
+      meta-flavor: ${{ needs.meta.outputs.flavor }}
       meta-labels: |
         org.opencontainers.image.title=LibreNMS
         org.opencontainers.image.description=Fully featured network monitoring system

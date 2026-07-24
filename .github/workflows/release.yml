@@ -1,0 +1,91 @@
+name: release
+
+concurrency:
+  group: release # group runs to not mess up with concurrent run due to revision incrementing
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - "master"
+    paths:
+      # upstream version is defined here
+      - "Dockerfile"
+      - "rootfs/**"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # need to write the release
+    outputs:
+      released: ${{ steps.tag.outputs.released }}
+      version: ${{ steps.tag.outputs.version }}
+      tag: ${{ steps.tag.outputs.tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # need full tag history
+      - name: Determine version and revision
+        id: tag
+        run: |
+          set -euo pipefail
+
+          VERSION="$(sed -n 's/^ARG LIBRENMS_VERSION="\(.*\)"/\1/p' Dockerfile | head -n1)"
+          if [ -z "$VERSION" ]; then
+            echo "::error::Could not read LIBRENMS_VERSION from Dockerfile" >&2
+            exit 1
+          fi
+          echo "LibreNMS version: $VERSION"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+          git fetch --tags --force
+
+          # Idempotency: if this commit is already released, do nothing.
+          EXISTING="$(git tag --points-at HEAD --list "${VERSION}-r*" | head -n1)"
+          if [ -n "$EXISTING" ]; then
+            echo "Commit already released as ${EXISTING}; skipping."
+            echo "released=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # New version -> r0. Existing version with a new change -> next rN.
+          LAST="$(git tag --list "${VERSION}-r*" \
+            | sed -n "s/^${VERSION}-r\([0-9]\{1,\}\)$/\1/p" \
+            | sort -n | tail -n1)"
+          if [ -z "$LAST" ]; then
+            REV=0
+          else
+            REV=$((LAST + 1))
+          fi
+          TAG="${VERSION}-r${REV}"
+
+          echo "New release tag: $TAG"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "released=true" >> "$GITHUB_OUTPUT"
+      - name: Create tag and release
+        if: steps.tag.outputs.released == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          set -euo pipefail
+          gh release create "$TAG" \
+            --title "$TAG" \
+            --target "$GITHUB_SHA" \
+            --generate-notes
+
+  build:
+    needs: release
+    if: needs.release.outputs.released == 'true'
+    permissions:
+      contents: read
+      id-token: write # for signing attestations with OIDC token
+    uses: ./.github/workflows/build.yml
+    with:
+      version: ${{ needs.release.outputs.version }}
+    secrets: inherit
