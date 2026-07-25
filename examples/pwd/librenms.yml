@@ -1,9 +1,9 @@
 version: "3.5"
 
 x-env-global: &env-global
-  - &MYSQL_DATABASE "librenms"
-  - &MYSQL_USER "librenms"
-  - &MYSQL_PASSWORD "asupersecretpassword"
+  - &MARIADB_DATABASE "librenms"
+  - &MARIADB_USER "librenms"
+  - &MARIADB_PASSWORD "asupersecretpassword"
   - &TZ "UTC"
   - &PUID "1000"
   - &PGID "1000"
@@ -27,7 +27,7 @@ services:
   db:
     image: mariadb:10.11
     command:
-      - "mysqld"
+      - "mariadbd"
       - "--innodb-file-per-table=1"
       - "--lower-case-table-names=0"
       - "--character-set-server=utf8mb4"
@@ -37,9 +37,9 @@ services:
     environment:
       TZ: *TZ
       MARIADB_RANDOM_ROOT_PASSWORD: "yes"
-      MYSQL_DATABASE: *MYSQL_DATABASE
-      MYSQL_USER: *MYSQL_USER
-      MYSQL_PASSWORD: *MYSQL_PASSWORD
+      MARIADB_DATABASE: *MARIADB_DATABASE
+      MARIADB_USER: *MARIADB_USER
+      MARIADB_PASSWORD: *MARIADB_PASSWORD
     restart: always
 
   redis:
@@ -67,9 +67,9 @@ services:
       PUID: *PUID
       PGID: *PGID
       DB_HOST: "db"
-      DB_NAME: *MYSQL_DATABASE
-      DB_USER: *MYSQL_USER
-      DB_PASSWORD: *MYSQL_PASSWORD
+      DB_NAME: *MARIADB_DATABASE
+      DB_USER: *MARIADB_USER
+      DB_PASSWORD: *MARIADB_PASSWORD
       DB_TIMEOUT: "60"
     restart: always
 
@@ -90,9 +90,9 @@ services:
       PUID: *PUID
       PGID: *PGID
       DB_HOST: "db"
-      DB_NAME: *MYSQL_DATABASE
-      DB_USER: *MYSQL_USER
-      DB_PASSWORD: *MYSQL_PASSWORD
+      DB_NAME: *MARIADB_DATABASE
+      DB_USER: *MARIADB_USER
+      DB_PASSWORD: *MARIADB_PASSWORD
       DB_TIMEOUT: "60"
       DISPATCHER_NODE_ID: "dispatcher1234"
       SIDECAR_DISPATCHER: "1"
@@ -115,9 +115,9 @@ services:
       PUID: *PUID
       PGID: *PGID
       DB_HOST: "db"
-      DB_NAME: *MYSQL_DATABASE
-      DB_USER: *MYSQL_USER
-      DB_PASSWORD: *MYSQL_PASSWORD
+      DB_NAME: *MARIADB_DATABASE
+      DB_USER: *MARIADB_USER
+      DB_PASSWORD: *MARIADB_PASSWORD
       DB_TIMEOUT: "60"
       DISPATCHER_NODE_ID: "dispatcher5678"
       SIDECAR_DISPATCHER: "1"
@@ -140,9 +140,9 @@ services:
       PUID: *PUID
       PGID: *PGID
       DB_HOST: "db"
-      DB_NAME: *MYSQL_DATABASE
-      DB_USER: *MYSQL_USER
-      DB_PASSWORD: *MYSQL_PASSWORD
+      DB_NAME: *MARIADB_DATABASE
+      DB_USER: *MARIADB_USER
+      DB_PASSWORD: *MARIADB_PASSWORD
       DB_TIMEOUT: "60"
       SIDECAR_SYSLOGNG: "1"
     restart: always
