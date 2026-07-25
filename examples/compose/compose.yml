@@ -5,7 +5,7 @@ services:
     image: mariadb:10
     container_name: librenms_db
     command:
-      - "mysqld"
+      - "mariadbd"
       - "--innodb-file-per-table=1"
       - "--lower-case-table-names=0"
       - "--character-set-server=utf8mb4"
