@@ -111,7 +111,7 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS="2" \
 
 RUN addgroup -g ${PGID} librenms \
   && adduser -D -h /home/librenms -u ${PUID} -G librenms -s /bin/sh -D librenms \
-  && curl -sSLk -q https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro -o /usr/bin/distro \
+  && curl -sSL -q https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro -o /usr/bin/distro \
   && chmod +x /usr/bin/distro
 
 WORKDIR ${LIBRENMS_PATH}
