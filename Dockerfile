@@ -145,4 +145,7 @@ COPY rootfs /
 EXPOSE 8000 514 514/udp 162 162/udp
 VOLUME [ "/data" ]
 
+HEALTHCHECK --start-period=1m \
+  CMD lnms health:check || exit 1
+
 ENTRYPOINT [ "/init" ]
