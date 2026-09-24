@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # renovate: datasource=github-releases packageName=librenms/librenms versioning=semver
-ARG LIBRENMS_VERSION="26.9.0"
+ARG LIBRENMS_VERSION="26.9.1.1"
 ARG ALPINE_VERSION="3.23"
 ARG SYSLOGNG_VERSION="4.10.2-r1"
 
