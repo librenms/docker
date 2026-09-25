@@ -404,6 +404,22 @@ will be removed and yours will be used.
 > [!WARNING]
 > Container has to be restarted to propagate changes.
 
+### Add a LibreNMS plugin package
+
+To add a [plugin package](https://docs.librenms.org/Extensions/Plugin-System/#plugin-package),
+build your own image on top of the official image:
+
+```dockerfile
+FROM librenms/librenms:latest
+RUN gosu librenms ./lnms plugin:add socialiteproviders/saml2
+```
+
+```console
+$ docker build -t librenms-with-plugins .
+```
+
+Use this image instead of `librenms/librenms` in your `compose.yml`.
+
 ### Additional Monitoring plugins
 
 You can add a custom Monitoring plugin in `/data/monitoring-plugins/`.
