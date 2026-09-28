@@ -133,6 +133,11 @@ RUN apk --update --no-cache add -t build-dependencies \
   && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> config.php \
   && chown -R librenms:librenms ${LIBRENMS_PATH} \
   && su librenms -s /bin/sh -c "COMPOSER_CACHE_DIR=/tmp composer install --no-dev --no-interaction --no-ansi" \
+  # vendor and composer files are only written by plugin/composer installs, and the container
+  # commonly runs under a custom PUID/PGID - the runtime permission fix intentionally skips
+  # them for that reason (https://github.com/librenms/docker/issues/557), so make them writable here
+  && chmod -R a+rwX vendor \
+  && chmod a+rw composer.json composer.lock \
   && apk del build-dependencies \
   && rm -rf .git \
     html/plugins/Test \
