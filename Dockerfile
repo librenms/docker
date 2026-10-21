@@ -2,8 +2,8 @@
 
 # renovate: datasource=github-releases packageName=librenms/librenms versioning=semver
 ARG LIBRENMS_VERSION="26.10.1"
-ARG ALPINE_VERSION="3.23"
-ARG SYSLOGNG_VERSION="4.10.2-r1"
+ARG ALPINE_VERSION="3.24"
+ARG SYSLOGNG_VERSION="4.11.0-r0"
 
 FROM tianon/gosu:latest AS gosu
 
@@ -82,6 +82,7 @@ RUN apk --update --no-cache add \
     mariadb-dev \
     musl-dev \
     python3-dev \
+  && ln -sf /usr/bin/php84 /usr/bin/php \
   && pip3 install --upgrade --break-system-packages pip \
   && pip3 install python-memcached mysqlclient --upgrade --break-system-packages \
   && curl -sSL https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
