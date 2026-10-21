@@ -30,8 +30,6 @@ jobs:
     with:
       setup-qemu: true
       target: image-all
-      cache: true
-      cache-scope: image
       output: image
       push: ${{ github.event_name != 'pull_request' }}
       set-meta-labels: true
