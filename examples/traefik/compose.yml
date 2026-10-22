@@ -138,6 +138,8 @@ services:
 
   syslogng:
     image: librenms/librenms:latest
+    healthcheck:
+      disable: true
     container_name: librenms_syslog
     hostname: librenms-syslogng
     depends_on:
@@ -170,6 +172,8 @@ services:
 
   snmptrapd:
     image: librenms/librenms:latest
+    healthcheck:
+      disable: true
     container_name: librenms_snmptrapd
     hostname: librenms-snmptrapd
     depends_on:
