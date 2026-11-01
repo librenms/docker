@@ -34,7 +34,6 @@ target "image-all" {
     "linux/amd64",
     "linux/arm/v7",
     "linux/arm64",
-    "linux/386",
     "linux/s390x"
   ]
 }

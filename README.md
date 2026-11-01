@@ -98,7 +98,6 @@ Following platforms for this image are available:
 $ docker buildx imagetools inspect librenms/librenms --format "{{json .Manifest}}" | \
   jq -r '.manifests[] | select(.platform.os != null and .platform.os != "unknown") | .platform | "\(.os)/\(.architecture)\(if .variant then "/" + .variant else "" end)"'
 
-linux/386
 linux/amd64
 linux/arm/v7
 linux/arm64
@@ -126,6 +125,7 @@ linux/s390x
 * `REAL_IP_FROM`: Trusted addresses that are known to send correct replacement addresses (default `0.0.0.0/32`)
 * `REAL_IP_HEADER`: Request header field whose value will be used to replace the client address (default `X-Forwarded-For`)
 * `LOG_IP_VAR`: Use another variable to retrieve the remote IP address for access [log_format](http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) on Nginx. (default `remote_addr`)
+* `APP_TRUSTED_PROXIES`: IPs or CIDR ranges trusted to set forwarding headers (X-Forwarded-For, X-Forwarded-Proto, etc.). These hosts can spoof any request header, including authentication headers.
 * `SESSION_DRIVER`: [Driver to use for session storage](https://github.com/librenms/librenms/blob/master/config/session.php) (default `file`)
 * `CACHE_DRIVER`: [Driver to use for cache and locks](https://github.com/librenms/librenms/blob/master/config/cache.php) (default `database`)
 
