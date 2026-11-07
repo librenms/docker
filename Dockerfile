@@ -52,6 +52,7 @@ RUN apk --update --no-cache add \
     php84-mysqlnd \
     php84-opcache \
     php84-openssl \
+    php84-pcntl \
     php84-pdo \
     php84-pdo_mysql \
     php84-pecl-memcached \
