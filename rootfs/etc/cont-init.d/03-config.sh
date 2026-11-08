@@ -217,9 +217,12 @@ for plugin in ${plugins}; do
 done
 
 # Fix perms
+# the vendor tree and composer files are not chowned below: chowning the ~13k vendor files
+# delays every start with custom PUID/PGID (https://github.com/librenms/docker/issues/557) and
+# is only needed for plugin/composer installs, for which the image build sets write permissions
 echo "Fixing perms..."
 chown librenms:librenms /data/config /data/monitoring-plugins /data/plugins /data/rrd /data/weathermap /data/alert-templates
-find /data/logs ${LIBRENMS_PATH}/composer* ${LIBRENMS_PATH}/config.d ${LIBRENMS_PATH}/bootstrap ${LIBRENMS_PATH}/logs ${LIBRENMS_PATH}/storage ${LIBRENMS_PATH}/vendor \( ! -user librenms -o ! -group librenms \) -exec chown librenms:librenms {} +
+find /data/logs ${LIBRENMS_PATH}/config.d ${LIBRENMS_PATH}/bootstrap ${LIBRENMS_PATH}/logs ${LIBRENMS_PATH}/storage \( ! -user librenms -o ! -group librenms \) -exec chown librenms:librenms {} +
 chmod ug+rw /data/logs /data/rrd ${LIBRENMS_PATH}/bootstrap/cache ${LIBRENMS_PATH}/storage ${LIBRENMS_PATH}/storage/framework/*
 
 # Check additional Monitoring plugins
