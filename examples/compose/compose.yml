@@ -93,6 +93,8 @@ services:
 
   syslogng:
     image: librenms/librenms:latest
+    healthcheck:
+      disable: true
     container_name: librenms_syslogng
     hostname: librenms-syslogng
     cap_add:
@@ -126,6 +128,8 @@ services:
 
   snmptrapd:
     image: librenms/librenms:latest
+    healthcheck:
+      disable: true
     container_name: librenms_snmptrapd
     hostname: librenms-snmptrapd
     cap_add:
