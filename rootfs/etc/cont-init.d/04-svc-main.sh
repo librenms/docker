@@ -110,3 +110,15 @@ with-contenv
 /usr/sbin/snmpd -f -c /etc/snmp/snmpd.conf
 EOL
 chmod +x /etc/services.d/snmpd/run
+
+mkdir -p /etc/services.d/ircbot
+cat >/etc/services.d/ircbot/run <<EOL
+#!/usr/bin/with-contenv sh
+# Wait before each (re)start, so a bot that cannot connect does not hammer the IRC server.
+# exec, so s6 supervises the bot itself and s6-svc can stop or restart it.
+sleep 10
+if [ ${LIBRENMS_IRC_SERVICE:-0} == "1" ]; then
+  exec s6-setuidgid ${PUID}:${PGID} /opt/librenms/irc.php
+fi
+EOL
+chmod +x /etc/services.d/ircbot/run
