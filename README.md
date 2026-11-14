@@ -404,6 +404,12 @@ will be removed and yours will be used.
 > [!WARNING]
 > Container has to be restarted to propagate changes.
 
+For Composer-based plugins, run `lnms plugin:add` through the container's `lnms`
+wrapper. Composer files are writable through the `librenms-composer` supplementary
+group, which is preserved when `PUID` and `PGID` change. When running Composer
+directly with `docker exec`, use `--user librenms` rather than an explicit
+`UID:GID` pair so that supplementary groups are retained.
+
 ### Additional Monitoring plugins
 
 You can add a custom Monitoring plugin in `/data/monitoring-plugins/`.
