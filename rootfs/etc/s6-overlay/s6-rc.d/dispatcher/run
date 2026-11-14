@@ -1,0 +1,4 @@
+#!/command/with-contenv sh
+
+cd /opt/librenms || exit 1
+exec s6-setuidgid "${PUID}:${PGID}" execlineb -c "./librenms-service.py ${DISPATCHER_ARGS}"

@@ -1,0 +1,3 @@
+#!/command/with-contenv sh
+
+exec /usr/sbin/snmptrapd -f -Lo -m ALL -M "/opt/librenms/mibs:/opt/librenms/mibs/cisco:${SNMP_EXTRA_MIB_DIRS}" udp:162 tcp:162

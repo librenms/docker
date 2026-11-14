@@ -1,0 +1,3 @@
+#!/command/with-contenv sh
+
+exec s6-setuidgid "${PUID}:${PGID}" nginx -g "daemon off;"

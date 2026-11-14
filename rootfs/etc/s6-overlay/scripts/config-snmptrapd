@@ -1,5 +1,4 @@
-#!/usr/bin/with-contenv sh
-# shellcheck shell=sh
+#!/bin/sh
 set -e
 
 SIDECAR_SNMPTRAPD=${SIDECAR_SNMPTRAPD:-0}
@@ -36,12 +35,3 @@ sed -ie "s/@SNMP_PRIV_PROTO@/${SNMP_PRIV_PROTO}/" /etc/snmp/snmptrapd.conf
 sed -ie "s/@SNMP_SECURITY_LEVEL@/${SNMP_SECURITY_LEVEL}/" /etc/snmp/snmptrapd.conf
 sed -ie "s/@SNMP_ENGINEID@/${SNMP_ENGINEID}/" /etc/snmp/snmptrapd.conf
 sed -ie "s/@SNMP_DISABLE_AUTHORIZATION@/${SNMP_DISABLE_AUTHORIZATION}/" /etc/snmp/snmptrapd.conf
-
-# Create service
-mkdir -p /etc/services.d/snmptrapd
-cat >/etc/services.d/snmptrapd/run <<EOL
-#!/usr/bin/execlineb -P
-with-contenv
-/usr/sbin/snmptrapd -f -m ALL -M /opt/librenms/mibs:/opt/librenms/mibs/cisco:${SNMP_EXTRA_MIB_DIRS} udp:162 tcp:162
-EOL
-chmod +x /etc/services.d/snmptrapd/run

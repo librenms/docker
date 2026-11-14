@@ -1,0 +1,3 @@
+#!/command/with-contenv sh
+
+exec busybox crond -f -L /dev/stdout -c /var/spool/cron/crontabs

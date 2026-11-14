@@ -1,6 +1,7 @@
-#!/usr/bin/with-contenv bash
-# shellcheck shell=bash
+#!/bin/bash
 set -e
+
+cd "${LIBRENMS_PATH}"
 
 # From https://github.com/docker-library/mariadb/blob/master/docker-entrypoint.sh#L21-L41
 # usage: file_env VAR [DEFAULT]
@@ -117,14 +118,3 @@ REDIS_PASSWORD=${REDIS_PASSWORD}
 REDIS_DB=${REDIS_DB}
 EOL
 fi
-
-# Create service
-mkdir -p /etc/services.d/dispatcher
-cat >/etc/services.d/dispatcher/run <<EOL
-#!/usr/bin/execlineb -P
-with-contenv
-s6-setuidgid ${PUID}:${PGID}
-cd /opt/librenms
-./librenms-service.py ${DISPATCHER_ARGS}
-EOL
-chmod +x /etc/services.d/dispatcher/run
