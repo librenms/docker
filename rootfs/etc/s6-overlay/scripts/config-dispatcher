@@ -118,3 +118,19 @@ REDIS_PASSWORD=${REDIS_PASSWORD}
 REDIS_DB=${REDIS_DB}
 EOL
 fi
+
+echo "Waiting ${DB_TIMEOUT}s for dispatcher configuration to be ready..."
+deadline=$((SECONDS + DB_TIMEOUT))
+while true; do
+  remaining=$((deadline - SECONDS))
+  if [ "$remaining" -le 0 ]; then
+    echo >&2 "ERROR: Failed to load dispatcher configuration within ${DB_TIMEOUT}s"
+    exit 1
+  fi
+  if config=$(timeout "$remaining" lnms config:get --dump 2>/dev/null) &&
+    printf '%s' "$config" | php -r 'exit(is_object(json_decode(stream_get_contents(STDIN))) ? 0 : 1);'; then
+    break
+  fi
+  sleep 1
+done
+echo "Dispatcher configuration ready!"
