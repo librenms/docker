@@ -74,7 +74,7 @@ while ! ${dbcmd} -e "show databases;" >/dev/null 2>&1; do
   fi
 done
 echo "Database ready!"
-while ! ${dbcmd} -e "desc $DB_NAME.poller_cluster;" >/dev/null 2>&1; do
+while ! ${dbcmd} "$DB_NAME" -e "desc poller_cluster;" >/dev/null 2>&1; do
   sleep 1
   counter=$((counter + 1))
   if [ ${counter} -gt ${DB_TIMEOUT} ]; then
