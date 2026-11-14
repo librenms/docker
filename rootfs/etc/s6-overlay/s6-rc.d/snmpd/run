@@ -1,0 +1,3 @@
+#!/command/with-contenv sh
+
+exec /usr/sbin/snmpd -f -Lo -c /etc/snmp/snmpd.conf

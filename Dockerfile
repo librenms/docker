@@ -7,7 +7,7 @@ ARG SYSLOGNG_VERSION="4.11.0-r0"
 
 FROM tianon/gosu:latest AS gosu
 
-FROM crazymax/alpine-s6:${ALPINE_VERSION}-2.2.0.3
+FROM alpine:${ALPINE_VERSION}
 COPY --from=gosu /gosu /usr/local/bin/
 RUN apk --update --no-cache add \
     busybox-extras \
@@ -70,7 +70,7 @@ RUN apk --update --no-cache add \
     python3 \
     py3-pip \
     rrdtool \
-    runit \
+    s6-overlay \
     sed \
     shadow \
     ttf-dejavu \
@@ -105,6 +105,7 @@ ARG SYSLOGNG_VERSION
 RUN apk --update --no-cache add syslog-ng=${SYSLOGNG_VERSION}
 
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS="2" \
+  S6_STAGE2_HOOK="/etc/s6-overlay/scripts/runtime-bundles" \
   LIBRENMS_PATH="/opt/librenms" \
   LIBRENMS_DOCKER="1" \
   TZ="UTC" \

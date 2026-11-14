@@ -1,5 +1,4 @@
-#!/usr/bin/with-contenv bash
-# shellcheck shell=bash
+#!/bin/bash
 set -e
 
 CRONTAB_PATH="/var/spool/cron/crontabs"
@@ -18,7 +17,7 @@ fi
 
 # Init
 rm -rf ${CRONTAB_PATH}
-mkdir -m 0644 -p ${CRONTAB_PATH}
+mkdir -p ${CRONTAB_PATH}
 touch ${CRONTAB_PATH}/librenms
 
 # Cron
@@ -35,13 +34,5 @@ echo "* * * * * php /opt/librenms/artisan schedule:run --no-ansi --no-interactio
 
 # Fix perms
 echo "Fixing crontabs permissions..."
-chmod -R 0644 ${CRONTAB_PATH}
-
-# Create service
-mkdir -p /etc/services.d/cron
-cat >/etc/services.d/cron/run <<EOL
-#!/usr/bin/execlineb -P
-with-contenv
-exec busybox crond -f -L /dev/stdout
-EOL
-chmod +x /etc/services.d/cron/run
+chmod 0755 ${CRONTAB_PATH}
+chmod 0644 ${CRONTAB_PATH}/librenms

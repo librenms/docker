@@ -21,6 +21,8 @@ on:
 env:
   BUILD_TAG: librenms:test
   CONTAINER_NAME: librenms
+  PUID: "1234"
+  PGID: "1235"
 
 jobs:
   test:
@@ -71,6 +73,17 @@ jobs:
           name: ${{ env.CONTAINER_NAME }}
           log_check: "ready to handle connections"
           timeout: 120
+      -
+        name: Check services
+        run: |
+          for service in librenms dispatcher syslogng snmptrapd; do
+            docker compose exec -T "$service" sh -s < services.sh
+          done
+          docker compose exec -T librenms curl --fail --retry 5 --retry-connrefused http://127.0.0.1:8000/login
+        working-directory: test
+        env:
+          LIBRENMS_IMAGE: ${{ env.BUILD_TAG }}
+          LIBRENMS_CONTAINER: ${{ env.CONTAINER_NAME }}
       -
         name: Logs
         if: always()

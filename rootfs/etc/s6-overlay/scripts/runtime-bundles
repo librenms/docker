@@ -1,0 +1,22 @@
+#!/command/with-contenv sh
+set -eu
+
+contents=/etc/s6-overlay/s6-rc.d/user/contents.d
+mkdir -p "${contents}"
+rm -f "${contents}/nginx" "${contents}/php-fpm" "${contents}/snmpd" \
+  "${contents}/cron" "${contents}/dispatcher" "${contents}/syslogng" \
+  "${contents}/snmptrapd"
+
+if [ "${SIDECAR_DISPATCHER:-0}" = "1" ] || [ "${SIDECAR_SYSLOGNG:-0}" = "1" ] || [ "${SIDECAR_SNMPTRAPD:-0}" = "1" ]; then
+  if [ "${SIDECAR_DISPATCHER:-0}" = "1" ]; then
+    touch "${contents}/dispatcher"
+  fi
+  if [ "${SIDECAR_SYSLOGNG:-0}" = "1" ]; then
+    touch "${contents}/syslogng"
+  fi
+  if [ "${SIDECAR_SNMPTRAPD:-0}" = "1" ]; then
+    touch "${contents}/snmptrapd"
+  fi
+else
+  touch "${contents}/nginx" "${contents}/php-fpm" "${contents}/snmpd" "${contents}/cron"
+fi

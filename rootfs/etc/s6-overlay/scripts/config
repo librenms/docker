@@ -1,5 +1,4 @@
-#!/usr/bin/with-contenv bash
-# shellcheck shell=bash
+#!/bin/bash
 set -e
 
 # From https://github.com/docker-library/mariadb/blob/master/docker-entrypoint.sh#L21-L41

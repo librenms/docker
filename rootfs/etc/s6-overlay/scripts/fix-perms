@@ -1,5 +1,4 @@
-#!/usr/bin/with-contenv sh
-# shellcheck shell=sh
+#!/bin/sh
 set -e
 
 echo "Fixing perms..."
