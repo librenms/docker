@@ -25,9 +25,9 @@ x-envlibrenms: &envlibrenms
 
 services:
   db:
-    image: mariadb:10.11
+    image: mariadb:12
     command:
-      - "mysqld"
+      - "mariadbd"
       - "--innodb-file-per-table=1"
       - "--lower-case-table-names=0"
       - "--character-set-server=utf8mb4"
