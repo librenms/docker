@@ -85,6 +85,52 @@ jobs:
           LIBRENMS_IMAGE: ${{ env.BUILD_TAG }}
           LIBRENMS_CONTAINER: ${{ env.CONTAINER_NAME }}
       -
+        name: Check Composer packages
+        run: |
+          set -euo pipefail
+          services=(librenms dispatcher syslogng snmptrapd)
+          package=socialiteproviders/saml2
+          probe='require "/opt/librenms/vendor/autoload.php"; exit(class_exists("SocialiteProviders\\Saml2\\Provider") ? 0 : 1);'
+          loaded() {
+            for service in "${services[@]}"; do
+              timeout 180 bash -c 'until docker compose exec -T -u librenms "$1" php -r "$2" 2>/dev/null; do sleep 2; done' _ "$service" "$probe"
+            done
+          }
+          build() {
+            docker compose exec -T librenms stat -c %i /data/composer/build
+          }
+
+          docker compose exec -T librenms lnms plugin:add "$package"
+          if docker compose exec -T librenms lnms plugin:add "$package" 0.0.0; then
+            echo "Composer accepted an unavailable version"
+            exit 1
+          fi
+          # the image is left untouched
+          docker compose exec -T librenms sh -ec '! grep -q "$1" composer.json composer.lock && test ! -e "vendor-image/$1"' _ "$package"
+
+          # packages survive container replacement without being installed again
+          before=$(build)
+          docker compose up -d --no-deps --force-recreate "${services[@]}"
+          loaded
+          test "$(build)" = "$before"
+
+          # packages are installed again when the image changes
+          docker compose exec -T librenms sh -c "echo other-image > /data/composer/build/stamp"
+          docker compose restart "${services[@]}"
+          loaded
+          test "$(build)" != "$before"
+
+          docker compose exec -T librenms lnms plugin:remove "$package"
+          docker compose restart "${services[@]}"
+          for service in "${services[@]}"; do
+            timeout 180 bash -c 'until [ "$(docker compose exec -T "$1" readlink /opt/librenms/vendor 2>/dev/null)" = vendor-image ]; do sleep 2; done' _ "$service"
+          done
+          docker compose exec -T librenms curl -sS -o /dev/null --fail --retry 5 --retry-connrefused http://127.0.0.1:8000/login
+        working-directory: test
+        env:
+          LIBRENMS_IMAGE: ${{ env.BUILD_TAG }}
+          LIBRENMS_CONTAINER: ${{ env.CONTAINER_NAME }}
+      -
         name: Logs
         if: always()
         run: |

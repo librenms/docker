@@ -108,6 +108,7 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS="2" \
   S6_STAGE2_HOOK="/etc/s6-overlay/scripts/runtime-bundles" \
   LIBRENMS_PATH="/opt/librenms" \
   LIBRENMS_DOCKER="1" \
+  LIBRENMS_COMPOSER_PLUGINS="/data/composer/composer.plugins.json" \
   TZ="UTC" \
   PUID="1000" \
   PGID="1000"
@@ -136,6 +137,14 @@ RUN apk --update --no-cache add -t build-dependencies \
   && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> config.php \
   && chown -R librenms:librenms ${LIBRENMS_PATH} \
   && su librenms -s /bin/sh -c "COMPOSER_CACHE_DIR=/tmp composer install --no-dev --no-interaction --no-ansi" \
+  && mv vendor vendor-image \
+  && ln -s vendor-image vendor \
+  && ln -s /usr/bin/composer composer.phar \
+  && touch -d 2100-01-01 /usr/bin/composer \
+  && chown root:root . composer.json composer.lock \
+  && chown -R root:root vendor-image \
+  && chmod go-w . composer.json composer.lock \
+  && chmod -R go-w vendor-image \
   && apk del build-dependencies \
   && rm -rf .git \
     html/plugins/Test \

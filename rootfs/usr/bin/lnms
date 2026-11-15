@@ -1,5 +1,11 @@
 #!/usr/bin/env sh
 
+# Composer packages are kept in /data, the image is never modified
+case "$1" in
+  plugin:add) shift; exec librenms-composer add "$@" ;;
+  plugin:remove) shift; exec librenms-composer remove "$@" ;;
+esac
+
 if [ "$(id -u -n)" = "librenms" -a "$(id -g -n)" = "librenms" ]; then
   php -f /opt/librenms/lnms "$@"
 else
