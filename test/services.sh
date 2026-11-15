@@ -25,12 +25,21 @@ for service in nginx php-fpm snmpd cron dispatcher syslogng snmptrapd; do
     *) test "$(s6-svstat -o up,wantedup /run/service/"$service")" = "false false" ;;
   esac
 done
+composer_gid=$(getent group librenms-composer | cut -d: -f3)
 for service in $services; do
   case "$service" in
     nginx|php-fpm|dispatcher)
       pid=$(s6-svstat -o pid /run/service/"$service")
       grep -Eq "^Uid:[[:space:]]+${PUID}[[:space:]]" "/proc/${pid}/status"
       grep -Eq "^Gid:[[:space:]]+${PGID}[[:space:]]" "/proc/${pid}/status"
+      grep -Eq "^Groups:.*[[:space:]]${composer_gid}([[:space:]]|$)" "/proc/${pid}/status"
       ;;
   esac
 done
+
+gosu librenms sh -ec '
+  for path in vendor vendor/autoload.php composer.json composer.lock; do
+    test -w "/opt/librenms/$path"
+  done
+'
+test -z "$(find /opt/librenms/vendor /opt/librenms/composer.json /opt/librenms/composer.lock ! -type l -perm -0002)"

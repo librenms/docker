@@ -136,6 +136,11 @@ RUN apk --update --no-cache add -t build-dependencies \
   && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> config.php \
   && chown -R librenms:librenms ${LIBRENMS_PATH} \
   && su librenms -s /bin/sh -c "COMPOSER_CACHE_DIR=/tmp composer install --no-dev --no-interaction --no-ansi" \
+  && addgroup -S librenms-composer \
+  && addgroup librenms librenms-composer \
+  && chgrp -R librenms-composer vendor composer.json composer.lock \
+  && chmod -R g+rwX,o-w vendor composer.json composer.lock \
+  && find vendor -type d -exec chmod g+s {} + \
   && apk del build-dependencies \
   && rm -rf .git \
     html/plugins/Test \
