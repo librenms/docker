@@ -149,3 +149,6 @@ EXPOSE 8000 514 514/udp 162 162/udp
 VOLUME [ "/data" ]
 
 ENTRYPOINT [ "/init" ]
+
+HEALTHCHECK --start-period=1m --timeout=10s \
+  CMD /usr/local/bin/healthcheck

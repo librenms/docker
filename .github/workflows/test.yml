@@ -61,7 +61,7 @@ jobs:
       -
         name: Start
         run: |
-          docker compose up -d
+          docker compose up -d --wait --wait-timeout 180
         working-directory: test
         env:
           LIBRENMS_IMAGE: ${{ env.BUILD_TAG }}

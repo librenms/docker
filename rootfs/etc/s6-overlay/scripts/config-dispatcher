@@ -54,6 +54,12 @@ echo ">>"
 echo ">> Sidecar dispatcher container detected"
 echo ">>"
 
+cat >"${LIBRENMS_PATH}/config.d/dispatcher-health.php" <<'EOL'
+<?php
+$config['service_health_file'] = '/opt/librenms/storage/dispatcher-health';
+EOL
+rm -f "${LIBRENMS_PATH}/storage/dispatcher-health"
+
 file_env 'DB_PASSWORD'
 if [ -z "$DB_PASSWORD" ]; then
   echo >&2 "ERROR: Either DB_PASSWORD or DB_PASSWORD_FILE must be defined"

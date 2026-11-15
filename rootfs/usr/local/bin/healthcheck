@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+set -eu
+
+services=""
+check_librenms=0
+if [ "${SIDECAR_DISPATCHER:-0}" = "1" ]; then
+  services="$services dispatcher"
+  check_librenms=1
+fi
+if [ "${SIDECAR_SYSLOGNG:-0}" = "1" ]; then
+  services="$services syslogng"
+fi
+if [ "${SIDECAR_SNMPTRAPD:-0}" = "1" ]; then
+  services="$services snmptrapd"
+fi
+
+if [ -z "$services" ]; then
+  services="nginx php-fpm snmpd cron"
+  check_librenms=1
+fi
+
+for service in $services; do
+  if [ "$(s6-svstat -o up,wantedup "/run/service/$service")" != "true true" ]; then
+    echo >&2 "Service $service is not running"
+    exit 1
+  fi
+done
+
+if [ "$check_librenms" = "1" ]; then
+  exec lnms health:check
+fi
