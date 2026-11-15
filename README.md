@@ -47,6 +47,7 @@ ___
 * [Notes](#notes)
   * [LNMS command](#lnms-command)
   * [Validate](#validate)
+  * [Reverse proxy](#reverse-proxy)
   * [Dispatcher service container](#dispatcher-service-container)
   * [Syslog-ng container](#syslog-ng-container)
   * [Snmptrapd container](#snmptrapd-container)
@@ -122,10 +123,15 @@ linux/s390x
 * `FPM_PM_MAX_SPARE_SERVERS`: FPM max spare servers (default: `6`)
 * `OPCACHE_MEM_SIZE`: PHP OpCache memory consumption (default `128`)
 * `LISTEN_IPV6`: Enable IPv6 for Nginx (default `true`)
-* `REAL_IP_FROM`: Trusted addresses that are known to send correct replacement addresses (default `0.0.0.0/32`)
+* `REAL_IP_FROM`: Override the trusted proxy address or CIDR for Nginx access
+  logs. Unset or `0.0.0.0/32` uses LibreNMS's `APP_TRUSTED_PROXIES`
+  configuration.
 * `REAL_IP_HEADER`: Request header field whose value will be used to replace the client address (default `X-Forwarded-For`)
 * `LOG_IP_VAR`: Use another variable to retrieve the remote IP address for access [log_format](http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) on Nginx. (default `remote_addr`)
-* `APP_TRUSTED_PROXIES`: IPs or CIDR ranges trusted to set forwarding headers (X-Forwarded-For, X-Forwarded-Proto, etc.). These hosts can spoof any request header, including authentication headers.
+* `APP_TRUSTED_PROXIES`: Proxy IP addresses or CIDR ranges, separated by commas
+  without spaces, trusted to supply forwarded client addresses, hostnames,
+  ports, and schemes (default `127.0.0.1`). Also used for Nginx access logs.
+  See [Reverse proxy](#reverse-proxy).
 * `SESSION_DRIVER`: [Driver to use for session storage](https://github.com/librenms/librenms/blob/master/config/session.php) (default `file`)
 * `CACHE_DRIVER`: [Driver to use for cache and locks](https://github.com/librenms/librenms/blob/master/config/cache.php) (default `database`)
 
@@ -332,6 +338,36 @@ SNMP      | NET-SNMP 5.8
 [WARN]  IPv6 is disabled on your server, you will not be able to add IPv6 devices.
 [WARN]  Updates are managed through the official Docker image
 ```
+
+### Reverse proxy
+
+Set `APP_TRUSTED_PROXIES` in the LibreNMS container environment to your trusted
+reverse proxy IP addresses or network ranges. The proxy must forward the
+original host and scheme using `X-Forwarded-Host` and
+`X-Forwarded-Proto`, and the client address using `X-Forwarded-For`.
+
+For example, if the proxy connects from `192.0.2.10`:
+
+```yaml
+environment:
+  APP_TRUSTED_PROXIES: "192.0.2.10"
+```
+
+Restrict this setting to your actual proxies. Docker network subnets vary
+between deployments, so do not assume a particular subnet or use `*` to work
+around an address mismatch. Recreate the container after changing its
+environment. Startup caches these settings for PHP-FPM, so `CLEAR_ENV=yes`
+can remain enabled and no manual edits to the generated `.env` are needed.
+
+Nginx automatically uses the same trusted proxies to record client addresses
+in its access logs. `REAL_IP_FROM` remains available to override Nginx's trust
+configuration independently. If you previously configured only `REAL_IP_FROM`,
+replace it with `APP_TRUSTED_PROXIES` to apply the setting to both LibreNMS and
+Nginx.
+
+When `APP_TRUSTED_PROXIES` is `*` or `**`, LibreNMS still handles forwarded
+headers, but Nginx logs the connection address. Set `REAL_IP_FROM` to an
+explicit proxy IP address or CIDR to enable client address logging in that case.
 
 ### Dispatcher service container
 

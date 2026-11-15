@@ -33,8 +33,6 @@ services:
     volumes:
       - "./acme.json:/acme.json"
       - "/var/run/docker.sock:/var/run/docker.sock"
-    networks:
-      - librenms_net
     restart: always
 
   db:
@@ -54,8 +52,6 @@ services:
       - "MYSQL_DATABASE=${MYSQL_DATABASE}"
       - "MYSQL_USER=${MYSQL_USER}"
       - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
-    networks:
-      - librenms_net
     restart: always
 
   redis:
@@ -63,8 +59,6 @@ services:
     container_name: librenms_redis
     environment:
       - "TZ=${TZ}"
-    networks:
-      - librenms_net
     restart: always
 
   msmtpd:
@@ -72,8 +66,6 @@ services:
     container_name: librenms_msmtpd
     env_file:
       - "./msmtpd.env"
-    networks:
-      - librenms_net
     restart: always
 
   librenms:
@@ -105,9 +97,6 @@ services:
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
-      - "APP_TRUSTED_PROXIES=172.28.0.0/16"
-    networks:
-      - librenms_net
     restart: always
 
   dispatcher:
@@ -132,8 +121,6 @@ services:
       - "DB_TIMEOUT=60"
       - "DISPATCHER_NODE_ID=dispatcher1"
       - "SIDECAR_DISPATCHER=1"
-    networks:
-      - librenms_net
     restart: always
 
   syslogng:
@@ -164,8 +151,6 @@ services:
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
       - "SIDECAR_SYSLOGNG=1"
-    networks:
-      - librenms_net
     restart: always
 
   snmptrapd:
@@ -196,13 +181,4 @@ services:
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
       - "SIDECAR_SNMPTRAPD=1"
-    networks:
-      - librenms_net
     restart: always
-
-networks:
-  librenms_net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.28.0.0/16
