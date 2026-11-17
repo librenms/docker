@@ -85,3 +85,5 @@ artisan db:seed --force --no-ansi --no-interaction
 echo "Clear cache"
 artisan cache:clear --no-interaction
 artisan config:cache --no-interaction
+
+/etc/s6-overlay/scripts/config-nginx

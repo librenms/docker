@@ -59,6 +59,12 @@ jobs:
         env:
           DEFAULT_TAG: ${{ env.BUILD_TAG }}
       -
+        name: Check reverse proxy handling
+        run: |
+          docker run --rm --network none \
+            --mount type=bind,source="$PWD/test/proxy.sh",target=/proxy-test.sh,readonly \
+            --entrypoint sh "$BUILD_TAG" /proxy-test.sh
+      -
         name: Start
         run: |
           docker compose up -d --wait --wait-timeout 180
