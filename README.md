@@ -51,6 +51,7 @@ ___
   * [Syslog-ng container](#syslog-ng-container)
   * [Snmptrapd container](#snmptrapd-container)
   * [Add a LibreNMS plugin](#add-a-librenms-plugin)
+  * [Add a Composer package](#add-a-composer-package)
   * [Additional Monitoring plugins](#additional-monitoring-plugins)
   * [Custom alert templates](#custom-alert-templates)
 * [Contributing](#contributing)
@@ -403,6 +404,50 @@ will be removed and yours will be used.
 
 > [!WARNING]
 > Container has to be restarted to propagate changes.
+
+### Add a Composer package
+
+For example, install the Socialite SAML provider and restart the LibreNMS services.
+
+```console
+$ docker compose exec librenms lnms plugin:add socialiteproviders/saml2
+$ docker compose restart librenms dispatcher syslogng snmptrapd
+```
+
+Use the service names in your Compose file. Add a version constraint after the
+package name if needed. To uninstall, use `plugin:remove` and restart the same
+services.
+
+Only the list of added packages is persisted, in
+`/data/composer/composer.plugins.json`. The image's `composer.json`,
+`composer.lock` and `vendor` folder are never modified. The added packages are
+installed next to a copy of the image's dependencies in `/data/composer/build`
+with `lnms plugin:sync`, which is run again when the container starts with a
+new image.
+Nothing is installed at startup if the list and the image are unchanged.
+
+> [!NOTE]
+> All LibreNMS services must share `/data` and use the same `PUID` and `PGID`.
+> Access to the Composer repositories is required after an image upgrade to
+> install the packages again. If that fails, LibreNMS starts without them and
+> an error is logged, restart the containers to try again.
+
+You can also provide `/data/composer/composer.plugins.json` yourself, the
+packages it requires are installed when the container starts:
+
+```json
+{
+    "require": {
+        "socialiteproviders/saml2": "^4.8"
+    }
+}
+```
+
+If you added packages with an older image, copy the list before upgrading:
+
+```console
+$ docker compose exec librenms sh -c 'mkdir -p /data/composer && cp /opt/librenms/composer.plugins.json /data/composer/'
+```
 
 ### Additional Monitoring plugins
 

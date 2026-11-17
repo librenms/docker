@@ -1,0 +1,195 @@
+#!/usr/bin/env bash
+# Composer packages added on top of the image (lnms plugin:add / plugin:remove).
+#
+# Only the list of added packages is persisted as the source of truth, in
+# LIBRENMS_COMPOSER_PLUGINS. LibreNMS installs them next to a copy of the
+# image's dependencies in /data/composer/build, which is recreated whenever
+# the list or the image changes. The image's own files are never modified.
+set -euo pipefail
+
+LIBRENMS_PATH=${LIBRENMS_PATH:-/opt/librenms}
+image_vendor=vendor-image
+data=/data/composer
+list=${LIBRENMS_COMPOSER_PLUGINS:-${data}/composer.plugins.json}
+build=${data}/build
+
+usage() {
+  cat >&2 <<EOL
+Usage: lnms plugin:add <package> [<version>]
+       lnms plugin:remove <package>
+       librenms-composer list
+EOL
+  exit 64
+}
+
+log() {
+  echo "$*" >&2
+}
+
+lock() {
+  mkdir -p "$data"
+  exec 9>"${data}/.lock"
+  flock 9
+}
+
+# Print the requirements of a package list as "name:constraint" lines.
+requirements() {
+  [ -f "$1" ] || return 0
+  php -r '
+    $json = json_decode((string) file_get_contents($argv[1]), true);
+    if (! is_array($json)) {
+        fwrite(STDERR, "ERROR: $argv[1] is not valid JSON\n");
+        exit(1);
+    }
+    foreach ($json["require"] ?? [] as $name => $constraint) {
+        echo "$name:$constraint\n";
+    }
+  ' "$1"
+}
+
+# Identifies what the image contributes to a build.
+stamp() {
+  sha256sum <"${LIBRENMS_PATH}/composer.json"
+  sha256sum <"${LIBRENMS_PATH}/composer.lock"
+  php -r 'echo PHP_MAJOR_VERSION, ".", PHP_MINOR_VERSION, "\n";'
+}
+
+# Is the build made from this image and the current package list?
+valid() {
+  [ -f "${build}/vendor/autoload.php" ] && [ -f "${build}/stamp" ] || return 1
+  [ "$(<"${build}/stamp")" = "$(stamp)" ] || return 1
+  [ "$(requirements "${build}/composer.plugins.json")" = "$(requirements "$list")" ]
+}
+
+# Start a build from the image's packages so only additions are downloaded.
+# LibreNMS creates composer.json and composer.lock from the image's.
+seed() {
+  rm -rf "$1" || return 1
+  mkdir -p "$1" || return 1
+  cp -R "${LIBRENMS_PATH}/${image_vendor}" "$1/vendor"
+}
+
+# Run a LibreNMS plugin command against a build instead of the image.
+plugin() {
+  local dir=$1
+  shift
+  (
+    cd "${LIBRENMS_PATH}" || exit 1
+    COMPOSER="${dir}/composer.json" COMPOSER_VENDOR_DIR="${dir}/vendor" php lnms "$@" --no-ansi --no-interaction >&2
+  )
+}
+
+record() {
+  cp "$list" "$1/composer.plugins.json" || return 1
+  stamp >"$1/stamp"
+}
+
+# Every step is checked: errexit is off when this runs as a condition.
+rebuild() {
+  seed "${build}.new" || return 1
+  plugin "${build}.new" plugin:sync || return 1
+  record "${build}.new" || return 1
+  rm -rf "$build" || return 1
+  mv "${build}.new" "$build"
+}
+
+cmd_change() {
+  local action=$1 status=0
+  shift
+  lock
+
+  if ! valid; then
+    if [ -n "$(requirements "$list")" ]; then
+      rebuild
+    elif [ "$action" = "remove" ]; then
+      log "No Composer packages have been added."
+      return
+    else
+      seed "$build"
+    fi
+  fi
+
+  plugin "$build" "plugin:${action}" "$@" || status=$?
+  if [ -n "$(requirements "$list")" ]; then
+    record "$build"
+  fi
+  return "$status"
+}
+
+cmd_list() {
+  requirements "$list"
+}
+
+# Print the vendor directory to use, installing the packages first if the
+# list or the image changed. Falls back to the image's packages rather than
+# keeping LibreNMS down when that fails.
+cmd_select() {
+  local vendor=$image_vendor reqs
+  lock
+
+  if reqs=$(requirements "$list") && [ -n "$reqs" ]; then
+    if valid; then
+      vendor="${build}/vendor"
+    else
+      log "Installing Composer packages from ${list}..."
+      if rebuild; then
+        vendor="${build}/vendor"
+      else
+        log "ERROR: Failed to install the Composer packages from ${list}, they are NOT loaded."
+      fi
+    fi
+  elif [ "${1:-}" = "--prune" ]; then
+    # Sidecars leave it, the main container may still be using it.
+    rm -rf "$build"
+  fi
+
+  echo "$vendor"
+}
+
+# Point this container at the selected vendor directory.
+cmd_activate() {
+  local vendor
+  vendor=$(gosu librenms:librenms "$0" select "$@") || vendor=""
+  if [ -z "$vendor" ]; then
+    log "ERROR: Failed to check Composer packages, added packages are NOT loaded"
+    vendor=$image_vendor
+  fi
+  if [ "$(readlink "${LIBRENMS_PATH}/vendor")" != "$vendor" ]; then
+    if [ "$vendor" != "$image_vendor" ]; then
+      log "Using Composer packages from ${vendor}"
+    fi
+    # Cached package discovery and config belong to the previous packages
+    rm -f "${LIBRENMS_PATH}"/bootstrap/cache/{packages,services,config,events,routes-v7}.php
+    ln -sfn "$vendor" "${LIBRENMS_PATH}/vendor"
+  fi
+}
+
+export COMPOSER_HOME=${COMPOSER_HOME:-/home/librenms/.composer}
+
+cmd=${1:-}
+shift || true
+case "$cmd" in
+  add | remove)
+    if [ "$(id -u)" != "0" ]; then
+      log "ERROR: plugin:${cmd} must be run as root"
+      exit 1
+    fi
+    if [ "$cmd" = "add" ]; then
+      [ $# -ge 1 ] && [ $# -le 2 ] || usage
+    else
+      [ $# -eq 1 ] || usage
+    fi
+    status=0
+    gosu librenms:librenms "$0" change "$cmd" "$@" || status=$?
+    cmd_activate
+    if [ "$status" = "0" ]; then
+      log "Restart all LibreNMS containers to load the change."
+    fi
+    exit "$status"
+    ;;
+  activate) cmd_activate "$@" ;;
+  change) cmd_change "$@" ;;
+  select) cmd_select "$@" ;;
+  list) cmd_list ;;
+  *) usage ;;
+esac
