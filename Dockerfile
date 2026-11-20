@@ -31,18 +31,18 @@ RUN apk --update --no-cache add \
     mtr \
     net-snmp \
     net-snmp-tools \
-    nginx \
+    "nginx>=1.30.7" \
     nmap \
     openssl \
     openssh-client \
     perl \
-    php84 \
+    "php84>=8.4.28" \
     php84-cli \
     php84-ctype \
     php84-curl \
     php84-dom \
     php84-fileinfo \
-    php84-fpm \
+    "php84-fpm>=8.4.28" \
     php84-gd \
     php84-gmp \
     php84-iconv \
